@@ -1,15 +1,10 @@
 require 'minitest/autorun'
 require 'spec_helper'
 
-# Expectations:  http://bfts.rubyforge.org/minitest/MiniTest/Expectations.html
-
-describe "Configuring the stripe" do
-  it "true should be true" do
-    @boolean = true
-    @boolean.must_equal true
-  end
-  
-  it "should be a module" do
-    assert_kind_of Module, Stripe::Rails
+describe "Configuring the stripe engine" do
+  it "reads the api key that is set in config/test.rb" do
+    Stripe.api_base.must_equal 'http://localhost:5000'
+    Stripe.api_key.must_equal 'XYZ'
+    Stripe.verify_ssl_certs.must_equal false
   end
 end

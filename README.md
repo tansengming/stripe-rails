@@ -1,6 +1,6 @@
 # Stripe::Rails
 
-TODO: Write a gem description
+[stripe.com](http://stripe.com) integration for your rails application
 
 ## Installation
 
@@ -8,22 +8,10 @@ Add this line to your application's Gemfile:
 
     gem 'stripe-rails'
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install stripe-rails
-
 ## Usage
 
-TODO: Write usage instructions here
+add your stripe api key to your environment's configuration:
 
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+```ruby
+config.stripe.api_key = MY_STRIPE_KEY
+```

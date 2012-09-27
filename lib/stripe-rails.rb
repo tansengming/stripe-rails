@@ -1,7 +1,3 @@
 require "stripe-rails/version"
+require 'stripe-rails/railtie'
 
-module Stripe
-  module Rails
-    # Your code goes here...
-  end
-end
