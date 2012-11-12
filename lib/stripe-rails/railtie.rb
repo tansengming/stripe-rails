@@ -13,12 +13,20 @@ module Stripe
         value = app.config.stripe.send(key)
         Stripe.send("#{key}=", value) unless value.nil?
       end
-      warn <<-MSG unless Stripe.api_key
+      $stderr.puts <<-MSG unless Stripe.api_key
 No stripe.com API key was configured for environment #{::Rails.env}! this application will be
 unable to interact with stripe.com. You can set your API key with either the environment
 variable `STRIPE_API_KEY` (recommended) or by setting `config.stripe.api_key` in your
 environment file directly.
       MSG
+    end
+
+    initializer 'stripe.plans' do |app|
+      load app.root.join 'config/stripe/plans.rb'
+    end
+
+    rake_tasks do
+      load 'stripe-rails/tasks.rake'
     end
   end
 end

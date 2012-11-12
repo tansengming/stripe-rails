@@ -11,7 +11,7 @@
 #   # amount in cents. This is 6.99
 #   plan.amount = 699
 #
-#   # interval must be either monthly or yearly
+#   # interval must be either 'month' or 'year'
 #   plan.interval = 'monthly'
 #
 #   # only bill once every three months (default 1)
@@ -23,7 +23,7 @@
 
 # Once you have your plans defined, you can run
 #
-#   rake stripe:plans:create
+#   rake stripe:prepare
 #
 # This will export any new plans to stripe.com so that you can
 # begin using them in your API calls.

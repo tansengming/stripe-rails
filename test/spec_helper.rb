@@ -1,5 +1,6 @@
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
+ENV['STRIPE_API_KEY'] = 'XYZ'
 
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require "rails/test_help"
@@ -13,3 +14,5 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 if ActiveSupport::TestCase.method_defined?(:fixture_path=)
   ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
 end
+
+require 'mocha/setup'

@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["rubygeek"]
   gem.email         = ["nola@rubygeek.com"]
   gem.description   = "A gem to integrate stripe into your rails app"
-  gem.summary       = "A gem to integrate stripe into your rails app" 
+  gem.summary       = "A gem to integrate stripe into your rails app"
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Stripe::Rails::VERSION
   gem.add_dependency 'railties', '~> 3.0'
   gem.add_dependency 'stripe'
-  
-  gem.add_development_dependency 'tzinfo'
 
+  gem.add_development_dependency 'tzinfo'
+  gem.add_development_dependency 'mocha'
 end

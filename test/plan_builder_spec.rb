@@ -28,6 +28,39 @@ describe 'building plans' do
       Stripe::Plans[:primo].must_equal Stripe::Plans::PRIMO
       Stripe::Plans['primo'].must_equal Stripe::Plans::PRIMO
     end
+
+    describe 'uploading' do
+      describe 'when none exists on stripe.com' do
+        before do
+          Stripe::Plan.stubs(:retrieve).raises(Stripe::InvalidRequestError.new("not found", "id"))
+        end
+        it 'creates the plan online' do
+          Stripe::Plan.expects(:create).with(
+            :id => :gold,
+            :currency => 'usd',
+            :name => 'Solid Gold',
+            :amount => 699,
+            :interval => 'monthly',
+            :interval_count => 1,
+            :trial_period_days => 0
+          )
+          Stripe::Plans::GOLD.put!
+        end
+
+      end
+      describe 'when it is already present on stripe.com' do
+        before do
+          Stripe::Plan.stubs(:retrieve).returns(Stripe::Plan.construct_from({
+            :id => :gold,
+            :name => 'Solid Gold'
+          }))
+        end
+        it 'is a no-op' do
+          Stripe::Plan.expects(:create).never
+          Stripe::Plans::GOLD.put!
+        end
+      end
+    end
   end
 
   describe 'with missing mandatory values' do
