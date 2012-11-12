@@ -2,7 +2,7 @@ require 'stripe'
 
 module Stripe
    class Railtie < ::Rails::Railtie
-    config.stripe = Struct.new(:api_base, :api_key, :verify_ssl_certs).new
+    config.stripe = Struct.new(:api_base, :api_key, :verify_ssl_certs, :publishable_key).new
 
     initializer 'stripe.configure' do |app|
       [:api_base, :api_key, :verify_ssl_certs].each do |key|
