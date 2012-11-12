@@ -1,3 +1,4 @@
+ENV['STRIPE_API_KEY'] = 'XYZ'
 require 'minitest/autorun'
 require 'spec_helper'
 
