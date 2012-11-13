@@ -72,6 +72,10 @@ module Stripe
         end
       end
 
+      def to_s
+        @id.to_s
+      end
+
       def exists?
         !!Stripe::Plan.retrieve("#{@id}")
       rescue Stripe::InvalidRequestError
