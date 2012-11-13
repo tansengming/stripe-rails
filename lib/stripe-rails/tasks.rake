@@ -1,11 +1,9 @@
 
 namespace :stripe do
-  desc "create all plans defined in config/stripe/plans.rb"
-  task 'plans:prepare' do
-    Stripe::Plans.each do |plan|
-      plan.put!
-    end
+  task 'plans:prepare' => :environment do
+    Stripe::Plans.put!
   end
 
-  task 'prepare' => ['plans:prepare', 'coupons:prepare']
+  desc "create all plans defined in config/stripe/plans.rb"
+  task 'prepare' => 'plans:prepare'
 end
