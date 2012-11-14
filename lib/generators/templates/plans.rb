@@ -12,7 +12,7 @@
 #   plan.amount = 699
 #
 #   # interval must be either 'month' or 'year'
-#   plan.interval = 'monthly'
+#   plan.interval = 'month'
 #
 #   # only bill once every three months (default 1)
 #   plan.interval_count = 3
