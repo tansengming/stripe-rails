@@ -1,7 +1,11 @@
 require 'stripe'
 
 module Stripe
-   class Railtie < ::Rails::Railtie
+  class Railtie < ::Rails::Railtie
+    class << self
+      attr_accessor :testing
+    end
+
     config.stripe = Struct.new(:api_base, :api_key, :verify_ssl_certs, :publishable_key).new
 
     initializer 'stripe.configure.api_key', :before => 'stripe.configure' do |app|

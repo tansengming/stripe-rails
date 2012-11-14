@@ -7,7 +7,7 @@ describe 'building plans' do
       Stripe.plan :primo do |plan|
         plan.name = 'Acme as a service PRIMO'
         plan.amount = 699
-        plan.interval = 'monthly'
+        plan.interval = 'month'
         plan.interval_count = 3
         plan.trial_period_days = 30
       end
@@ -40,7 +40,7 @@ describe 'building plans' do
             :currency => 'usd',
             :name => 'Solid Gold',
             :amount => 699,
-            :interval => 'monthly',
+            :interval => 'month',
             :interval_count => 1,
             :trial_period_days => 0
           )
