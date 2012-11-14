@@ -27,7 +27,8 @@ environment file directly.
     end
 
     initializer 'stripe.plans' do |app|
-      load app.root.join 'config/stripe/plans.rb'
+      path = app.root.join('config/stripe/plans.rb')
+      load path if path.exist?
     end
 
     rake_tasks do
