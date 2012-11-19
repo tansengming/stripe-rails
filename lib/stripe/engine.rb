@@ -1,16 +1,18 @@
 require 'stripe'
 
-module Stripe::Rails
-  class << self
-    attr_accessor :testing
-  end
-
+module Stripe
   class Engine < ::Rails::Engine
+    isolate_namespace Stripe
 
-    config.stripe = Struct.new(:api_base, :api_key, :verify_ssl_certs, :publishable_key).new
+    class << self
+      attr_accessor :testing
+    end
 
-    initializer 'stripe.configure.api_key', :before => 'stripe.configure' do |app|
+    config.stripe = Struct.new(:api_base, :api_key, :verify_ssl_certs, :publishable_key, :endpoint).new
+
+    initializer 'stripe.configure.defaults', :before => 'stripe.configure' do |app|
       app.config.stripe.api_key ||= ENV['STRIPE_API_KEY']
+      app.config.stripe.endpoint ||= '/stripe'
     end
 
     initializer 'stripe.configure' do |app|
@@ -32,7 +34,7 @@ environment file directly.
     end
 
     rake_tasks do
-      load 'stripe-rails/tasks.rake'
+      load 'stripe/rails/tasks.rake'
     end
   end
 end

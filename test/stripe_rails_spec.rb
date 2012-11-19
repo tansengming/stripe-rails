@@ -11,7 +11,7 @@ end
 
 describe 'initializing plans' do
   require 'rake'
-  load 'stripe-rails/tasks.rake'
+  load 'stripe/rails/tasks.rake'
   it 'creates any plans that do not exist on stripe.com' do
     Stripe::Plans.expects(:put!)
     Rake::Task['stripe:plans:prepare'].invoke

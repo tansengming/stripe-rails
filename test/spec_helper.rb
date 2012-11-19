@@ -15,5 +15,5 @@ if ActiveSupport::TestCase.method_defined?(:fixture_path=)
   ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
 end
 
-Stripe::Rails.testing = true
+Stripe::Engine.testing = true
 require 'mocha/setup'
