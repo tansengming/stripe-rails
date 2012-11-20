@@ -32,7 +32,7 @@ describe Stripe::Callbacks do
   describe 'defined with a bang' do
     code = nil
     before do
-      code = proc {|e, target| @event = e; @target = target}
+      code = proc {|target, e| @event = e; @target = target}
       @observer.class_eval do
         after_invoice_payment_succeeded! do |evt, target|
           code.call(evt, target)

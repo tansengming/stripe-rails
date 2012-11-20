@@ -48,14 +48,14 @@ module Stripe
 
       def run_critical_callbacks(evt, target)
         ::Stripe::Callbacks::critical_callbacks[evt.type].each do |callback|
-          callback.call(evt, target)
+          callback.call(target, evt)
         end
       end
 
       def run_noncritical_callbacks(evt, target)
         ::Stripe::Callbacks::noncritical_callbacks[evt.type].each do |callback|
           begin
-            callback.call(evt, target)
+            callback.call(target, evt)
           rescue Exception => e
             ::Rails.logger.error e.message
             ::Rails.logger.error e.backtrace.join("\n")

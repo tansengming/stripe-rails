@@ -112,7 +112,7 @@ callback with one of the callback methods. For example, to update a customer's p
     class User < ActiveRecord::Base
       include Stripe::Callbacks
 
-      after_customer_updated! do |event, customer|
+      after_customer_updated! do |customer, event|
         user = User.find_by_stripe_customer_id(customer.id)
         if customer.delinquent
           user.is_account_current = false
@@ -126,7 +126,7 @@ or to send an email with one of your customer's monthly invoices
     class InvoiceMailer < ActionMailer::Base
       include Stripe::Callbacks
 
-      after_invoice_created! do |event, invoice|
+      after_invoice_created! do |invoice, event|
         user = User.find_by_stripe_customer(invoice.customer)
         new_invoice(user, invoice).deliver
       end
@@ -143,8 +143,9 @@ is name of the stripe event with all `.` characters substituted with underscores
 example, the stripe event `customer.discount.created` can be hooked by `after_customer_discount_created!`
 and so on...
 
-Each web hook is passed an instance of [`Stripe::Event`][4] corresponding to the event being
-raised as well as a stripe object corresponding to the type of event (customer, invoice, charge, etc...).
+Each web hook is passed an instance of the stripe object to which the event corresponds
+([`Stripe::Customer`][8], [`Stripe::Invoice`][9], [`Stripe::Charge`][10], etc...) as well as the [`Stripe::Event`][4] which contains metadata about the event being raised.
+
 By default, the event is re-fetched securely from stripe.com to prevent damage to your system by
 a malicious system spoofing real stripe events.
 
@@ -162,7 +163,7 @@ notify your company's chatroom that something a credit card was successfully cha
     class AcmeBot
       include Stripe::Callbacks
 
-      def after_charge_succeeded do |event, charge|
+      def after_charge_succeeded do |charge|
         announce "Attention all Dudes and Dudettes. Ya'll are so PAID!!!"
       end
     end
