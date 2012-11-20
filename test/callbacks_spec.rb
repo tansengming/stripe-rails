@@ -32,10 +32,10 @@ describe Stripe::Callbacks do
   describe 'defined with a bang' do
     code = nil
     before do
-      code = proc {|e| @event = e}
+      code = proc {|e, target| @event = e; @target = target}
       @observer.class_eval do
-        after_invoice_payment_succeeded! do |evt|
-          code.call(evt)
+        after_invoice_payment_succeeded! do |evt, target|
+          code.call(evt, target)
         end
       end
     end
@@ -43,6 +43,7 @@ describe Stripe::Callbacks do
       post 'stripe/events', JSON.pretty_generate(@content)
       @event.wont_be_nil
       @event.type.must_equal 'invoice.payment_succeeded'
+      @target.total.must_equal 6999
     end
     it 'is not invoked for other types of events' do
       @content['type'] = 'invoice.payment_failed'

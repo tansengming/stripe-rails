@@ -112,8 +112,7 @@ callback with one of the callback methods. For example, to update a customer's p
     class User < ActiveRecord::Base
       include Stripe::Callbacks
 
-      after_customer_updated! do |event|
-        customer = event.data.object
+      after_customer_updated! do |event, customer|
         user = User.find_by_stripe_customer_id(customer.id)
         if customer.delinquent
           user.is_account_current = false
@@ -127,8 +126,7 @@ or to send an email with one of your customer's monthly invoices
     class InvoiceMailer < ActionMailer::Base
       include Stripe::Callbacks
 
-      after_invoice_created! do |event|
-        invoice = event.data.object
+      after_invoice_created! do |event, invoice|
         user = User.find_by_stripe_customer(invoice.customer)
         new_invoice(user, invoice).deliver
       end
@@ -146,7 +144,8 @@ example, the stripe event `customer.discount.created` can be hooked by `after_cu
 and so on...
 
 Each web hook is passed an instance of [`Stripe::Event`][4] corresponding to the event being
-raised. By default, it is re-fetched securely from stripe.com to prevent damage to your system by
+raised as well as a stripe object corresponding to the type of event (customer, invoice, charge, etc...).
+By default, the event is re-fetched securely from stripe.com to prevent damage to your system by
 a malicious system spoofing real stripe events.
 
 ### Critical and non-critical hooks
@@ -163,7 +162,7 @@ notify your company's chatroom that something a credit card was successfully cha
     class AcmeBot
       include Stripe::Callbacks
 
-      def after_charge_succeeded do |event|
+      def after_charge_succeeded do |event, charge|
         announce "Attention all Dudes and Dudettes. Ya'll are so PAID!!!"
       end
     end

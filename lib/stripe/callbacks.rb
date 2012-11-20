@@ -41,21 +41,21 @@ module Stripe
     callback 'ping'
 
     class << self
-      def run_callbacks(evt)
-        run_critical_callbacks evt
-        run_noncritical_callbacks evt
+      def run_callbacks(evt, target)
+        run_critical_callbacks evt, target
+        run_noncritical_callbacks evt, target
       end
 
-      def run_critical_callbacks(evt)
+      def run_critical_callbacks(evt, target)
         ::Stripe::Callbacks::critical_callbacks[evt.type].each do |callback|
-          callback.call(evt)
+          callback.call(evt, target)
         end
       end
 
-      def run_noncritical_callbacks(evt)
+      def run_noncritical_callbacks(evt, target)
         ::Stripe::Callbacks::noncritical_callbacks[evt.type].each do |callback|
           begin
-            callback.call(evt)
+            callback.call(evt, target)
           rescue Exception => e
             ::Rails.logger.error e.message
             ::Rails.logger.error e.backtrace.join("\n")
