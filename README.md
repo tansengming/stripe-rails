@@ -113,6 +113,7 @@ callback with one of the callback methods. For example, to update a customer's p
       include Stripe::Callbacks
 
       after_customer_updated! do |event|
+        customer = event.data.object
         user = User.find_by_stripe_customer_id(event.customer.id)
         if event.customer.delinquent
           user.is_account_current = false
@@ -127,6 +128,7 @@ or to send an email with one of your customer's monthly invoices
       include Stripe::Callbacks
 
       after_invoice_created! do |event|
+        invoice = event.data.object
         user = User.find_by_stripe_customer(event.invoice.customer)
         new_invoice(user, event.invoice).deliver
       end
