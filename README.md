@@ -114,8 +114,8 @@ callback with one of the callback methods. For example, to update a customer's p
 
       after_customer_updated! do |event|
         customer = event.data.object
-        user = User.find_by_stripe_customer_id(event.customer.id)
-        if event.customer.delinquent
+        user = User.find_by_stripe_customer_id(customer.id)
+        if customer.delinquent
           user.is_account_current = false
           user.save!
         end
@@ -129,8 +129,8 @@ or to send an email with one of your customer's monthly invoices
 
       after_invoice_created! do |event|
         invoice = event.data.object
-        user = User.find_by_stripe_customer(event.invoice.customer)
-        new_invoice(user, event.invoice).deliver
+        user = User.find_by_stripe_customer(invoice.customer)
+        new_invoice(user, invoice).deliver
       end
 
       def new_invoice(user, invoice)
