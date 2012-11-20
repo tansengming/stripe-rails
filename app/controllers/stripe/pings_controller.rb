@@ -1,5 +1,5 @@
 module Stripe
-  class PingsController < ApplicationController
+  class PingsController < ::Stripe::ApplicationController
     respond_to :json
 
     def show

@@ -1,9 +1,10 @@
 module Stripe
-  class EventsController < ApplicationController
+  class EventsController < ::Stripe::ApplicationController
+    include Stripe::EventDispatch
     respond_to :json
 
     def create
-      @event = Stripe::Event.dispatch params
+      @event = dispatch_stripe_event params
       respond_with @event, :location => nil
     end
   end
