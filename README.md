@@ -186,3 +186,6 @@ needs, including integration with stripe.com.
 [5]: https://stripe.com/docs/api?lang=ruby#event_types
 [6]: https://stripe.com/docs/webhooks
 [7]: http://thefrontside.net
+[8]: https://stripe.com/docs/api?lang=ruby#customers
+[9]: https://stripe.com/docs/api?lang=ruby#invoices
+[10]: https://stripe.com/docs/api?lang=ruby#charges
