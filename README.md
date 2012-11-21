@@ -163,7 +163,7 @@ notify your company's chatroom that something a credit card was successfully cha
     class AcmeBot
       include Stripe::Callbacks
 
-      def after_charge_succeeded do |charge|
+      after_charge_succeeded do |charge|
         announce "Attention all Dudes and Dudettes. Ya'll are so PAID!!!"
       end
     end
