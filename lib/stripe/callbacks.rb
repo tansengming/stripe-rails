@@ -39,21 +39,27 @@ module Stripe
     callback 'transfer.updated'
     callback 'transfer.failed'
     callback 'ping'
+    callback 'stripe.event'
 
     class << self
       def run_callbacks(evt, target)
-        run_critical_callbacks evt, target
-        run_noncritical_callbacks evt, target
+        _run_callbacks evt.type, evt, target
+        _run_callbacks 'stripe.event', evt, target
       end
 
-      def run_critical_callbacks(evt, target)
-        ::Stripe::Callbacks::critical_callbacks[evt.type].each do |callback|
+      def _run_callbacks(type, evt, target)
+        run_critical_callbacks type, evt, target
+        run_noncritical_callbacks type, evt, target
+      end
+
+      def run_critical_callbacks(type, evt, target)
+        ::Stripe::Callbacks::critical_callbacks[type].each do |callback|
           callback.call(target, evt)
         end
       end
 
-      def run_noncritical_callbacks(evt, target)
-        ::Stripe::Callbacks::noncritical_callbacks[evt.type].each do |callback|
+      def run_noncritical_callbacks(type, evt, target)
+        ::Stripe::Callbacks::noncritical_callbacks[type].each do |callback|
           begin
             callback.call(target, evt)
           rescue Exception => e

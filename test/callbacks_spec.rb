@@ -17,7 +17,14 @@ describe Stripe::Callbacks do
       end
     end
     @content = JSON.parse(File.read File.expand_path('../invoice_payment_succeeded.json', __FILE__))
-    Stripe::Event.stubs(:retrieve).with("evt_0jcGFxHNsrDTj4").returns(Stripe::Event.construct_from(@content))
+    self.type = @content['type']
+
+  end
+
+  def type=(type)
+    @content['type'] = type
+    @stubbed_event = Stripe::Event.construct_from(@content)
+    Stripe::Event.stubs(:retrieve).returns(@stubbed_event)
   end
 
   after do
@@ -46,7 +53,7 @@ describe Stripe::Callbacks do
       @target.total.must_equal 6999
     end
     it 'is not invoked for other types of events' do
-      @content['type'] = 'invoice.payment_failed'
+      self.type = 'invoked.payment_failed'
       post 'stripe/events/', JSON.pretty_generate(@content)
     end
     describe 'if it raises an exception' do
@@ -72,6 +79,29 @@ describe Stripe::Callbacks do
       post 'stripe/events', JSON.pretty_generate(@content)
       last_response.status.must_be :>=, 200
       last_response.status.must_be :<, 300
+    end
+  end
+
+  describe 'designed to catch any event' do
+    events = nil
+    before do
+      events = []
+      @observer.class_eval do
+        after_stripe_event do |target, evt|
+          events << evt
+        end
+      end
+    end
+    it 'gets invoked for any standard event' do
+      self.type = 'invoice.payment_failed'
+      post 'stripe/events/', JSON.pretty_generate(@content)
+      events.first.type.must_equal 'invoice.payment_failed'
+    end
+
+    it 'gets invoked for any event whatsoever' do
+      self.type = 'foo.bar.baz'
+      post 'stripe/events/', JSON.pretty_generate(@content)
+      events.first.type.must_equal 'foo.bar.baz'
     end
   end
 end

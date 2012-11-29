@@ -170,6 +170,19 @@ notify your company's chatroom that something a credit card was successfully cha
 
 Chances are that if you experience a momentary failure in connectivity to your chatroom, you don't want the whole payment notification to fail.
 
+### Catchall Callback
+
+The special 'stripe.event' callback will be invoked for every single event received from stripe.com. This can be useful for things
+like logging and analytics:
+
+    class StripeFirehose
+      include Stripe::Callbacks
+
+      after_stripe_event do |target, event|
+        # do something useful
+      end
+    end
+
 See the [complete listing of all stripe events][5], and the [webhook tutorial][6] for more great information on this subject.
 
 ## Thanks
