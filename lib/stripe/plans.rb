@@ -57,7 +57,7 @@ module Stripe
 
       def put!
         if exists?
-          puts "[EXISTS] - #{@id}" unless Stripe::Rails.testing
+          puts "[EXISTS] - #{@id}" unless Stripe::Engine.testing
         else
           plan = Stripe::Plan.create(
             :id => @id,
@@ -68,7 +68,7 @@ module Stripe
             :interval_count => @interval_count,
             :trial_period_days => @trial_period_days
           )
-          puts "[CREATE] - #{plan}" unless Stripe::Rails.testing
+          puts "[CREATE] - #{plan}" unless Stripe::Engine.testing
         end
       end
 

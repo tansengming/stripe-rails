@@ -11,7 +11,7 @@ namespace :stripe do
     end
   end
 
-  task 'plans:prepare' => 'app:environment' do
+  task 'plans:prepare' => 'environment' do
     Stripe::Plans.put!
   end
 
