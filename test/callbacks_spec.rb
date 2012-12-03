@@ -104,4 +104,68 @@ describe Stripe::Callbacks do
       events.first.type.must_equal 'foo.bar.baz'
     end
   end
+
+  describe 'filtering on specific changed attributes' do
+    events = nil
+    before do
+      events = []
+      self.type = 'invoice.updated'
+      @stubbed_event.data.previous_attributes = {}
+    end
+    describe 'specified as an single symbol' do
+      before do
+        @observer.class_eval do
+          after_invoice_updated! :only => :closed do |invoice, evt|
+            events << evt
+          end
+        end
+      end
+      it 'does not fire events for with a prior attribute was specified' do
+        post 'stripe/events', JSON.pretty_generate(@content)
+        events.length.must_equal 0
+      end
+      it 'does fire events for which the prior attribute was specified' do
+        @stubbed_event.data.previous_attributes['closed'] = true
+        post 'stripe/events', JSON.pretty_generate(@content)
+        events.length.must_equal 1
+      end
+    end
+    describe 'specified as an array' do
+      before do
+        @observer.class_eval do
+          after_invoice_updated! :only => [:currency, :subtotal] do |invoice, evt|
+            events << evt
+          end
+        end
+      end
+      it 'does not fire events for which prior attributes were not specified' do
+        post 'stripe/events', JSON.pretty_generate(@content)
+        events.length.must_equal 0
+      end
+      it 'does fire events for which prior attributes were specified' do
+        @stubbed_event.data.previous_attributes['subtotal'] = 699
+        post 'stripe/events', JSON.pretty_generate(@content)
+        events.length.must_equal 1
+      end
+    end
+    describe 'specified as a lambda' do
+      before do
+        @observer.class_eval do
+          after_invoice_updated :only => proc {|evt| evt.data.previous_attributes.has_key? "closed"} do |i,e|
+            events << e
+          end
+        end
+      end
+      it 'does not fire events for which the lambda is not true' do
+        post 'stripe/events', JSON.pretty_generate(@content)
+        events.length.must_equal 0
+      end
+
+      it 'does fire events for when the lambda is true' do
+        @stubbed_event.data.previous_attributes['closed'] = 'false'
+        post 'stripe/events', JSON.pretty_generate(@content)
+        events.length.must_equal 1
+      end
+    end
+  end
 end

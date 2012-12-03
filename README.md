@@ -170,6 +170,45 @@ notify your company's chatroom that something a credit card was successfully cha
 
 Chances are that if you experience a momentary failure in connectivity to your chatroom, you don't want the whole payment notification to fail.
 
+
+### Filtering Callbacks
+
+Certain stripe events represent updates to existing data. You may want to only fire the event when certain attributes of that data
+are updated. You can pass an `:only` option to your callback to filter to specify which attribute updates you're interested in. For
+example, to warn users whenever their credit card has changed:
+
+    class StripeMailer
+      include Stripe::Callbacks
+
+      after_customer_updated! :only => :active_card do |customer, evt|
+        your_credit_card_on_file_was_updated_are_you_sure_this_was_you(customer).deliver
+      end
+    end
+
+
+Filters can be specified as an array as well:
+
+    module Accounting
+      include Stripe::Callbacks
+
+      after_invoice_updated! :only => [:amount, :subtotal] do
+        # update our records
+      end
+    end
+
+
+Alternatively, you can just pass a proc to filter the event manually. It will receive an instance of [`Stripe::Event`][4] as
+its parameter:
+
+    module StagingOnly
+      include Stripe::Callbacks
+
+      after_charge_created! :only => proc {|evt| unless evt.livemode} do |charge|
+        puts "FAKE DATA, PLEASE IGNORE!"
+      end
+    end
+
+
 ### Catchall Callback
 
 The special 'stripe.event' callback will be invoked for every single event received from stripe.com. This can be useful for things
@@ -182,6 +221,7 @@ like logging and analytics:
         # do something useful
       end
     end
+
 
 See the [complete listing of all stripe events][5], and the [webhook tutorial][6] for more great information on this subject.
 

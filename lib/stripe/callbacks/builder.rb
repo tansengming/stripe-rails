@@ -24,11 +24,31 @@ module Stripe
 
           def callback(name)
             method_name = "after_#{name.gsub('.', '_')}"
-            self::ClassMethods.send(:define_method, method_name) do |&block|
-              ::Stripe::Callbacks::noncritical_callbacks[name] << block
+
+            self::ClassMethods.send(:define_method, method_name) do |options = {}, &block|
+              ::Stripe::Callbacks::noncritical_callbacks[name] << ::Stripe::Callbacks.callback_matcher(options, block)
             end
-            self::ClassMethods.send(:define_method, "#{method_name}!") do |&block|
-              ::Stripe::Callbacks::critical_callbacks[name] << block
+            self::ClassMethods.send(:define_method, "#{method_name}!") do |options = {}, &block|
+              ::Stripe::Callbacks::critical_callbacks[name] << ::Stripe::Callbacks.callback_matcher(options, block)
+            end
+          end
+
+          def callback_matcher(options, block)
+            case only = options[:only]
+            when Proc, Method
+              proc do |target, evt|
+                block.call(target, evt) if only.call(evt)
+              end
+            when Array, Set
+              stringified_keys = only.map(&:to_s)
+              proc do |target, evt|
+                intersection =  evt.data.previous_attributes.keys - stringified_keys
+                block.call(target, evt) if intersection != evt.data.previous_attributes.keys
+              end
+            when nil
+              block
+            else
+              callback_matcher options.merge(:only => [only]), block
             end
           end
         end
