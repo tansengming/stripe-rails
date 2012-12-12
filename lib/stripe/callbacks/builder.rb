@@ -37,7 +37,7 @@ module Stripe
             case only = options[:only]
             when Proc, Method
               proc do |target, evt|
-                block.call(target, evt) if only.call(evt)
+                block.call(target, evt) if only.call(target, evt)
               end
             when Array, Set
               stringified_keys = only.map(&:to_s)

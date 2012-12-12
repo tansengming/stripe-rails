@@ -151,7 +151,7 @@ describe Stripe::Callbacks do
     describe 'specified as a lambda' do
       before do
         @observer.class_eval do
-          after_invoice_updated :only => proc {|evt| evt.data.previous_attributes.has_key? "closed"} do |i,e|
+          after_invoice_updated :only => proc {|target, evt| evt.data.previous_attributes.has_key? "closed"} do |i,e|
             events << e
           end
         end
