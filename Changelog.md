@@ -1,3 +1,9 @@
+## 0.2.0 (2012-12-13)
+
+* out of the box support for webhooks and critical/non-critical event handlers
+* add :only guards for which webhooks you respond to-
+* move stripe.js out of asset pipeline, and insert it with utility functions
+
 ## 0.1.0 (2012-11-14)
 
 * add config/stripe/plans.rb to define and create plans
