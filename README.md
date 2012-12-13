@@ -217,7 +217,7 @@ its parameter:
     module StagingOnly
       include Stripe::Callbacks
 
-      after_charge_created! :only => proc {|evt| unless evt.livemode} do |charge|
+      after_charge_created! :only => proc {|charge, evt| unless evt.livemode} do |charge|
         puts "FAKE DATA, PLEASE IGNORE!"
       end
     end
