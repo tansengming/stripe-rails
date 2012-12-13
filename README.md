@@ -14,9 +14,23 @@ Add this line to your application's Gemfile:
     gem 'stripe-rails'
 
 If you are going to be using [stripe.js][1] to securely collect credit card information
-on the client, then add the following to app/assets/javascripts/application.js
+on the client, then you will need to add the stripe javascript tags into your template.
+stripe-rails provides a helper to make this easy:
 
-    //= require stripe
+    <%= stripe_javascript_tag %>
+
+or, you can render it as a partial:
+
+    <%= render :partial => 'stripe/js' %>
+
+In both cases, stripe-rails will choose a version of stripe.js appropriate for your
+development environment and automatically configure it to use
+your publishable API key. By default it uses `stripe-debug.js` for your `development`
+environment and `stripe.js` for everything else, but you can manually configure it
+per environment
+
+    config.stripe.debug_js = true  # use stripe-debug.js
+    config.stripe.debug_js = false # use stripe.js
 
 ### Setup your API keys.
 

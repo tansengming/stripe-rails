@@ -8,11 +8,15 @@ module Stripe
       attr_accessor :testing
     end
 
-    config.stripe = Struct.new(:api_base, :api_key, :verify_ssl_certs, :publishable_key, :endpoint).new
+    config.stripe = Struct.new(:api_base, :api_key, :verify_ssl_certs, :publishable_key, :endpoint, :debug_js).new
 
     initializer 'stripe.configure.defaults', :before => 'stripe.configure' do |app|
-      app.config.stripe.api_key ||= ENV['STRIPE_API_KEY']
-      app.config.stripe.endpoint ||= '/stripe'
+      stripe = app.config.stripe
+      stripe.api_key ||= ENV['STRIPE_API_KEY']
+      stripe.endpoint ||= '/stripe'
+      if stripe.debug_js.nil?
+        stripe.debug_js = ::Rails.env.development?
+      end
     end
 
     initializer 'stripe.configure' do |app|
@@ -26,6 +30,12 @@ unable to interact with stripe.com. You can set your API key with either the env
 variable `STRIPE_API_KEY` (recommended) or by setting `config.stripe.api_key` in your
 environment file directly.
       MSG
+    end
+
+    initializer 'stripe.javascript_helper' do
+      ActiveSupport.on_load :action_controller do
+        helper Stripe::JavascriptHelper
+      end
     end
 
     initializer 'stripe.plans' do |app|

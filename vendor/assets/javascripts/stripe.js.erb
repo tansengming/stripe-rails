@@ -1,3 +1,0 @@
-//= require stripe-debug
-
-Stripe.setPublishableKey("<%= Rails.application.config.stripe.publishable_key or fail 'No stripe.com publishable key found. Please set config.stripe.publishable_key in config/application.rb to one of your publishable keys, which can be found here: https://manage.stripe.com/#account/apikeys' %>")
