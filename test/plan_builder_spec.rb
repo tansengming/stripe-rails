@@ -65,7 +65,7 @@ describe 'building plans' do
 
   describe 'with missing mandatory values' do
     it 'raises an exception after configuring it' do
-      proc {Stripe.plan(:bad) {}}.must_raise Stripe::Plans::InvalidPlanError
+      proc {Stripe.plan(:bad) {}}.must_raise Stripe::InvalidConfigurationError
     end
   end
 end

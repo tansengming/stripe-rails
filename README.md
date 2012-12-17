@@ -71,7 +71,7 @@ this will generate the configuration files containing your plan and coupon defin
       create  config/stripe/plans.rb
       create  config/stripe/coupons.rb
 
-### Configuring your plans
+### Configuring your plans and coupons
 
 Use the plan builder to define as many plans as you want in `config/stripe/plans.rb`
 
@@ -93,12 +93,22 @@ can refer to them by reference as opposed to an id string.
     Stripe::Plans::SILVER # => 'silver: ACME Silver'
     Stripe::Plans::GOLD # => 'gold: ACME Gold'
 
-To upload these plans onto stripe.com, run:
+
+Coupons are created in much the same way:
+
+    Stripe.coupon :super_elite_free_vip do |coupon|
+      coupon.duration = 'forever'
+      coupon.percent_off = 100
+      coupon.max_redemptions = 5
+    end
+
+To upload your plans and coupons onto stripe.com, run:
 
     rake stripe:prepare
 
-This will create any plans that do not currently exist, and treat as a NOOP any
-plans that do, so you can run this command safely as many times as you wish.
+This will create any plans and coupons that do not currently exist, and treat as a NOOP any
+plans that do, so you can run this command safely as many times as you wish. Now you can
+use any of these plans in your application.
 
 NOTE: You must destroy plans manually from your stripe dashboard.
 

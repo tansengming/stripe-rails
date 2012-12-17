@@ -38,9 +38,11 @@ environment file directly.
       end
     end
 
-    initializer 'stripe.plans' do |app|
-      path = app.root.join('config/stripe/plans.rb')
-      load path if path.exist?
+    initializer 'stripe.plans_and_coupons' do |app|
+      for configuration in %w(plans coupons)
+        path = app.root.join("config/stripe/#{configuration}.rb")
+        load path if path.exist?
+      end
     end
 
     rake_tasks do

@@ -5,6 +5,7 @@ module Stripe
     desc "copy plans.rb"
     def copy_plans_file
       copy_file "plans.rb", "config/stripe/plans.rb"
+      copy_file "coupons.rb", "config/stripe/coupons.rb"
     end
   end
 end
