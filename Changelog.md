@@ -1,3 +1,6 @@
+## 0.2.1 (2012-12-17)
+* manage coupons with config/stripe/coupons.rb
+
 ## 0.2.0 (2012-12-13)
 
 * out of the box support for webhooks and critical/non-critical event handlers
