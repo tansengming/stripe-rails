@@ -1,3 +1,6 @@
+## 0.2.2 (2012-01-09)
+* bugfix allowing creation of coupons without max_redemptions
+
 ## 0.2.1 (2012-12-17)
 * manage coupons with config/stripe/coupons.rb
 
