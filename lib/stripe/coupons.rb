@@ -11,7 +11,7 @@ module Stripe
       validates_inclusion_of :percent_off, in: 1..100, unless: ->(coupon) {coupon.percent_off.nil?}
       validates_numericality_of :percent_off, :greater_than => 0
       validates_numericality_of :duration_in_months, :greater_than => 0, :if => :repeating?
-      validates_numericality_of :max_redemptions, :greater_than => 0
+      validates_numericality_of :max_redemptions, greater_than: 0, unless: ->(coupon) {coupon.max_redemptions.nil?}
 
       def initialize(*args)
         super
