@@ -16,6 +16,7 @@ module Stripe
       def initialize(*args)
         super
         @currency = 'usd'
+        @max_redemptions = 1
       end
 
       def repeating?

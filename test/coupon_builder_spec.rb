@@ -1,7 +1,23 @@
 require 'minitest/autorun'
 require 'spec_helper'
 
-describe 'building plans' do
+describe 'building coupons' do
+  before do
+    Stripe::Coupons.configurations.clear
+  end
+  describe 'default values' do
+    before do
+      @coupon = Stripe.coupon(:firesale) do |coupon|
+        coupon.duration = 'once'
+        coupon.duration_in_months = 100
+        coupon.amount_off = 100
+      end
+    end
+    it "allows a single redemption by default" do
+      @coupon.max_redemptions.must_equal 1
+    end
+  end
+
   describe 'simply' do
     before do
       @now = Time.now.utc
