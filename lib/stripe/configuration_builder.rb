@@ -39,6 +39,10 @@ module Stripe
         def put!
           all.each(&:put!)
         end
+
+        def reset!
+          all.each(&:reset!)
+        end
       end
     end
 
@@ -75,12 +79,20 @@ module Stripe
         end
       end
 
+      def reset!
+        if object = exists?
+          object.delete
+        end
+        object = @stripe_class.create({:id => @id}.merge create_options)
+        puts "[RESET] - #{@stripe_class}:#{object}" unless Stripe::Engine.testing
+      end
+
       def to_s
         @id.to_s
       end
 
       def exists?
-        !!@stripe_class.retrieve(to_s)
+        @stripe_class.retrieve(to_s)
       rescue Stripe::InvalidRequestError
         false
       end

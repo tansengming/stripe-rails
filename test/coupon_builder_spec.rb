@@ -70,8 +70,51 @@ describe 'building coupons' do
         end
       end
     end
-  end
 
+    describe 'reseting' do
+      describe 'when it does not exist on stripe.com'do
+        before do
+          Stripe::Coupon.stubs(:retrieve).raises(Stripe::InvalidRequestError.new("not found", "id"))
+        end
+        it 'creates the plan' do
+          Stripe::Coupon.expects(:create).with(
+            :id => :gold25,
+            :duration => 'repeating',
+            :duration_in_months => 10,
+            :amount_off => 100,
+            :currency => 'USD',
+            :max_redemptions => 3,
+            :percent_off => 25,
+            :redeem_by => @now
+          )
+          Stripe::Coupons.reset!
+        end
+      end
+      describe 'when it does exist on stripe.com already' do
+        before do
+          @coupon = Stripe::Coupon.construct_from({
+            :id => :gold25,
+          })
+          Stripe::Coupon.stubs(:retrieve).returns(@coupon)
+        end
+        it 'first deletes the coupon then re-adds it' do
+          @coupon.expects(:delete)
+          Stripe::Coupon.expects(:create).with(
+            :id => :gold25,
+            :duration => 'repeating',
+            :duration_in_months => 10,
+            :amount_off => 100,
+            :currency => 'USD',
+            :max_redemptions => 3,
+            :percent_off => 25,
+            :redeem_by => @now
+          )
+          Stripe::Coupons.reset!
+        end
+      end
+    end
+
+  end
   describe 'with missing mandatory values' do
     it 'raises an exception after configuring it' do
       proc {Stripe.coupon(:bad) {}}.must_raise Stripe::InvalidConfigurationError
