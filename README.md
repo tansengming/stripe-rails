@@ -115,7 +115,7 @@ NOTE: You must destroy plans manually from your stripe dashboard.
 ## Webhooks
 
 Stripe::Rails automatically sets up your application to receive webhooks from stripe.com whenever
-an payment event is generated. To enable this, you will need to configure your [stripe webooks][3] to
+an payment event is generated. To enable this, you will need to configure your [stripe webhooks][3] to
 point back to your application. By default, the webhook controller is mounted at '/stripe/events' so
 you would want to enter in `http://myproductionapp.com/stripe/events` as your url for live mode,
 and `http://mystagingapp.com/stripe/events` for your test mode.
