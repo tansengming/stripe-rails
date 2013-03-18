@@ -8,12 +8,3 @@ describe "Configuring the stripe engine" do
     Stripe.verify_ssl_certs.must_equal false
   end
 end
-
-describe 'initializing plans' do
-  require 'rake'
-  load 'stripe/rails/tasks.rake'
-  it 'creates any plans that do not exist on stripe.com' do
-    Stripe::Plans.expects(:put!)
-    Rake::Task['stripe:plans:prepare'].invoke
-  end
-end
