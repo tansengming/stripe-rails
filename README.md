@@ -103,7 +103,7 @@ rails generate stripe:install
 
 this will generate the configuration files containing your plan and coupon definitions:
 
-```sh
+```console
 create  config/stripe/plans.rb
 create  config/stripe/coupons.rb
 ```
