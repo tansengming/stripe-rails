@@ -38,8 +38,8 @@ environment and `stripe.js` for everything else, but you can manually configure 
 per environment
 
 ```ruby
-    config.stripe.debug_js = true  # use stripe-debug.js
-    config.stripe.debug_js = false # use stripe.js
+config.stripe.debug_js = true  # use stripe-debug.js
+config.stripe.debug_js = false # use stripe.js
 ```
 
 ### Setup your API keys.
@@ -48,13 +48,13 @@ You will need to configure your application to authenticate with stripe.com
 using [your api key][1]. There are two methods to do this, you can either set the environment
 variable `STRIPE_API_KEY`:
 
-```console
+```sh
 export STRIPE_API_KEY=sk_test_xxyyzz
 ```
 
 or if you are on heroku:
 
-```console
+```sh
 heroku config:add STRIPE_API_KEY=sk_test_xxyyzz
 ```
 
@@ -68,7 +68,7 @@ In either case, it is recommended that you *not* check in this value into source
 
 You can verify that your api is set up and functioning properly by running the following command:
 
-```console
+```sh
 rake stripe:verify
 ```
 
@@ -97,13 +97,13 @@ If you're using subscriptions, then you'll need to set up your application's pay
 and discounts. `Stripe::Rails` lets you automate the management of these definitions from
 within the application itself. To get started:
 
-```console
+```sh
 rails generate stripe:install
 ```
 
 this will generate the configuration files containing your plan and coupon definitions:
 
-```console
+```sh
 create  config/stripe/plans.rb
 create  config/stripe/coupons.rb
 ```
@@ -146,7 +146,7 @@ end
 
 To upload your plans and coupons onto stripe.com, run:
 
-```console
+```sh
 rake stripe:prepare
 ```
 
