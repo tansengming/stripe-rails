@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.0.0
+  - 1.9.3
+notifications:
+  email:
+    recipients:
+      - cowboyd@thefrontside.net
+
