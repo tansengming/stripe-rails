@@ -16,8 +16,4 @@ Gem::Specification.new do |gem|
   gem.version       = Stripe::Rails::VERSION
   gem.add_dependency 'rails', '>= 3'
   gem.add_dependency 'stripe'
-
-  gem.add_development_dependency 'tzinfo'
-  gem.add_development_dependency 'mocha'
-  gem.add_development_dependency 'rack-test'
 end
