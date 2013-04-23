@@ -46,7 +46,24 @@ per environment
 
 You will need to configure your application to authenticate with stripe.com
 using [your api key][1]. There are two methods to do this, you can either set the environment
-variable `STRIPE_API_KEY`, or use the rails configuration setting `config.stripe.api_key`.
+variable `STRIPE_API_KEY`:
+
+```console
+export STRIPE_API_KEY=sk_test_xxyyzz
+```
+
+or if you are on heroku:
+
+```console
+heroku config:add STRIPE_API_KEY=sk_test_xxyyzz
+```
+
+You can also set this value from inside ruby configuration code:
+
+```ruby
+config.stripe.api_key = "sk_test_xxyyzz"
+```
+
 In either case, it is recommended that you *not* check in this value into source control.
 
 You can verify that your api is set up and functioning properly by running the following command:
