@@ -15,26 +15,32 @@ This gem can help your rails application integrate with Stripe in the following 
 
 Add this line to your application's Gemfile:
 
-    gem 'stripe-rails'
+```ruby
+gem 'stripe-rails'
+```
 
 If you are going to be using [stripe.js][1] to securely collect credit card information
 on the client, then you will need to add the stripe javascript tags into your template.
 stripe-rails provides a helper to make this easy:
 
-    <%= stripe_javascript_tag %>
-
+```erb
+<%= stripe_javascript_tag %>
+```
 or, you can render it as a partial:
 
-    <%= render :partial => 'stripe/js' %>
-
+```erb
+<%= render :partial => 'stripe/js' %>
+```
 In both cases, stripe-rails will choose a version of stripe.js appropriate for your
 development environment and automatically configure it to use
 your publishable API key. By default it uses `stripe-debug.js` for your `development`
 environment and `stripe.js` for everything else, but you can manually configure it
 per environment
 
+```ruby
     config.stripe.debug_js = true  # use stripe-debug.js
     config.stripe.debug_js = false # use stripe.js
+```
 
 ### Setup your API keys.
 
@@ -45,20 +51,26 @@ In either case, it is recommended that you *not* check in this value into source
 
 You can verify that your api is set up and functioning properly by running the following command:
 
-    rake stripe:verify
+```console
+rake stripe:verify
+```
 
 If you are going to be using stripe.js, then you will also need to set the value of your
 publishiable key. A nice way to do it is to set your test publishable for all environments:
 
-    # config/application.rb
-    # ...
-    config.stripe.publishable_key = 'pk_test_XXXYYYZZZ'
+```ruby
+# config/application.rb
+# ...
+config.stripe.publishable_key = 'pk_test_XXXYYYZZZ'
+```
 
 And then override it to use your live key in production only
 
-    # config/environments/production.rb
-    # ...
-    config.stripe.publishable_key = 'pk_live_XXXYYYZZZ'
+```ruby
+# config/environments/production.rb
+# ...
+config.stripe.publishable_key = 'pk_live_XXXYYYZZZ'
+```
 
 This key will be publicly visible on the internet, so it is ok to put in your source.
 
@@ -68,47 +80,58 @@ If you're using subscriptions, then you'll need to set up your application's pay
 and discounts. `Stripe::Rails` lets you automate the management of these definitions from
 within the application itself. To get started:
 
-    rails generate stripe:install
+```console
+rails generate stripe:install
+```
 
 this will generate the configuration files containing your plan and coupon definitions:
 
-      create  config/stripe/plans.rb
-      create  config/stripe/coupons.rb
+```console
+create  config/stripe/plans.rb
+create  config/stripe/coupons.rb
+```
 
 ### Configuring your plans and coupons
 
 Use the plan builder to define as many plans as you want in `config/stripe/plans.rb`
 
-    Stripe.plan :silver do |plan|
-      plan.name = 'ACME Silver'
-      plan.amount = 699 # $6.99
-      plan.interval = 'month'
-    end
+```ruby
+Stripe.plan :silver do |plan|
+  plan.name = 'ACME Silver'
+  plan.amount = 699 # $6.99
+  plan.interval = 'month'
+end
 
-    Stripe.plan :gold do |plan|
-      plan.name = 'ACME Gold'
-      plan.amount = 999 # $9.99
-      plan.interval = 'month'
-    end
+Stripe.plan :gold do |plan|
+  plan.name = 'ACME Gold'
+  plan.amount = 999 # $9.99
+  plan.interval = 'month'
+end
+```
 
 This will define constants for these plans in the Stripe::Plans module so that you
 can refer to them by reference as opposed to an id string.
 
-    Stripe::Plans::SILVER # => 'silver: ACME Silver'
-    Stripe::Plans::GOLD # => 'gold: ACME Gold'
-
+```ruby
+Stripe::Plans::SILVER # => 'silver: ACME Silver'
+Stripe::Plans::GOLD # => 'gold: ACME Gold'
+```
 
 Coupons are created in much the same way:
 
-    Stripe.coupon :super_elite_free_vip do |coupon|
-      coupon.duration = 'forever'
-      coupon.percent_off = 100
-      coupon.max_redemptions = 5
-    end
+```ruby
+Stripe.coupon :super_elite_free_vip do |coupon|
+  coupon.duration = 'forever'
+  coupon.percent_off = 100
+  coupon.max_redemptions = 5
+end
+```
 
 To upload your plans and coupons onto stripe.com, run:
 
-    rake stripe:prepare
+```console
+rake stripe:prepare
+```
 
 This will create any plans and coupons that do not currently exist, and treat as a NOOP any
 plans that do, so you can run this command safely as many times as you wish. Now you can
@@ -127,7 +150,9 @@ and `http://mystagingapp.com/stripe/events` for your test mode.
 If you want to mount the stripe engine somewhere else, you can do so by setting the `stripe.endpoint`
 parameter. E.g.
 
-    config.stripe.endpoint = '/payment/stripe-integration'
+```ruby
+config.stripe.endpoint = '/payment/stripe-integration'
+```
 
 Your new webook URL would then be `http://myproductionapp/payment/strip-integration/events`
 
@@ -137,34 +162,38 @@ Once you have your webhook URL configured you can respond to a stripe webhook *a
 application just by including the Stripe::Callbacks module into your class and declaring a
 callback with one of the callback methods. For example, to update a customer's payment status:
 
-    class User < ActiveRecord::Base
-      include Stripe::Callbacks
+```ruby
+class User < ActiveRecord::Base
+  include Stripe::Callbacks
 
-      after_customer_updated! do |customer, event|
-        user = User.find_by_stripe_customer_id(customer.id)
-        if customer.delinquent
-          user.is_account_current = false
-          user.save!
-        end
-      end
+  after_customer_updated! do |customer, event|
+    user = User.find_by_stripe_customer_id(customer.id)
+    if customer.delinquent
+      user.is_account_current = false
+      user.save!
     end
+  end
+end
+```
 
 or to send an email with one of your customer's monthly invoices
 
-    class InvoiceMailer < ActionMailer::Base
-      include Stripe::Callbacks
+```ruby
+class InvoiceMailer < ActionMailer::Base
+  include Stripe::Callbacks
 
-      after_invoice_created! do |invoice, event|
-        user = User.find_by_stripe_customer(invoice.customer)
-        new_invoice(user, invoice).deliver
-      end
+  after_invoice_created! do |invoice, event|
+    user = User.find_by_stripe_customer(invoice.customer)
+    new_invoice(user, invoice).deliver
+  end
 
-      def new_invoice(user, invoice)
-        @user = user
-        @invoice = invoice
-        mail :to => user.email, :subject => '[Acme.com] Your new invoice'
-      end
-    end
+  def new_invoice(user, invoice)
+    @user = user
+    @invoice = invoice
+    mail :to => user.email, :subject => '[Acme.com] Your new invoice'
+  end
+end
+```
 
 The naming convention for the callback events is after__{callback_name}! where `callback_name`
 is name of the stripe event with all `.` characters substituted with underscores. So, for
@@ -188,13 +217,15 @@ receives a successful response. On the other hand, there are some tasks that are
 such a big deal if they get dropped on the floor. For example, A non-critical hook can be used to do things like have a bot
 notify your company's chatroom that something a credit card was successfully charged:
 
-    class AcmeBot
-      include Stripe::Callbacks
+```ruby
+class AcmeBot
+  include Stripe::Callbacks
 
-      after_charge_succeeded do |charge|
-        announce "Attention all Dudes and Dudettes. Ya'll are so PAID!!!"
-      end
-    end
+  after_charge_succeeded do |charge|
+    announce "Attention all Dudes and Dudettes. Ya'll are so PAID!!!"
+  end
+end
+```
 
 Chances are that if you experience a momentary failure in connectivity to your chatroom, you don't want the whole payment notification to fail.
 
@@ -205,51 +236,55 @@ Certain stripe events represent updates to existing data. You may want to only f
 are updated. You can pass an `:only` option to your callback to filter to specify which attribute updates you're interested in. For
 example, to warn users whenever their credit card has changed:
 
-    class StripeMailer
-      include Stripe::Callbacks
+```ruby
+class StripeMailer
+  include Stripe::Callbacks
 
-      after_customer_updated! :only => :active_card do |customer, evt|
-        your_credit_card_on_file_was_updated_are_you_sure_this_was_you(customer).deliver
-      end
-    end
-
+  after_customer_updated! :only => :active_card do |customer, evt|
+    your_credit_card_on_file_was_updated_are_you_sure_this_was_you(customer).deliver
+  end
+end
+```
 
 Filters can be specified as an array as well:
 
-    module Accounting
-      include Stripe::Callbacks
+```ruby
+module Accounting
+  include Stripe::Callbacks
 
-      after_invoice_updated! :only => [:amount, :subtotal] do
-        # update our records
-      end
-    end
-
+  after_invoice_updated! :only => [:amount, :subtotal] do
+    # update our records
+  end
+end
+```
 
 Alternatively, you can just pass a proc to filter the event manually. It will receive an instance of [`Stripe::Event`][4] as
 its parameter:
 
-    module StagingOnly
-      include Stripe::Callbacks
+```ruby
+module StagingOnly
+  include Stripe::Callbacks
 
-      after_charge_created! :only => proc {|charge, evt| unless evt.livemode} do |charge|
-        puts "FAKE DATA, PLEASE IGNORE!"
-      end
-    end
-
+  after_charge_created! :only => proc {|charge, evt| unless evt.livemode} do |charge|
+    puts "FAKE DATA, PLEASE IGNORE!"
+  end
+end
+```
 
 ### Catchall Callback
 
 The special 'stripe.event' callback will be invoked for every single event received from stripe.com. This can be useful for things
 like logging and analytics:
 
-    class StripeFirehose
-      include Stripe::Callbacks
+```ruby
+class StripeFirehose
+  include Stripe::Callbacks
 
-      after_stripe_event do |target, event|
-        # do something useful
-      end
-    end
-
+  after_stripe_event do |target, event|
+    # do something useful
+  end
+end
+```
 
 See the [complete listing of all stripe events][5], and the [webhook tutorial][6] for more great information on this subject.
 
