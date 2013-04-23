@@ -1,4 +1,7 @@
 # Stripe::Rails: A Rails Engine for use with [stripe.com](https://stripe.com)
+[![Gem Version](https://badge.fury.io/rb/stripe-rails.png)](http://badge.fury.io/rb/stripe-rails)
+[![Build Status](https://travis-ci.org/thefrontside/stripe-rails.png?branch=master)](https://travis-ci.org/thefrontside/stripe-rails)
+
 
 This gem can help your rails application integrate with Stripe in the following ways
 
