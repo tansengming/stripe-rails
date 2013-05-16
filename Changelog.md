@@ -2,7 +2,7 @@
 * make the default max redemptions 1
 * add stripe::coupons::reset! task to redefine all coupons
 
-## 0.2.2 (2012-01-09)
+## 0.2.2 (2013-01-09)
 * bugfix allowing creation of coupons without max_redemptions
 
 ## 0.2.1 (2012-12-17)
