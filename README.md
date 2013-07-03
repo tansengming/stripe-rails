@@ -171,7 +171,7 @@ parameter. E.g.
 config.stripe.endpoint = '/payment/stripe-integration'
 ```
 
-Your new webook URL would then be `http://myproductionapp/payment/strip-integration/events`
+Your new webook URL would then be `http://myproductionapp/payment/stripe-integration/events`
 
 ### Responding to webhooks
 
