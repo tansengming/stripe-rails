@@ -58,6 +58,12 @@ or if you are on heroku:
 heroku config:add STRIPE_API_KEY=sk_test_xxyyzz
 ```
 
+If you need to read the API Key from a different environment variable, you can specify which variable like so:
+
+```ruby
+config.stripe.env_var = "EXAMPLE_STRIPE_API_KEY"
+```
+
 You can also set this value from inside ruby configuration code:
 
 ```ruby
