@@ -1,3 +1,6 @@
+## 0.2.6 (2013-07-12)
+* add config.stripe.api_version setting to support api versioning
+
 ## 0.2.5 (2013-03-18)
 * make the default max redemptions 1
 * add stripe::coupons::reset! task to redefine all coupons
