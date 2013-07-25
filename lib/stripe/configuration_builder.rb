@@ -1,3 +1,5 @@
+require "active_model"
+
 module Stripe
   module ConfigurationBuilder
     extend ActiveSupport::Concern
