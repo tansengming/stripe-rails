@@ -11,7 +11,7 @@
 #   # amount in cents. This is 6.99
 #   plan.amount = 699
 #
-#   # interval must be either 'month' or 'year'
+#   # interval must be either 'week', 'month' or 'year'
 #   plan.interval = 'month'
 #
 #   # only bill once every three months (default 1)
