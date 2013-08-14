@@ -29,6 +29,46 @@ describe 'building plans' do
       Stripe::Plans['primo'].must_equal Stripe::Plans::PRIMO
     end
 
+    it 'accepts a billing interval of a week' do
+      Stripe.plan :weekly do |plan|
+        plan.name = 'Acme as a service weekly'
+        plan.amount = 100
+        plan.interval = 'week'
+      end
+
+      Stripe::Plans::WEEKLY.wont_be_nil
+    end
+
+    it 'accepts a billing interval of a month' do
+      Stripe.plan :monthly do |plan|
+        plan.name = 'Acme as a service monthly'
+        plan.amount = 400
+        plan.interval = 'month'
+      end
+
+      Stripe::Plans::MONTHLY.wont_be_nil
+    end
+
+    it 'accepts a billing interval of a year' do
+      Stripe.plan :yearly do |plan|
+        plan.name = 'Acme as a service yearly'
+        plan.amount = 4800
+        plan.interval = 'year'
+      end
+
+      Stripe::Plans::YEARLY.wont_be_nil
+    end
+
+    it 'denies arbitrary billing intervals' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service BROKEN'
+          plan.amount = 999
+          plan.interval = 'anything'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
     describe 'uploading' do
       describe 'when none exists on stripe.com' do
         before do
