@@ -11,6 +11,9 @@
 #   # amount in cents. This is 6.99
 #   plan.amount = 699
 #
+#   # currency to use for the plan (default 'usd')
+#   plan.currency = 'usd'
+#
 #   # interval must be either 'week', 'month' or 'year'
 #   plan.interval = 'month'
 #
