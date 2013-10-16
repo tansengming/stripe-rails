@@ -173,6 +173,20 @@ config.stripe.endpoint = '/payment/stripe-integration'
 
 Your new webook URL would then be `http://myproductionapp/payment/stripe-integration/events`
 
+### Disabling auto mount
+
+If you don't want the engine to be auto mounted, e.g. if you need to include it in a specific
+place in your route definitions due to a catch-all route, you can disable auto mounting and
+mount the engine manually:
+
+```ruby
+# in application.rb
+config.stripe.auto_mount = false
+
+# in your application's routes.rb:
+mount Stripe::Engine => "/stripe"
+```
+
 ### Responding to webhooks
 
 Once you have your webhook URL configured you can respond to a stripe webhook *anywhere* in your

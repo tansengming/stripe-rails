@@ -8,12 +8,13 @@ module Stripe
       attr_accessor :testing
     end
 
-    config.stripe = Struct.new(:api_base, :api_key, :verify_ssl_certs, :publishable_key, :endpoint, :debug_js).new
+    config.stripe = Struct.new(:api_base, :api_key, :verify_ssl_certs, :publishable_key, :endpoint, :debug_js, :auto_mount).new
 
     initializer 'stripe.configure.defaults', :before => 'stripe.configure' do |app|
       stripe = app.config.stripe
       stripe.api_key ||= ENV['STRIPE_API_KEY']
       stripe.endpoint ||= '/stripe'
+      stripe.auto_mount = true if stripe.auto_mount.nil?
       if stripe.debug_js.nil?
         stripe.debug_js = ::Rails.env.development?
       end
