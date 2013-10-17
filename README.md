@@ -175,14 +175,20 @@ Your new webook URL would then be `http://myproductionapp/payment/stripe-integra
 
 ### Disabling auto mount
 
-If you don't want the engine to be auto mounted, e.g. if you need to include it in a specific
-place in your route definitions due to a catch-all route, you can disable auto mounting and
-mount the engine manually:
+Sometimes, you don't want the stripe engine to be auto-mounted so that
+you control *exactly* what priority it will take in your routing
+table. This is especially important if you have a catch-all route
+which should appear after all other routes. In order to disable
+auto-mounting of the Stripe engine:
 
 ```ruby
 # in application.rb
 config.stripe.auto_mount = false
+```
 
+Then, you will have to manually mount the engine in your main application.
+
+```ruby
 # in your application's routes.rb:
 mount Stripe::Engine => "/stripe"
 ```
