@@ -10,6 +10,7 @@ describe 'building plans' do
         plan.interval = 'month'
         plan.interval_count = 3
         plan.trial_period_days = 30
+        plan.metadata = {type: 'primoMonthly', meta_test: 'this is just a test'}
       end
     end
     after do
