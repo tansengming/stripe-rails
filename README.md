@@ -46,22 +46,22 @@ config.stripe.debug_js = false # use stripe.js
 
 You will need to configure your application to authenticate with stripe.com
 using [your api key][1]. There are two methods to do this, you can either set the environment
-variable `STRIPE_API_KEY`:
+variable `STRIPE_SECRET_KEY`:
 
 ```sh
-export STRIPE_API_KEY=sk_test_xxyyzz
+export STRIPE_SECRET_KEY=sk_test_xxyyzz
 ```
 
 or if you are on heroku:
 
 ```sh
-heroku config:add STRIPE_API_KEY=sk_test_xxyyzz
+heroku config:add STRIPE_SECRET_KEY=sk_test_xxyyzz
 ```
 
 You can also set this value from inside ruby configuration code:
 
 ```ruby
-config.stripe.api_key = "sk_test_xxyyzz"
+config.stripe.secret_key = "sk_test_xxyyzz"
 ```
 
 In either case, it is recommended that you *not* check in this value into source control.
