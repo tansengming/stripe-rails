@@ -8,11 +8,11 @@ module Stripe
       attr_accessor :testing
     end
 
-    config.stripe = Struct.new(:api_base, :api_key, :verify_ssl_certs, :publishable_key, :endpoint, :debug_js, :auto_mount).new
+    config.stripe = Struct.new(:api_base, :secret_key, :verify_ssl_certs, :publishable_key, :endpoint, :debug_js, :auto_mount).new
 
     initializer 'stripe.configure.defaults', :before => 'stripe.configure' do |app|
       stripe = app.config.stripe
-      stripe.api_key ||= ENV['STRIPE_API_KEY']
+      stripe.secret_key ||= ENV['STRIPE_SECRET_KEY']
       stripe.endpoint ||= '/stripe'
       stripe.auto_mount = true if stripe.auto_mount.nil?
       if stripe.debug_js.nil?
@@ -21,14 +21,16 @@ module Stripe
     end
 
     initializer 'stripe.configure' do |app|
-      [:api_base, :api_key, :verify_ssl_certs].each do |key|
+      [:api_base, :verify_ssl_certs].each do |key|
         value = app.config.stripe.send(key)
         Stripe.send("#{key}=", value) unless value.nil?
       end
+      secret_key = app.config.stripe.secret_key
+      Stripe.api_key = secret_key unless secret_key.nil?
       $stderr.puts <<-MSG unless Stripe.api_key
 No stripe.com API key was configured for environment #{::Rails.env}! this application will be
 unable to interact with stripe.com. You can set your API key with either the environment
-variable `STRIPE_API_KEY` (recommended) or by setting `config.stripe.api_key` in your
+variable `STRIPE_SECRET_KEY` (recommended) or by setting `config.stripe.secret_key` in your
 environment file directly.
       MSG
     end

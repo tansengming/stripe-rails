@@ -1,3 +1,5 @@
+* Rename api_key to secret_key
+
 ## 0.2.6 (2013-10-17)
 * add `auto_mount` option to allow for manually mounting the webhook endpoints
 
