@@ -7,3 +7,4 @@ gem "bundler", ">= 1.3.0"
 gem "rake"
 gem 'tzinfo'
 gem 'mocha'
+gem 'pry'
