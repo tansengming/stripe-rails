@@ -74,6 +74,7 @@ describe 'building plans' do
         before do
           Stripe::Plan.stubs(:retrieve).raises(Stripe::InvalidRequestError.new("not found", "id"))
         end
+
         it 'creates the plan online' do
           Stripe::Plan.expects(:create).with(
             :id => :gold,
@@ -85,6 +86,19 @@ describe 'building plans' do
             :trial_period_days => 0
           )
           Stripe::Plans::GOLD.put!
+        end
+
+        it 'creates a plan with an alternative currency' do
+          Stripe::Plan.expects(:create).with(
+            :id => :alternative_currency,
+            :currency => 'cad',
+            :name => 'Alternative Currency',
+            :amount => 699,
+            :interval => 'month',
+            :interval_count => 1,
+            :trial_period_days => 0
+          )
+          Stripe::Plans::ALTERNATIVE_CURRENCY.put!
         end
 
       end
