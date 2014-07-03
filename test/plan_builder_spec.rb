@@ -10,6 +10,7 @@ describe 'building plans' do
         plan.interval = 'month'
         plan.interval_count = 3
         plan.trial_period_days = 30
+        plan.metadata = {:number_of_awesome_things => 5}
       end
     end
     after do
@@ -83,7 +84,8 @@ describe 'building plans' do
             :amount => 699,
             :interval => 'month',
             :interval_count => 1,
-            :trial_period_days => 0
+            :trial_period_days => 0,
+            :metadata => nil
           )
           Stripe::Plans::GOLD.put!
         end
@@ -96,7 +98,8 @@ describe 'building plans' do
             :amount => 699,
             :interval => 'month',
             :interval_count => 1,
-            :trial_period_days => 0
+            :trial_period_days => 0,
+            :metadata => nil
           )
           Stripe::Plans::ALTERNATIVE_CURRENCY.put!
         end
