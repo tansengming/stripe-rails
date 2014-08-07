@@ -1,0 +1,2 @@
+class Dummy::ModuleWithCallbacks
+end

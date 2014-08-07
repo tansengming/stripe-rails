@@ -8,7 +8,7 @@ module Stripe
       attr_accessor :testing
     end
 
-    stripe_config = config.stripe = Struct.new(:api_base, :secret_key, :verify_ssl_certs, :publishable_key, :endpoint, :debug_js, :auto_mount).new
+    stripe_config = config.stripe = Struct.new(:api_base, :secret_key, :verify_ssl_certs, :publishable_key, :endpoint, :debug_js, :auto_mount, :eager_load).new
 
     def stripe_config.api_key=(key)
       warn "[DEPRECATION] to align with stripe nomenclature, stripe.api_key has been renamed to config.stripe.secret_key"
@@ -20,6 +20,7 @@ module Stripe
       stripe.secret_key ||= ENV['STRIPE_SECRET_KEY']
       stripe.endpoint ||= '/stripe'
       stripe.auto_mount = true if stripe.auto_mount.nil?
+      stripe.eager_load ||= []
       if stripe.debug_js.nil?
         stripe.debug_js = ::Rails.env.development?
       end
@@ -38,6 +39,18 @@ unable to interact with stripe.com. You can set your API key with either the env
 variable `STRIPE_SECRET_KEY` (recommended) or by setting `config.stripe.secret_key` in your
 environment file directly.
       MSG
+    end
+
+    initializer 'stripe.callbacks.eager_load' do |app|
+      app.config.after_initialize do
+        app.config.stripe.eager_load.each do |constant|
+          begin
+            constant.to_s.camelize.constantize
+          rescue NameError
+            require constant
+          end
+        end
+      end
     end
 
     initializer 'stripe.javascript_helper' do

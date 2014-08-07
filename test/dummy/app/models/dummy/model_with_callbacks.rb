@@ -1,0 +1,2 @@
+class Dummy::ModelWithCallbacks
+end
