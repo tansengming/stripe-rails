@@ -2,6 +2,7 @@ Dummy::Application.configure do
 
   config.stripe.api_base = 'http://localhost:5000'
   config.stripe.verify_ssl_certs = false
+  config.stripe.eager_load = 'dummy/model_with_callbacks', 'dummy/module_with_callbacks'
 
   # Settings specified here will take precedence over those in config/application.rb
 

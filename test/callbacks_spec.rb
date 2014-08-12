@@ -31,6 +31,11 @@ describe Stripe::Callbacks do
     ::Stripe::Callbacks.clear_callbacks!
   end
 
+  it 'has eager loaded the callbacks listed in the configuration' do
+    assert Dummy.const_defined?(:ModelWithCallbacks), 'should have eager loaded'
+    assert Dummy.const_defined?(:ModuleWithCallbacks), 'should have eager loaded'
+  end
+
   it 'has a ping interface just to make sure that everything is working just fine' do
     get '/stripe/ping'
     assert last_response.ok?

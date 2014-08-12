@@ -1,3 +1,6 @@
+## 0.3.1 (2014-08-07)
+* add `eager_load` option to load callbacks into classes in non-eager-loaded enviroments
+
 ## 0.3.0 (2014-04-29)
 * Rename api_key to secret_key
 

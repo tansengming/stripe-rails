@@ -232,6 +232,16 @@ class InvoiceMailer < ActionMailer::Base
 end
 ```
 
+**Note:** `Stripe::Callbacks` won't get included until the including class has been loaded. This is usually not an issue in the production environment as eager loading is enabled by default (`config.eager_load = true`). You may run into an issue in your development environment where eager loading is disabled by default. 
+
+If you don't wish to enable eager loading in development, you can configure the classes to be eager loaded like so
+
+```ruby
+# in your application's config/environments/development.rb
+config.stripe.eager_load = 'account', 'module/some_class', 'etc'
+```
+This will ensure that callbacks will get loaded in those configured classes if eager loading is disabled. 
+
 The naming convention for the callback events is after__{callback_name}! where `callback_name`
 is name of the stripe event with all `.` characters substituted with underscores. So, for
 example, the stripe event `customer.discount.created` can be hooked by `after_customer_discount_created!`
@@ -242,6 +252,8 @@ Each web hook is passed an instance of the stripe object to which the event corr
 
 By default, the event is re-fetched securely from stripe.com to prevent damage to your system by
 a malicious system spoofing real stripe events.
+
+
 
 ### Critical and non-critical hooks
 
@@ -324,6 +336,7 @@ end
 ```
 
 See the [complete listing of all stripe events][5], and the [webhook tutorial][6] for more great information on this subject.
+
 
 ## Thanks
 
