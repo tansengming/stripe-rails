@@ -2,8 +2,8 @@
 require File.expand_path('../lib/stripe/rails/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["rubygeek"]
-  gem.email         = ["nola@rubygeek.com"]
+  gem.authors       = ["Charles Lowell"]
+  gem.email         = ["cowboyd@thefrontside.net"]
   gem.description   = "A gem to integrate stripe into your rails app"
   gem.summary       = "A gem to integrate stripe into your rails app"
   gem.homepage      = ""
