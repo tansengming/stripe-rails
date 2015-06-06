@@ -1,5 +1,9 @@
+require 'responders'
+
 module Stripe
   class ApplicationController < ActionController::Base
-    # is anything stripe wide?
+    include ::ActionController::RespondWith
+
+    respond_to :json
   end
 end
