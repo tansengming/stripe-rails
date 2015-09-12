@@ -238,7 +238,7 @@ If you don't wish to enable eager loading in development, you can configure the 
 
 ```ruby
 # in your application's config/environments/development.rb
-config.stripe.eager_load = 'account', 'module/some_class', 'etc'
+config.stripe.eager_load = ['account', 'module/some_class', 'etc']
 ```
 This will ensure that callbacks will get loaded in those configured classes if eager loading is disabled. 
 
