@@ -355,3 +355,10 @@ needs, including integration with stripe.com.
 [8]: https://stripe.com/docs/api?lang=ruby#customers
 [9]: https://stripe.com/docs/api?lang=ruby#invoices
 [10]: https://stripe.com/docs/api?lang=ruby#charges
+
+
+## Code of Conduct
+Please note that this project is released with a Contributor Code of
+Conduct. By participating in this project you agree to abide by its
+terms, which can be found in the `CODE_OF_CONDUCT.md` file in this
+repository.
