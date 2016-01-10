@@ -8,7 +8,10 @@ module Stripe
       attr_accessor :testing
     end
 
-    stripe_config = config.stripe = Struct.new(:api_base, :secret_key, :verify_ssl_certs, :publishable_key, :endpoint, :debug_js, :auto_mount, :eager_load).new
+    stripe_config = config.stripe = Struct.new(
+      :api_base, :secret_key, :verify_ssl_certs, :publishable_key, :endpoint,
+      :debug_js, :auto_mount, :eager_load
+    ).new
 
     def stripe_config.api_key=(key)
       warn "[DEPRECATION] to align with stripe nomenclature, stripe.api_key has been renamed to config.stripe.secret_key"
@@ -21,9 +24,7 @@ module Stripe
       stripe.endpoint ||= '/stripe'
       stripe.auto_mount = true if stripe.auto_mount.nil?
       stripe.eager_load ||= []
-      if stripe.debug_js.nil?
-        stripe.debug_js = ::Rails.env.development?
-      end
+      stripe.debug_js = ::Rails.env.development? if stripe.debug_js.nil?
     end
 
     initializer 'stripe.configure' do |app|
