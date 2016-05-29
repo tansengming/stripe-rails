@@ -14,7 +14,7 @@
 #   # currency to use for the plan (default 'usd')
 #   plan.currency = 'usd'
 #
-#   # interval must be either 'week', 'month' or 'year'
+#   # interval must be either 'day', 'week', 'month' or 'year'
 #   plan.interval = 'month'
 #
 #   # only bill once every three months (default 1)

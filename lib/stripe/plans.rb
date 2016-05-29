@@ -6,7 +6,7 @@ module Stripe
       attr_accessor :name, :amount, :interval, :interval_count, :trial_period_days, :currency, :metadata
 
       validates_presence_of :id, :name, :amount
-      validates_inclusion_of :interval, :in => %w(week month year), :message => "'%{value}' is not one of 'week', 'month' or 'year'"
+      validates_inclusion_of :interval, :in => %w(day week month year), :message => "'%{value}' is not one of 'day', 'week', 'month' or 'year'"
 
       def initialize(*args)
         super(*args)
