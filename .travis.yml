@@ -1,5 +1,8 @@
 language: ruby
 rvm:
+  - 2.1.9
+  - 2.2.5
+  - 2.3.1
   - 2.0.0
   - 1.9.3
 notifications:
@@ -7,3 +10,5 @@ notifications:
     recipients:
       - cowboyd@thefrontside.net
 
+before_install:
+  - gem install stripe-rails 
