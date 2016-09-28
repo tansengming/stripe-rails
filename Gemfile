@@ -8,3 +8,6 @@ gem "rake"
 gem 'tzinfo'
 gem 'mocha'
 gem 'pry'
+gem 'pry-doc'
+gem 'pry-nav'
+gem 'pry-stack_explorer'

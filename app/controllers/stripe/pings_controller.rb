@@ -3,7 +3,7 @@ module Stripe
     respond_to :json
 
     def show
-      @ping = Ping.new
+      @ping = ::Stripe::Ping.new
       respond_with @ping
     end
   end
