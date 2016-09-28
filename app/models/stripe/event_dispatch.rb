@@ -18,6 +18,7 @@ module Stripe
     end
 
     def extract_stripe_target(event)
+      return event.data.object if event.data.respond_to?(:object)
       object_params = event.data["object"]
       object_name   = object_params["object"]
       object_class  = ::Stripe.const_get(object_name.classify) rescue nil
