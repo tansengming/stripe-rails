@@ -120,7 +120,7 @@ describe Stripe::Callbacks do
     describe 'specified as an single symbol' do
       before do
         @observer.class_eval do
-          after_invoice_updated! :only => "closed" do |invoice, evt|
+          after_invoice_updated! :only => :closed do |invoice, evt|
             events << evt
           end
         end
