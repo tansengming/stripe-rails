@@ -42,8 +42,9 @@ module Stripe
             when Array, Set
               stringified_keys = only.map(&:to_s)
               proc do |target, evt|
-                intersection =  evt.data.previous_attributes.keys - stringified_keys
-                block.call(target, evt) if intersection != evt.data.previous_attributes.keys
+                stringified_previous_attributes_keys = evt.data.previous_attributes.keys.map(&:to_s)
+                intersection = stringified_previous_attributes_keys - stringified_keys
+                block.call(target, evt) if intersection != stringified_previous_attributes_keys
               end
             when nil
               block
