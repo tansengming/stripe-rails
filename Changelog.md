@@ -25,6 +25,9 @@
 ## 0.4.0 (2017-05-24)
 * Support alternate versions of stripe js
 
+## 0.3.3 (2017-03-12
+* add a `Testing` module to ease callback testing
+
 ## 0.3.2 (2017-03-06)
 * add `responders` gem as dependency to support `respond_to` method
 * fix unit tests with Rails 4.2 and Rails 5.0
