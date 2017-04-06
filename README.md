@@ -26,20 +26,29 @@ stripe-rails provides a helper to make this easy:
 ```erb
 <%= stripe_javascript_tag %>
 ```
+
 or, you can render it as a partial:
 
 ```erb
 <%= render :partial => 'stripe/js' %>
 ```
+
 In both cases, stripe-rails will choose a version of stripe.js appropriate for your
 development environment and automatically configure it to use
 your publishable API key. By default it uses `stripe-debug.js` for your `development`
 environment and `stripe.js` for everything else, but you can manually configure it
-per environment
+per environment.
 
 ```ruby
 config.stripe.debug_js = true  # use stripe-debug.js
 config.stripe.debug_js = false # use stripe.js
+```
+
+By default the helper renders the `v1` version of `stripe.js`. You can provide an
+alternate version to the helper to generate the appropriate tag:
+
+```erb
+<%= stripe_javascript_tag(:v3) %>
 ```
 
 ### Setup your API keys.
