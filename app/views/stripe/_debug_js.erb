@@ -1,4 +1,4 @@
-<script type="text/javascript" src="https://js.stripe.com/<%=stripe_js_version%>/"></script>
+<script type="text/javascript" src="https://js.stripe.com/<%=stripe_js_version%>/stripe-debug.js"></script>
 <script type="text/javascript">
 Stripe.setPublishableKey("<%= Rails.application.config.stripe.publishable_key or fail 'No stripe.com publishable key found. Please set config.stripe.publishable_key in config/application.rb to one of your publishable keys, which can be found here: https://manage.stripe.com/#account/apikeys' %>")
 </script>
