@@ -10,7 +10,7 @@ module Stripe
         else
           render 'stripe/js', stripe_js_version: stripe_js_version
         end
-      when 'v3' # no debug js for v3
+      when 'v3' # the debug js for v3 isn't available
         render 'stripe/js', stripe_js_version: stripe_js_version
       end
     end
