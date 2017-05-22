@@ -82,7 +82,7 @@ rake stripe:verify
 ```
 
 If you are going to be using stripe.js, then you will also need to set the value of your
-publishiable key. A nice way to do it is to set your test publishable for all environments:
+publishable key. A nice way to do it is to set your test publishable for all environments:
 
 ```ruby
 # config/application.rb
