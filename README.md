@@ -346,6 +346,30 @@ end
 
 See the [complete listing of all stripe events][5], and the [webhook tutorial][6] for more great information on this subject.
 
+## Unit testing
+
+If you want to test your callbacks, you can use the `Stripe::Testing` module to send mocked Stripe events.
+
+```ruby
+test "my callback handles new subscription" do
+  Stripe::Testing.send_event "customer.subscription.created"
+  # Assertions
+end
+```
+
+You can also overwrite some event properties: ([More info](https://github.com/rebelidealist/stripe-ruby-mock#customizing-webhooks))
+
+```ruby
+test "my callback handles new subscription" do
+  Stripe::Testing.send_event "customer.subscription.created", {
+    :email => "john@doe.com",
+    :account_balance => 40
+  }
+  # Assertions
+end
+```
+
+The default fixtures come from [the `stripe-ruby-mock` gem](https://github.com/rebelidealist/stripe-ruby-mock/tree/master/lib/stripe_mock/webhook_fixtures).
 
 ## Thanks
 
