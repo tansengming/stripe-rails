@@ -241,7 +241,7 @@ class InvoiceMailer < ActionMailer::Base
 end
 ```
 
-**Note:** `Stripe::Callbacks` won't get included until the including class has been loaded. This is usually not an issue in the production environment as eager loading is enabled by default (`config.eager_load = true`). You may run into an issue in your development environment where eager loading is disabled by default. 
+**Note:** `Stripe::Callbacks` won't get included until the including class has been loaded. This is usually not an issue in the production environment as eager loading is enabled by default (`config.eager_load = true`). You may run into an issue in your development environment where eager loading is disabled by default.
 
 If you don't wish to enable eager loading in development, you can configure the classes to be eager loaded like so
 
@@ -249,7 +249,7 @@ If you don't wish to enable eager loading in development, you can configure the 
 # in your application's config/environments/development.rb
 config.stripe.eager_load = 'account', 'module/some_class', 'etc'
 ```
-This will ensure that callbacks will get loaded in those configured classes if eager loading is disabled. 
+This will ensure that callbacks will get loaded in those configured classes if eager loading is disabled.
 
 The naming convention for the callback events is after__{callback_name}! where `callback_name`
 is name of the stripe event with all `.` characters substituted with underscores. So, for
@@ -360,7 +360,7 @@ needs, including integration with stripe.com.
 [4]: https://stripe.com/docs/api?lang=ruby#events
 [5]: https://stripe.com/docs/api?lang=ruby#event_types
 [6]: https://stripe.com/docs/webhooks
-[7]: http://thefrontside.net
+[7]: http://frontside.io
 [8]: https://stripe.com/docs/api?lang=ruby#customers
 [9]: https://stripe.com/docs/api?lang=ruby#invoices
 [10]: https://stripe.com/docs/api?lang=ruby#charges
