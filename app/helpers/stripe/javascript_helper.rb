@@ -1,7 +1,9 @@
 module Stripe
   module JavascriptHelper
-    def stripe_javascript_tag
-      render :partial => 'stripe/js'
+    def stripe_javascript_tag(stripe_js_version = 'v1')
+      stripe_js_version = stripe_js_version.to_s.downcase
+
+      render 'stripe/js', stripe_js_version: stripe_js_version
     end
   end
 end
