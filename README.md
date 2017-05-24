@@ -1,6 +1,6 @@
 # Stripe::Rails: A Rails Engine for use with [stripe.com](https://stripe.com)
 [![Gem Version](https://badge.fury.io/rb/stripe-rails.png)](http://badge.fury.io/rb/stripe-rails)
-[![Build Status](https://travis-ci.org/thefrontside/stripe-rails.png?branch=master)](https://travis-ci.org/thefrontside/stripe-rails)
+[![Build Status](https://travis-ci.org/Everapps/stripe-rails.png?branch=master)](https://travis-ci.org/Everapps/stripe-rails)
 [![Dependency Status](https://gemnasium.com/thefrontside/stripe-rails.png)](https://gemnasium.com/thefrontside/stripe-rails)
 
 
@@ -359,10 +359,9 @@ See the [complete listing of all stripe events][5], and the [webhook tutorial][6
 
 ## Thanks
 
-<a href="http://thefrontside.net">![The Frontside](http://github.com/cowboyd/therubyracer/raw/master/thefrontside.png)</a>
+<a href="http://frontside.io">![Frontside](http://frontside.io/images/logo.svg)</a>
 
-`Stripe::Rails` was developed fondly by your friends at [The FrontSide][7]. They are available for your custom software development
-needs, including integration with stripe.com.
+`Stripe::Rails` was originally developed with love and fondess by your friends at [Frontside][7]. They are available for your custom software development needs, including integration with stripe.com.
 
 [1]: https://stripe.com/docs/stripe.js
 [2]: https://manage.stripe.com/#account/apikeys
