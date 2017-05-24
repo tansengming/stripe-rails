@@ -6,7 +6,8 @@ Gem::Specification.new do |gem|
   gem.email         = ["cowboyd@frontside.io"]
   gem.description   = "A gem to integrate stripe into your rails app"
   gem.summary       = "A gem to integrate stripe into your rails app"
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/Everapps/stripe-rails"
+  gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
