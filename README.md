@@ -100,6 +100,16 @@ config.stripe.publishable_key = 'pk_live_XXXYYYZZZ'
 
 This key will be publicly visible on the internet, so it is ok to put in your source.
 
+### Manually set your API version (optional)
+
+If you need to test a new API version in development, you can override the version number manually.
+
+```ruby
+# config/environments/development.rb
+# ...
+config.stripe.api_version = '2015-10-16'
+```
+
 ### Setup your payment configuration
 
 If you're using subscriptions, then you'll need to set up your application's payment plans
