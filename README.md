@@ -1,6 +1,6 @@
 # Stripe::Rails: A Rails Engine for use with [stripe.com](https://stripe.com)
 [![Gem Version](https://badge.fury.io/rb/stripe-rails.png)](http://badge.fury.io/rb/stripe-rails)
-[![Build Status](https://travis-ci.org/thefrontside/stripe-rails.png?branch=master)](https://travis-ci.org/thefrontside/stripe-rails)
+[![Build Status](https://travis-ci.org/Everapps/stripe-rails.png?branch=master)](https://travis-ci.org/Everapps/stripe-rails)
 [![Dependency Status](https://gemnasium.com/thefrontside/stripe-rails.png)](https://gemnasium.com/thefrontside/stripe-rails)
 
 
@@ -26,20 +26,29 @@ stripe-rails provides a helper to make this easy:
 ```erb
 <%= stripe_javascript_tag %>
 ```
+
 or, you can render it as a partial:
 
 ```erb
 <%= render :partial => 'stripe/js' %>
 ```
+
 In both cases, stripe-rails will choose a version of stripe.js appropriate for your
 development environment and automatically configure it to use
 your publishable API key. By default it uses `stripe-debug.js` for your `development`
 environment and `stripe.js` for everything else, but you can manually configure it
-per environment
+per environment.
 
 ```ruby
 config.stripe.debug_js = true  # use stripe-debug.js
 config.stripe.debug_js = false # use stripe.js
+```
+
+By default the helper renders the `v1` version of `stripe.js`. You can provide an
+alternate version to the helper to generate the appropriate tag:
+
+```erb
+<%= stripe_javascript_tag(:v3) %>
 ```
 
 ### Setup your API keys.
@@ -73,7 +82,7 @@ rake stripe:verify
 ```
 
 If you are going to be using stripe.js, then you will also need to set the value of your
-publishiable key. A nice way to do it is to set your test publishable for all environments:
+publishable key. A nice way to do it is to set your test publishable for all environments:
 
 ```ruby
 # config/application.rb
@@ -159,7 +168,7 @@ NOTE: You must destroy plans manually from your stripe dashboard.
 ## Webhooks
 
 Stripe::Rails automatically sets up your application to receive webhooks from stripe.com whenever
-an payment event is generated. To enable this, you will need to configure your [stripe webhooks][3] to
+a payment event is generated. To enable this, you will need to configure your [stripe webhooks][3] to
 point back to your application. By default, the webhook controller is mounted at '/stripe/events' so
 you would want to enter in `http://myproductionapp.com/stripe/events` as your url for live mode,
 and `http://mystagingapp.com/stripe/events` for your test mode.
@@ -232,7 +241,7 @@ class InvoiceMailer < ActionMailer::Base
 end
 ```
 
-**Note:** `Stripe::Callbacks` won't get included until the including class has been loaded. This is usually not an issue in the production environment as eager loading is enabled by default (`config.eager_load = true`). You may run into an issue in your development environment where eager loading is disabled by default. 
+**Note:** `Stripe::Callbacks` won't get included until the including class has been loaded. This is usually not an issue in the production environment as eager loading is enabled by default (`config.eager_load = true`). You may run into an issue in your development environment where eager loading is disabled by default.
 
 If you don't wish to enable eager loading in development, you can configure the classes to be eager loaded like so
 
@@ -240,7 +249,7 @@ If you don't wish to enable eager loading in development, you can configure the 
 # in your application's config/environments/development.rb
 config.stripe.eager_load = 'account', 'module/some_class', 'etc'
 ```
-This will ensure that callbacks will get loaded in those configured classes if eager loading is disabled. 
+This will ensure that callbacks will get loaded in those configured classes if eager loading is disabled.
 
 The naming convention for the callback events is after__{callback_name}! where `callback_name`
 is name of the stripe event with all `.` characters substituted with underscores. So, for
@@ -340,10 +349,9 @@ See the [complete listing of all stripe events][5], and the [webhook tutorial][6
 
 ## Thanks
 
-<a href="http://thefrontside.net">![The Frontside](http://github.com/cowboyd/therubyracer/raw/master/thefrontside.png)</a>
+<a href="http://frontside.io">![Frontside](http://frontside.io/images/logo.svg)</a>
 
-`Stripe::Rails` was developed fondly by your friends at [The FrontSide][7]. They are available for your custom software development
-needs, including integration with stripe.com.
+`Stripe::Rails` was originally developed with love and fondess by your friends at [Frontside][7]. They are available for your custom software development needs, including integration with stripe.com.
 
 [1]: https://stripe.com/docs/stripe.js
 [2]: https://manage.stripe.com/#account/apikeys
@@ -351,7 +359,7 @@ needs, including integration with stripe.com.
 [4]: https://stripe.com/docs/api?lang=ruby#events
 [5]: https://stripe.com/docs/api?lang=ruby#event_types
 [6]: https://stripe.com/docs/webhooks
-[7]: http://thefrontside.net
+[7]: http://frontside.io
 [8]: https://stripe.com/docs/api?lang=ruby#customers
 [9]: https://stripe.com/docs/api?lang=ruby#invoices
 [10]: https://stripe.com/docs/api?lang=ruby#charges

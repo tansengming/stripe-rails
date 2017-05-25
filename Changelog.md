@@ -1,3 +1,10 @@
+## 0.4.0 (2017-05-24)
+* Support alternate versions of stripe js
+
+## 0.3.2 (2017-03-06)
+* add `responders` gem as dependency to support `respond_to` method
+* fix unit tests with Rails 4.2 and Rails 5.0
+
 ## 0.3.1 (2014-08-07)
 * add `eager_load` option to load callbacks into classes in non-eager-loaded enviroments
 

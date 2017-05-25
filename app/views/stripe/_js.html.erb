@@ -1,8 +1,13 @@
-<% if Rails.application.config.stripe.debug_js %>
-<script type="text/javascript" src="https://js.stripe.com/v1/stripe-debug.js"></script>
-<% else %>
-<script type="text/javascript" src="https://js.stripe.com/v1/"></script>
-<% end %>
+<%- case (stripe_js_version || 'v1') %>
+<%- when 'v1', 'v2' %>
+<%- if ::Rails.application.config.stripe.debug_js %>
+<script type="text/javascript" src="https://js.stripe.com/<%=stripe_js_version%>/stripe-debug.js"></script>
+<%- else %>
+<script type="text/javascript" src="https://js.stripe.com/<%=stripe_js_version%>/"></script>
+<%- end %>
+<%- when 'v3' # the debug js for v3 isn't available %>
+<script type="text/javascript" src="https://js.stripe.com/<%=stripe_js_version%>/"></script>
+<%- end %>
 <script type="text/javascript">
 Stripe.setPublishableKey("<%= Rails.application.config.stripe.publishable_key or fail 'No stripe.com publishable key found. Please set config.stripe.publishable_key in config/application.rb to one of your publishable keys, which can be found here: https://manage.stripe.com/#account/apikeys' %>")
 </script>
