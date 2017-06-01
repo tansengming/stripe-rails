@@ -1,3 +1,8 @@
+## 0.4.1 (2017-06-01)
+
+* Support for api_version header parameter (thanks @kiddrew)
+* Relax version constraint on stripe gem (thanks @gaffneyc)
+
 ## 0.4.0 (2017-05-24)
 * Support alternate versions of stripe js
 
