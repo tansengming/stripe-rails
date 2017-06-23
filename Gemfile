@@ -11,5 +11,5 @@ gem 'pry'
 gem 'responders', '~> 2.0' # to support Rails 4.2
 
 group :test do
-  gem "simplecov"
+  gem 'simplecov', require: false
 end
