@@ -1,3 +1,6 @@
+require "simplecov"
+SimpleCov.start
+
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 ENV['STRIPE_SECRET_KEY'] = 'XYZ'
