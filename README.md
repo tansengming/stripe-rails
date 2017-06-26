@@ -20,6 +20,12 @@ Add this line to your application's Gemfile:
 gem 'stripe-rails'
 ```
 
+If you are using Rails 4.2 and up, you also need the `responders` gem (this will solve errors related to `respond_to` being undefined):
+
+```ruby
+gem 'responders'
+```
+
 If you are going to be using [stripe.js][1] to securely collect credit card information
 on the client, then you will need to add the stripe javascript tags into your template.
 stripe-rails provides a helper to make this easy:
