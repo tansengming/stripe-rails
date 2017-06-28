@@ -22,4 +22,5 @@ script:
   # uncomment the line below
   # - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 gemfile:
+  - Gemfile
   - gemfiles/rails42.gemfile
