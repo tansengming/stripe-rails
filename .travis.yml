@@ -21,3 +21,5 @@ script:
   # In the case where travis is setup to build PR updates only, 
   # uncomment the line below
   # - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+gemfile:
+  - gemfiles/rails42.gemfile
