@@ -17,8 +17,7 @@ script:
   # Preferably you will run test-reporter on branch update events. But 
   # if you setup travis to build PR updates only, you don't need to run 
   # the line below
-  - echo $BUNDLE_GEMFILE
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$BUNDLE_GEMFILE" == "Gemfile" ] ; then echo "Sending Coverage"; ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] ; then echo "Sending Coverage..."; ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
   # In the case where travis is setup to build PR updates only, 
   # uncomment the line below
   # - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
