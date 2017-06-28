@@ -24,3 +24,4 @@ script:
 gemfile:
   - Gemfile
   - gemfiles/rails42.gemfile
+  - gemfiles/rails5.gemfile
