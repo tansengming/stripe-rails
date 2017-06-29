@@ -3,10 +3,15 @@ module Stripe
     include ConfigurationBuilder
 
     configuration_for :plan do
-      attr_accessor :name, :amount, :interval, :interval_count, :trial_period_days, :currency, :metadata
+      attr_accessor :name, :amount, :interval, :interval_count, :trial_period_days,
+                    :currency, :metadata, :statement_descriptor
 
-      validates_presence_of :id, :name, :amount
-      validates_inclusion_of :interval, :in => %w(week month year), :message => "'%{value}' is not one of 'week', 'month' or 'year'"
+      validates_presence_of :id, :amount, :currency, :name
+
+      validates_inclusion_of :interval, :in => %w(week month year),
+        :message => "'%{value}' is not one of 'week', 'month' or 'year'"
+
+      validates :statement_descriptor, :length => { :maximum => 22 }
 
       def initialize(*args)
         super(*args)
@@ -23,7 +28,8 @@ module Stripe
           :interval => @interval,
           :interval_count => @interval_count,
           :trial_period_days => @trial_period_days,
-          :metadata => @metadata
+          :metadata => @metadata,
+          :statement_descriptor => @statement_descriptor
         }
       end
     end

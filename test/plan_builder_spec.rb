@@ -11,8 +11,10 @@ describe 'building plans' do
         plan.interval_count = 3
         plan.trial_period_days = 30
         plan.metadata = {:number_of_awesome_things => 5}
+        plan.statement_descriptor = 'Acme Primo'
       end
     end
+
     after do
       Stripe::Plans.send(:remove_const, :PRIMO)
     end
@@ -70,6 +72,28 @@ describe 'building plans' do
       }.must_raise Stripe::InvalidConfigurationError
     end
 
+    it 'accepts a statement descriptor' do
+      Stripe.plan :described do |plan|
+        plan.name = 'Acme as a service'
+        plan.amount = 999
+        plan.interval = 'month'
+        plan.statement_descriptor = 'ACME Monthly'
+      end
+
+      Stripe::Plans::DESCRIBED.wont_be_nil
+    end
+
+    it 'denies statement descriptors that are too long' do
+      lambda {
+        Stripe.plan :described do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.statement_descriptor = 'ACME as a Service Monthly'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
     describe 'uploading' do
       describe 'when none exists on stripe.com' do
         before do
@@ -85,7 +109,8 @@ describe 'building plans' do
             :interval => 'month',
             :interval_count => 1,
             :trial_period_days => 0,
-            :metadata => nil
+            :metadata => nil,
+            :statement_descriptor => nil
           )
           Stripe::Plans::GOLD.put!
         end
@@ -99,12 +124,14 @@ describe 'building plans' do
             :interval => 'month',
             :interval_count => 1,
             :trial_period_days => 0,
-            :metadata => nil
+            :metadata => nil,
+            :statement_descriptor => nil
           )
           Stripe::Plans::ALTERNATIVE_CURRENCY.put!
         end
 
       end
+
       describe 'when it is already present on stripe.com' do
         before do
           Stripe::Plan.stubs(:retrieve).returns(Stripe::Plan.construct_from({
@@ -112,6 +139,7 @@ describe 'building plans' do
             :name => 'Solid Gold'
           }))
         end
+
         it 'is a no-op' do
           Stripe::Plan.expects(:create).never
           Stripe::Plans::GOLD.put!
