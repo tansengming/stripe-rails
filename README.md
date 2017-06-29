@@ -191,7 +191,7 @@ parameter. E.g.
 config.stripe.endpoint = '/payment/stripe-integration'
 ```
 
-Your new webook URL would then be `http://myproductionapp/payment/stripe-integration/events`
+Your new webhook URL would then be `http://myproductionapp/payment/stripe-integration/events`
 
 ### Disabling auto mount
 
