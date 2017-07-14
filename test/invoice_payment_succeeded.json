@@ -4,7 +4,12 @@
   "pending_webhooks": 0,
   "created": 1352910508,
   "object": "event",
+  "api_version": "2017-06-05",
   "id": "evt_0jcGFxHNsrDTj4",
+ "request": {
+    "id": "req_B1arZ94HXIrQmL",
+    "idempotency_key": null
+  },
   "data": {
     "object": {
       "starting_balance": 0,
