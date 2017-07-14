@@ -12,59 +12,85 @@
   },
   "data": {
     "object": {
-      "starting_balance": 0,
-      "ending_balance": 0,
-      "paid": true,
+      "amount_due": 0,
+      "application_fee": 0,
+      "attempt_count": 0,
       "attempted": true,
-      "total": 6999,
+      "billing": "",
+      "charge": "",
+      "closed": true,
+      "currency": "usd",
+      "customer": "cus_ADmuABetLS15eF",
+      "date": 1234567890,
+      "description": "",
+      "discount": {
+      },
+      "due_date": 1234567890,
+      "ending_balance": 0,
+      "forgiven": false,
+      "id": "in_19zuuiDSlTMT26Mk1XitxqCb",
       "lines": {
-        "object": "list",
-        "count": 1,
         "data": [
           {
-            "type": "subscription",
+            "amount": 2000,
+            "currency": "usd",
+            "description": null,
+            "discountable": true,
+            "id": "sub_AKa4uss8vCMAZC",
+            "livemode": true,
+            "metadata": {
+            },
+            "object": "line_item",
+            "period": {
+              "end": 1495403592,
+              "start": 1492811592
+            },
             "plan": {
-              "livemode": false,
-              "object": "plan",
-              "interval_count": 1,
-              "amount": 6999,
-              "name": "BandFrame PRO Annual",
+              "amount": 2000,
+              "created": 1488566449,
               "currency": "usd",
-              "id": "yearly",
-              "interval": "year",
+              "id": "gold",
+              "interval": "month",
+              "interval_count": 1,
+              "livemode": false,
+              "metadata": {
+              },
+              "name": "Gold Special",
+              "object": "plan",
+              "statement_descriptor": null,
               "trial_period_days": null
             },
-            "livemode": false,
-            "object": "line_item",
-            "description": null,
-            "amount": 6999,
-            "currency": "usd",
-            "period": {
-              "end": 1384446507,
-              "start": 1352910507
-            },
-            "id": "su_0jcGpDYAkeNj0a",
             "proration": false,
-            "quantity": 1
+            "quantity": 1,
+            "subscription": null,
+            "subscription_item": "si_19zuuiDSlTMT26Mk9HayBPe9",
+            "type": "subscription"
           }
         ],
-        "url": "/v1/invoices/in_0jcG7zz2RtscPB/lines"
+        "object": "list",
+        "total_count": 1,
+        "url": "/v1/invoices/in_19zuuiDSlTMT26Mk1XitxqCb/lines"
       },
-      "subtotal": 6999,
       "livemode": false,
-      "period_start": 1352910503,
-      "charge": "ch_0jcGRmThyuRYyh",
+      "metadata": {
+      },
+      "next_payment_attempt": 1234567890,
+      "number": "",
       "object": "invoice",
-      "customer": "cus_0jcFnB3UIIiicv",
-      "period_end": 1352910507,
-      "discount": null,
-      "next_payment_attempt": null,
-      "currency": "usd",
-      "date": 1352910507,
-      "closed": true,
-      "id": "in_0jcG7zz2RtscPB",
-      "attempt_count": 0,
-      "amount_due": 6999
+      "paid": true,
+      "period_end": 1234567890,
+      "period_start": 1234567890,
+      "receipt_number": "",
+      "send_next_at": 1234567890,
+      "starting_balance": 0,
+      "statement_descriptor": "",
+      "subscription": "",
+      "subscription_proration_date": 0,
+      "subtotal": 0,
+      "tax": 0,
+      "tax_percent": 0.0,
+      "total": 6999,
+      "webhooks_delivered_at": 1234567890
     }
   }
 }
