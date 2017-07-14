@@ -16,9 +16,13 @@ describe Stripe::Callbacks do
         include Stripe::Callbacks
       end
     end
-    @content = JSON.parse(File.read File.expand_path('../invoice_payment_succeeded.json', __FILE__))
-    self.type = @content['type']
 
+    event                   = JSON.parse(File.read File.expand_path('../event.json', __FILE__))
+    invoice                 = JSON.parse(File.read File.expand_path('../invoice.json', __FILE__))
+    event['data']['object'] = invoice
+
+    @content = event
+    self.type = @content['type']
   end
 
   def type=(type)

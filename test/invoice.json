@@ -1,0 +1,81 @@
+{
+  "amount_due": 0,
+  "application_fee": 0,
+  "attempt_count": 0,
+  "attempted": true,
+  "billing": "",
+  "charge": "",
+  "closed": true,
+  "currency": "usd",
+  "customer": "cus_ADmuABetLS15eF",
+  "date": 1234567890,
+  "description": "",
+  "discount": {
+  },
+  "due_date": 1234567890,
+  "ending_balance": 0,
+  "forgiven": false,
+  "id": "in_19zuuiDSlTMT26Mk1XitxqCb",
+  "lines": {
+    "data": [
+      {
+        "amount": 2000,
+        "currency": "usd",
+        "description": null,
+        "discountable": true,
+        "id": "sub_AKa4uss8vCMAZC",
+        "livemode": true,
+        "metadata": {
+        },
+        "object": "line_item",
+        "period": {
+          "end": 1495403592,
+          "start": 1492811592
+        },
+        "plan": {
+          "amount": 2000,
+          "created": 1488566449,
+          "currency": "usd",
+          "id": "gold",
+          "interval": "month",
+          "interval_count": 1,
+          "livemode": false,
+          "metadata": {
+          },
+          "name": "Gold Special",
+          "object": "plan",
+          "statement_descriptor": null,
+          "trial_period_days": null
+        },
+        "proration": false,
+        "quantity": 1,
+        "subscription": null,
+        "subscription_item": "si_19zuuiDSlTMT26Mk9HayBPe9",
+        "type": "subscription"
+      }
+    ],
+    "object": "list",
+    "total_count": 1,
+    "url": "/v1/invoices/in_19zuuiDSlTMT26Mk1XitxqCb/lines"
+  },
+  "livemode": false,
+  "metadata": {
+  },
+  "next_payment_attempt": 1234567890,
+  "number": "",
+  "object": "invoice",
+  "paid": true,
+  "period_end": 1234567890,
+  "period_start": 1234567890,
+  "receipt_number": "",
+  "send_next_at": 1234567890,
+  "starting_balance": 0,
+  "statement_descriptor": "",
+  "subscription": "",
+  "subscription_proration_date": 0,
+  "subtotal": 0,
+  "tax": 0,
+  "tax_percent": 0.0,
+  "total": 6999,
+  "webhooks_delivered_at": 1234567890
+}

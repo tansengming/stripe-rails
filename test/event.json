@@ -1,0 +1,19 @@
+{
+  "api_version": "2017-02-14",
+  "created": 1234567890,
+  "customer_email": "",
+  "data": {
+    "object": {
+    }
+  },
+  "id": "evt_19tLKfDSlTMT26MkKD3pohqX",
+  "livemode": false,
+  "object": "event",
+  "pending_webhooks": 0,
+  "recipient_best_description": "",
+  "request": {
+    "id": "req_ArJ9y3DcEShbw2",
+    "idempotency_key": null
+  },
+  "type": "invoice.payment_succeeded"
+}
