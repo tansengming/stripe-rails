@@ -17,5 +17,5 @@ Gem::Specification.new do |gem|
   gem.version       = Stripe::Rails::VERSION
   gem.add_dependency 'rails', '>= 3'
   gem.add_dependency 'stripe'
-  gem.add_dependency 'responders', '~> 2.0'
+  gem.add_dependency 'responders'
 end
