@@ -1,6 +1,9 @@
 language: ruby
 rvm:
-  - 2.3.3
+  - 2.3.4
+  - 2.2.7
+  - 2.1.9
+  - 2.0.0
 notifications:
   email:
     recipients:
