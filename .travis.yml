@@ -1,5 +1,4 @@
 language: ruby
-cache: bundler
 rvm:
   - 2.3.4
   - 2.2.7
