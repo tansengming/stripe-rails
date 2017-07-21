@@ -3,6 +3,7 @@ rvm:
   - 2.4.1
   - 2.3.4
   - 2.2.7
+  - 2.1.9
 notifications:
   email:
     recipients:
@@ -27,3 +28,9 @@ gemfile:
   - Gemfile
   - gemfiles/rails4.gemfile
   - gemfiles/rails5.gemfile
+matrix:
+  exclude:
+    - rvm: 2.1.9
+      gemfile: Gemfile
+    - rvm: 2.1.9
+      gemfile: gemfiles/rails5.gemfile
