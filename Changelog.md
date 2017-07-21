@@ -2,6 +2,7 @@
 
 * [BREAKING] Update to latest stripe events (thanks @hopsoft). Note that if you are using the `after_customer_card_created`, `after_customer_card_updated` or `after_customer_card_deleted` callbacks, you MUST update them to `after_customer_source_created`, `after_customer_source_updated` or `after_customer_source_deleted` respectively. You also need to start using [Stripe API Version > 2015-02-18](https://stripe.com/docs/upgrades#2015-02-18) or else the webhook might not work as expected.
 * The gem will only be tested on Rails 4 and 5 [from now on](https://github.com/Everapps/stripe-rails/pull/62).
+* Gem will henceforth only [be tested](https://github.com/Everapps/stripe-rails/pull/68) on Ruby >= 2.1.9.
 * add statement descriptor to plan attributes (thanks @jbender)
 * Relax version constraint on the responders gem
 
