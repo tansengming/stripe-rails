@@ -45,11 +45,11 @@ config.stripe.debug_js = true  # use stripe-debug.js
 config.stripe.debug_js = false # use stripe.js
 ```
 
-By default the helper renders the `v1` version of `stripe.js`. You can provide an
+By default the helper renders the `v3` version of `stripe.js`. You can provide an
 alternate version to the helper to generate the appropriate tag:
 
 ```erb
-<%= stripe_javascript_tag(:v3) %>
+<%= stripe_javascript_tag(:v2) %>
 ```
 
 ### Setup your API keys.
