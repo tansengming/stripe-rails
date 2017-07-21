@@ -1,6 +1,9 @@
 language: ruby
 rvm:
-  - 2.3.3
+  - 2.4.1
+  - 2.3.4
+  - 2.2.7
+  - 2.1.9
 notifications:
   email:
     recipients:
@@ -17,7 +20,7 @@ script:
   # Preferably you will run test-reporter on branch update events. But 
   # if you setup travis to build PR updates only, you don't need to run 
   # the line below
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] ; then echo "Sending Coverage..."; ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ `basename $BUNDLE_GEMFILE` == "Gemfile" ]  && [ ${RUBY_VERSION:5:3} == "2.4" ] ; then echo "Sending Coverage..."; ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
   # In the case where travis is setup to build PR updates only, 
   # uncomment the line below
   # - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
@@ -25,3 +28,9 @@ gemfile:
   - Gemfile
   - gemfiles/rails4.gemfile
   - gemfiles/rails5.gemfile
+matrix:
+  exclude:
+    - rvm: 2.1.9
+      gemfile: Gemfile
+    - rvm: 2.1.9
+      gemfile: gemfiles/rails5.gemfile
