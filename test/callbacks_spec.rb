@@ -4,9 +4,7 @@ require 'spec_helper'
 describe Stripe::Callbacks do
   include Rack::Test::Methods
 
-  def app
-    Rails.application
-  end
+  let(:app) { Rails.application }
 
   before do
     header 'Accept', 'application/json'
@@ -31,18 +29,22 @@ describe Stripe::Callbacks do
     Stripe::Event.stubs(:retrieve).returns(@stubbed_event)
   end
 
-  after do
-    ::Stripe::Callbacks.clear_callbacks!
+  after { ::Stripe::Callbacks.clear_callbacks! }
+
+  describe 'when there are eager loaded callbacks in the configuration (config/environment/test.rb)' do
+    it 'should be eager loaded' do
+      Dummy.const_defined?(:ModelWithCallbacks).must_equal true
+      Dummy.const_defined?(:ModuleWithCallbacks).must_equal true
+    end
   end
 
-  it 'has eager loaded the callbacks listed in the configuration' do
-    assert Dummy.const_defined?(:ModelWithCallbacks), 'should have eager loaded'
-    assert Dummy.const_defined?(:ModuleWithCallbacks), 'should have eager loaded'
-  end
+  describe 'ping interface ping interface just to make sure that everything is working just fine' do
+    subject { get '/stripe/ping' }
 
-  it 'has a ping interface just to make sure that everything is working just fine' do
-    get '/stripe/ping'
-    assert last_response.ok?
+    it 'the last response should be ok' do
+      subject
+      last_response.must_be :ok?
+    end
   end
 
   describe 'defined with a bang' do
