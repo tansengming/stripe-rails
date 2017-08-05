@@ -5,7 +5,20 @@ describe Stripe::Callbacks do
   include Rack::Test::Methods
   include CallbackHelpers
 
-  let(:app) { Rails.application }
+  before do
+    header 'Accept', 'application/json'
+    header 'Content-Type', 'application/json'
+
+    event['data']['object'] = invoice
+
+    self.type = content['type']
+  end
+  after { ::Stripe::Callbacks.clear_callbacks! }
+
+  let(:app)     { Rails.application }
+  let(:event)   { JSON.parse(File.read File.expand_path('../event.json', __FILE__)) }
+  let(:invoice) { JSON.parse(File.read File.expand_path('../invoice.json', __FILE__)) }
+  let(:content) { event }
   let(:observer) do
     Class.new.tap do |cls|
       cls.class_eval do
@@ -14,20 +27,7 @@ describe Stripe::Callbacks do
     end
   end
 
-  before do
-    header 'Accept', 'application/json'
-    header 'Content-Type', 'application/json'
-
-    event                   = JSON.parse(File.read File.expand_path('../event.json', __FILE__))
-    invoice                 = JSON.parse(File.read File.expand_path('../invoice.json', __FILE__))
-    event['data']['object'] = invoice
-
-    @content = event
-    self.type = @content['type']
-  end
-
-  after   { ::Stripe::Callbacks.clear_callbacks! }
-  subject { post 'stripe/events', JSON.pretty_generate(@content) }
+  subject { post 'stripe/events', JSON.pretty_generate(content) }
 
   describe 'when there are eager loaded callbacks in the configuration (config/environment/test.rb)' do
     it 'should be eager loaded' do

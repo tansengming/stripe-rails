@@ -1,7 +1,7 @@
 module CallbackHelpers
   def type=(type)
-    @content['type'] = type
-    @stubbed_event = Stripe::Event.construct_from(@content)
+    content['type'] = type
+    @stubbed_event = Stripe::Event.construct_from(content)
     Stripe::Event.stubs(:retrieve).returns(@stubbed_event)
   end
 
