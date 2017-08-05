@@ -131,6 +131,8 @@ describe Stripe::Callbacks do
       self.type = 'invoice.updated'
       @stubbed_event.data.previous_attributes = {}
     end
+    subject { post 'stripe/events', JSON.pretty_generate(@content) }
+
     describe 'specified as an single symbol' do
       before do
         @observer.class_eval do
@@ -139,16 +141,23 @@ describe Stripe::Callbacks do
           end
         end
       end
-      it 'does not fire events for with a prior attribute was specified' do
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 0
+
+      describe 'when a prior attribute was not specified' do
+        it 'does not fire events' do
+          subject
+          events.length.must_equal 0
+        end
       end
-      it 'does fire events for which the prior attribute was specified' do
-        @stubbed_event.data.previous_attributes['closed'] = true
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 1
+
+      describe 'when a prior attribute was specified' do
+        before { @stubbed_event.data.previous_attributes['closed'] = true }
+        it 'fires events' do
+          subject
+          events.length.must_equal 1
+        end
       end
     end
+
     describe 'specified as an array' do
       before do
         @observer.class_eval do
@@ -157,16 +166,23 @@ describe Stripe::Callbacks do
           end
         end
       end
-      it 'does not fire events for which prior attributes were not specified' do
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 0
+
+      describe 'when a prior attribute was not specified' do
+        it 'does not fire events' do
+          subject
+          events.length.must_equal 0
+        end
       end
-      it 'does fire events for which prior attributes were specified' do
-        @stubbed_event.data.previous_attributes['subtotal'] = 699
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 1
+
+      describe 'when prior attributes were specified' do
+        before { @stubbed_event.data.previous_attributes['subtotal'] = 699 }
+        it 'fire events' do
+          subject
+          events.length.must_equal 1
+        end
       end
     end
+
     describe 'specified as a lambda' do
       before do
         @observer.class_eval do
@@ -175,15 +191,20 @@ describe Stripe::Callbacks do
           end
         end
       end
-      it 'does not fire events for which the lambda is not true' do
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 0
+
+      describe 'when the lambda is not true' do
+        it 'does not fire events' do
+          subject
+          events.length.must_equal 0
+        end
       end
 
-      it 'does fire events for when the lambda is true' do
-        @stubbed_event.data.previous_attributes['closed'] = 'false'
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 1
+      describe 'when the lambda is not true' do
+        before { @stubbed_event.data.previous_attributes['closed'] = 'false' }
+        it 'fires events' do
+          subject
+          events.length.must_equal 1
+        end
       end
     end
   end
