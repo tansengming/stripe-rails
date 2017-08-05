@@ -29,13 +29,6 @@ describe Stripe::Callbacks do
 
   subject { post 'stripe/events', JSON.pretty_generate(content) }
 
-  describe 'when there are eager loaded callbacks in the configuration (config/environment/test.rb)' do
-    it 'should be eager loaded' do
-      Dummy.const_defined?(:ModelWithCallbacks).must_equal true
-      Dummy.const_defined?(:ModuleWithCallbacks).must_equal true
-    end
-  end
-
   describe 'defined with a bang' do
     let(:callback) { :after_invoice_payment_succeeded! }
     before { run_callback_with(callback) {|target, e| @event = e; @target = target} }
@@ -183,6 +176,13 @@ describe Stripe::Callbacks do
           events.length.must_equal 1
         end
       end
+    end
+  end
+
+  describe 'when there are eager loaded callbacks in the configuration (config/environment/test.rb)' do
+    it 'should be eager loaded' do
+      Dummy.const_defined?(:ModelWithCallbacks).must_equal true
+      Dummy.const_defined?(:ModuleWithCallbacks).must_equal true
     end
   end
 end
