@@ -30,7 +30,6 @@ describe Stripe::Callbacks do
     before { run_callback_with(callback) {|target, e| @event = e; @target = target} }
 
     describe 'when it is invoked for the invoice.payment_succeeded event' do
-
       it 'is invoked for the invoice.payment_succeeded event' do
         subject
         @event.wont_be_nil
