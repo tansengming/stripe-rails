@@ -45,7 +45,7 @@ describe Stripe::Callbacks do
   end
 
   describe 'defined with a bang' do
-    def run_after_invoice_payment_succeeded_with!
+    def run_callback_with
       @observer.class_eval do
         after_invoice_payment_succeeded! do |evt, target|
           yield evt, target
@@ -54,7 +54,7 @@ describe Stripe::Callbacks do
     end
 
     describe 'when it is invoked for the invoice.payment_succeeded event' do
-      before  { run_after_invoice_payment_succeeded_with! {|target, e| @event = e; @target = target} }
+      before  { run_callback_with {|target, e| @event = e; @target = target} }
       subject { post 'stripe/events', JSON.pretty_generate(@content) }
 
       it 'is invoked for the invoice.payment_succeeded event' do
@@ -67,7 +67,7 @@ describe Stripe::Callbacks do
 
     describe 'when the invoked.payment_failed webhook is called' do
       before do
-        run_after_invoice_payment_succeeded_with! { fail }
+        run_callback_with { fail }
         self.type = 'invoked.payment_failed'
       end
       subject { post 'stripe/events/', JSON.pretty_generate(@content) }
@@ -78,7 +78,7 @@ describe Stripe::Callbacks do
     end
 
     describe 'if it raises an exception' do
-      before  { run_after_invoice_payment_succeeded_with! { fail } }
+      before  { run_callback_with { fail } }
       subject { post 'stripe/events', JSON.pretty_generate(@content) }
 
       it 'causes the whole webhook to fail' do
