@@ -3,114 +3,90 @@ require 'spec_helper'
 
 describe Stripe::Callbacks do
   include Rack::Test::Methods
+  include CallbackHelpers
 
-  def app
-    Rails.application
-  end
+  let(:app)       { Rails.application }
+  let(:event)     { JSON.parse(File.read File.expand_path('../event.json', __FILE__)) }
+  let(:invoice)   { JSON.parse(File.read File.expand_path('../invoice.json', __FILE__)) }
+  let(:content)   { event }
+  let(:observer)  { Class.new }
 
   before do
     header 'Accept', 'application/json'
     header 'Content-Type', 'application/json'
-    @observer = Class.new.tap do |cls|
-      cls.class_eval do
-        include Stripe::Callbacks
-      end
-    end
 
-    event                   = JSON.parse(File.read File.expand_path('../event.json', __FILE__))
-    invoice                 = JSON.parse(File.read File.expand_path('../invoice.json', __FILE__))
+    observer.include Stripe::Callbacks
+
     event['data']['object'] = invoice
 
-    @content = event
-    self.type = @content['type']
+    self.type = content['type']
   end
+  after { ::Stripe::Callbacks.clear_callbacks! }
 
-  def type=(type)
-    @content['type'] = type
-    @stubbed_event = Stripe::Event.construct_from(@content)
-    Stripe::Event.stubs(:retrieve).returns(@stubbed_event)
-  end
-
-  after do
-    ::Stripe::Callbacks.clear_callbacks!
-  end
-
-  it 'has eager loaded the callbacks listed in the configuration' do
-    assert Dummy.const_defined?(:ModelWithCallbacks), 'should have eager loaded'
-    assert Dummy.const_defined?(:ModuleWithCallbacks), 'should have eager loaded'
-  end
-
-  it 'has a ping interface just to make sure that everything is working just fine' do
-    get '/stripe/ping'
-    assert last_response.ok?
-  end
+  subject { post 'stripe/events', JSON.pretty_generate(content) }
 
   describe 'defined with a bang' do
-    code = nil
-    before do
-      code = proc {|target, e| @event = e; @target = target}
-      @observer.class_eval do
-        after_invoice_payment_succeeded! do |evt, target|
-          code.call(evt, target)
-        end
+    let(:callback) { :after_invoice_payment_succeeded! }
+    before { run_callback_with(callback) {|target, e| @event = e; @target = target} }
+
+    describe 'when it is invoked for the invoice.payment_succeeded event' do
+      it 'is invoked for the invoice.payment_succeeded event' do
+        subject
+        @event.wont_be_nil
+        @event.type.must_equal 'invoice.payment_succeeded'
+        @target.total.must_equal 6999
       end
     end
-    it 'is invoked for the invoice.payment_succeeded event' do
-      post 'stripe/events', JSON.pretty_generate(@content)
-      @event.wont_be_nil
-      @event.type.must_equal 'invoice.payment_succeeded'
-      @target.total.must_equal 6999
+
+    describe 'when the invoked.payment_failed webhook is called' do
+      before { self.type = 'invoked.payment_failed' }
+
+      it 'the invoice.payment_succeeded callback is not invoked' do
+        subject
+        @event.must_be_nil
+      end
     end
-    it 'is not invoked for other types of events' do
-      self.type = 'invoked.payment_failed'
-      post 'stripe/events/', JSON.pretty_generate(@content)
-    end
+
     describe 'if it raises an exception' do
-      before do
-        code = proc {fail 'boom!'}
-      end
+      before { run_callback_with(callback) { fail } }
+
       it 'causes the whole webhook to fail' do
-        proc {post 'stripe/events', JSON.pretty_generate(@content)}.must_raise RuntimeError
+        ->{ subject }.must_raise RuntimeError
       end
     end
   end
 
   describe 'defined without a bang and raising an exception' do
-    before do
-      @observer.class_eval do
-        after_invoice_payment_succeeded do |evt|
-          fail 'boom!'
-        end
-      end
-    end
+    let(:callback) { :after_invoice_payment_succeeded }
+    before { run_callback_with(callback) { fail } }
 
     it 'does not cause the webhook to fail' do
-      post 'stripe/events', JSON.pretty_generate(@content)
+      subject
       last_response.status.must_be :>=, 200
       last_response.status.must_be :<, 300
     end
   end
 
-  describe 'designed to catch any event' do
-    events = nil
-    before do
-      events = []
-      @observer.class_eval do
-        after_stripe_event do |target, evt|
-          events << evt
-        end
+  describe 'the after_stripe_event callback to catch any event' do
+    let(:events) { [] }
+    before { run_callback_with(:after_stripe_event) { |_, evt| events << evt } }
+
+    describe 'when it gets invoked for a standard event' do
+      before { self.type = 'invoice.payment_failed' }
+
+      it 'it will be run' do
+        subject
+        events.first.type.must_equal 'invoice.payment_failed'
       end
     end
-    it 'gets invoked for any standard event' do
-      self.type = 'invoice.payment_failed'
-      post 'stripe/events/', JSON.pretty_generate(@content)
-      events.first.type.must_equal 'invoice.payment_failed'
-    end
 
-    it 'gets invoked for any event whatsoever' do
-      self.type = 'foo.bar.baz'
-      post 'stripe/events/', JSON.pretty_generate(@content)
-      events.first.type.must_equal 'foo.bar.baz'
+    describe 'when it gets invoked for an arbitrary event' do
+      before { self.type = 'foo.bar.baz' }
+
+      it 'it will be run' do
+        subject
+        events.first.type.must_equal 'foo.bar.baz'
+      end
     end
   end
 
@@ -121,60 +97,87 @@ describe Stripe::Callbacks do
       self.type = 'invoice.updated'
       @stubbed_event.data.previous_attributes = {}
     end
+
     describe 'specified as an single symbol' do
       before do
-        @observer.class_eval do
+        observer.class_eval do
           after_invoice_updated! :only => :closed do |invoice, evt|
             events << evt
           end
         end
       end
-      it 'does not fire events for with a prior attribute was specified' do
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 0
+
+      describe 'when a prior attribute was not specified' do
+        it 'does not fire events' do
+          subject
+          events.length.must_equal 0
+        end
       end
-      it 'does fire events for which the prior attribute was specified' do
-        @stubbed_event.data.previous_attributes['closed'] = true
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 1
+
+      describe 'when a prior attribute was specified' do
+        before { @stubbed_event.data.previous_attributes['closed'] = true }
+        it 'fires events' do
+          subject
+          events.length.must_equal 1
+        end
       end
     end
+
     describe 'specified as an array' do
       before do
-        @observer.class_eval do
+        observer.class_eval do
           after_invoice_updated! :only => [:currency, :subtotal] do |invoice, evt|
             events << evt
           end
         end
       end
-      it 'does not fire events for which prior attributes were not specified' do
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 0
+
+      describe 'when a prior attribute was not specified' do
+        it 'does not fire events' do
+          subject
+          events.length.must_equal 0
+        end
       end
-      it 'does fire events for which prior attributes were specified' do
-        @stubbed_event.data.previous_attributes['subtotal'] = 699
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 1
+
+      describe 'when prior attributes were specified' do
+        before { @stubbed_event.data.previous_attributes['subtotal'] = 699 }
+        it 'fire events' do
+          subject
+          events.length.must_equal 1
+        end
       end
     end
+
     describe 'specified as a lambda' do
       before do
-        @observer.class_eval do
+        observer.class_eval do
           after_invoice_updated :only => proc {|target, evt| evt.data.previous_attributes.to_hash.has_key? :closed} do |i,e|
             events << e
           end
         end
       end
-      it 'does not fire events for which the lambda is not true' do
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 0
+
+      describe 'when the lambda is not true' do
+        it 'does not fire events' do
+          subject
+          events.length.must_equal 0
+        end
       end
 
-      it 'does fire events for when the lambda is true' do
-        @stubbed_event.data.previous_attributes['closed'] = 'false'
-        post 'stripe/events', JSON.pretty_generate(@content)
-        events.length.must_equal 1
+      describe 'when the lambda is not true' do
+        before { @stubbed_event.data.previous_attributes['closed'] = 'false' }
+        it 'fires events' do
+          subject
+          events.length.must_equal 1
+        end
       end
+    end
+  end
+
+  describe 'when there are eager loaded callbacks in the configuration (config/environment/test.rb)' do
+    it 'should be eager loaded' do
+      Dummy.const_defined?(:ModelWithCallbacks).must_equal true
+      Dummy.const_defined?(:ModuleWithCallbacks).must_equal true
     end
   end
 end
