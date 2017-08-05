@@ -26,7 +26,8 @@ describe Stripe::Callbacks do
     self.type = @content['type']
   end
 
-  after { ::Stripe::Callbacks.clear_callbacks! }
+  after   { ::Stripe::Callbacks.clear_callbacks! }
+  subject { post 'stripe/events', JSON.pretty_generate(@content) }
 
   describe 'when there are eager loaded callbacks in the configuration (config/environment/test.rb)' do
     it 'should be eager loaded' do
@@ -37,11 +38,9 @@ describe Stripe::Callbacks do
 
   describe 'defined with a bang' do
     let(:callback) { :after_invoice_payment_succeeded! }
-    before  { run_callback_with(callback) {|target, e| @event = e; @target = target} }
-    subject { post 'stripe/events/', JSON.pretty_generate(@content) }
+    before { run_callback_with(callback) {|target, e| @event = e; @target = target} }
 
     describe 'when it is invoked for the invoice.payment_succeeded event' do
-      subject { post 'stripe/events', JSON.pretty_generate(@content) }
 
       it 'is invoked for the invoice.payment_succeeded event' do
         subject
@@ -52,7 +51,7 @@ describe Stripe::Callbacks do
     end
 
     describe 'when the invoked.payment_failed webhook is called' do
-      before  { self.type = 'invoked.payment_failed' }
+      before { self.type = 'invoked.payment_failed' }
 
       it 'the invoice.payment_succeeded callback is not invoked' do
         subject
@@ -61,7 +60,7 @@ describe Stripe::Callbacks do
     end
 
     describe 'if it raises an exception' do
-      before  { run_callback_with(callback) { fail } }
+      before { run_callback_with(callback) { fail } }
 
       it 'causes the whole webhook to fail' do
         ->{ subject }.must_raise RuntimeError
@@ -71,8 +70,7 @@ describe Stripe::Callbacks do
 
   describe 'defined without a bang and raising an exception' do
     let(:callback) { :after_invoice_payment_succeeded }
-    before  { run_callback_with(callback) { fail } }
-    subject { post 'stripe/events', JSON.pretty_generate(@content) }
+    before { run_callback_with(callback) { fail } }
 
     it 'does not cause the webhook to fail' do
       subject
@@ -83,11 +81,10 @@ describe Stripe::Callbacks do
 
   describe 'the after_stripe_event callback to catch any event' do
     let(:events) { [] }
-    before  { run_callback_with(:after_stripe_event) { |_, evt| events << evt } }
-    subject { post 'stripe/events/', JSON.pretty_generate(@content) }
+    before { run_callback_with(:after_stripe_event) { |_, evt| events << evt } }
 
     describe 'when it gets invoked for a standard event' do
-      before  { self.type = 'invoice.payment_failed' }
+      before { self.type = 'invoice.payment_failed' }
 
       it 'it will be run' do
         subject
@@ -96,7 +93,7 @@ describe Stripe::Callbacks do
     end
 
     describe 'when it gets invoked for an arbitrary event' do
-      before  { self.type = 'foo.bar.baz' }
+      before { self.type = 'foo.bar.baz' }
 
       it 'it will be run' do
         subject
@@ -112,7 +109,6 @@ describe Stripe::Callbacks do
       self.type = 'invoice.updated'
       @stubbed_event.data.previous_attributes = {}
     end
-    subject { post 'stripe/events', JSON.pretty_generate(@content) }
 
     describe 'specified as an single symbol' do
       before do
