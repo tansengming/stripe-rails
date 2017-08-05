@@ -100,26 +100,27 @@ describe Stripe::Callbacks do
     end
   end
 
-  describe 'designed to catch any event' do
-    events = nil
-    before do
-      events = []
-      @observer.class_eval do
-        after_stripe_event do |target, evt|
-          events << evt
-        end
+  describe 'the after_stripe_event callback to catch any event' do
+    let(:events) { [] }
+    before  { run_callback_with(:after_stripe_event) { |_, evt| events << evt } }
+    subject { post 'stripe/events/', JSON.pretty_generate(@content) }
+
+    describe 'when it gets invoked for a standard event' do
+      before  { self.type = 'invoice.payment_failed' }
+
+      it 'it will be run' do
+        subject
+        events.first.type.must_equal 'invoice.payment_failed'
       end
     end
-    it 'gets invoked for any standard event' do
-      self.type = 'invoice.payment_failed'
-      post 'stripe/events/', JSON.pretty_generate(@content)
-      events.first.type.must_equal 'invoice.payment_failed'
-    end
 
-    it 'gets invoked for any event whatsoever' do
-      self.type = 'foo.bar.baz'
-      post 'stripe/events/', JSON.pretty_generate(@content)
-      events.first.type.must_equal 'foo.bar.baz'
+    describe 'when it gets invoked for an arbitrary event' do
+      before  { self.type = 'foo.bar.baz' }
+
+      it 'it will be run' do
+        subject
+        events.first.type.must_equal 'foo.bar.baz'
+      end
     end
   end
 
