@@ -5,27 +5,23 @@ describe Stripe::Callbacks do
   include Rack::Test::Methods
   include CallbackHelpers
 
+  let(:app)       { Rails.application }
+  let(:event)     { JSON.parse(File.read File.expand_path('../event.json', __FILE__)) }
+  let(:invoice)   { JSON.parse(File.read File.expand_path('../invoice.json', __FILE__)) }
+  let(:content)   { event }
+  let(:observer)  { Class.new }
+
   before do
     header 'Accept', 'application/json'
     header 'Content-Type', 'application/json'
+
+    observer.include Stripe::Callbacks
 
     event['data']['object'] = invoice
 
     self.type = content['type']
   end
   after { ::Stripe::Callbacks.clear_callbacks! }
-
-  let(:app)     { Rails.application }
-  let(:event)   { JSON.parse(File.read File.expand_path('../event.json', __FILE__)) }
-  let(:invoice) { JSON.parse(File.read File.expand_path('../invoice.json', __FILE__)) }
-  let(:content) { event }
-  let(:observer) do
-    Class.new.tap do |cls|
-      cls.class_eval do
-        include Stripe::Callbacks
-      end
-    end
-  end
 
   subject { post 'stripe/events', JSON.pretty_generate(content) }
 
