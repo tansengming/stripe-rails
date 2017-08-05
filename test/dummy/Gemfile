@@ -1,0 +1,14 @@
+source 'https://rubygems.org'
+
+gem 'rails'
+
+gem "bundler", ">= 1.3.0"
+gem "rake"
+gem 'tzinfo'
+gem 'mocha'
+gem 'responders', '~> 2.0' # to support Rails 4.2
+gem 'stripe-rails', path: '../..'
+
+group :development do
+  gem 'listen'
+end
