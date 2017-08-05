@@ -41,38 +41,48 @@ describe Stripe::Callbacks do
   describe 'ping interface ping interface just to make sure that everything is working just fine' do
     subject { get '/stripe/ping' }
 
-    it 'the last response should be ok' do
-      subject
-      last_response.must_be :ok?
-    end
+    it { subject.must_be :ok? }
   end
 
   describe 'defined with a bang' do
-    code = nil
-    before do
-      code = proc {|target, e| @event = e; @target = target}
+    def run_after_invoice_payment_succeeded_with!
       @observer.class_eval do
         after_invoice_payment_succeeded! do |evt, target|
-          code.call(evt, target)
+          yield evt, target
         end
       end
     end
-    it 'is invoked for the invoice.payment_succeeded event' do
-      post 'stripe/events', JSON.pretty_generate(@content)
-      @event.wont_be_nil
-      @event.type.must_equal 'invoice.payment_succeeded'
-      @target.total.must_equal 6999
-    end
-    it 'is not invoked for other types of events' do
-      self.type = 'invoked.payment_failed'
-      post 'stripe/events/', JSON.pretty_generate(@content)
-    end
-    describe 'if it raises an exception' do
-      before do
-        code = proc {fail 'boom!'}
+
+    describe 'when it is invoked for the invoice.payment_succeeded event' do
+      before  { run_after_invoice_payment_succeeded_with! {|target, e| @event = e; @target = target} }
+      subject { post 'stripe/events', JSON.pretty_generate(@content) }
+
+      it 'is invoked for the invoice.payment_succeeded event' do
+        subject
+        @event.wont_be_nil
+        @event.type.must_equal 'invoice.payment_succeeded'
+        @target.total.must_equal 6999
       end
+    end
+
+    describe 'when the invoked.payment_failed webhook is called' do
+      before do
+        run_after_invoice_payment_succeeded_with! { fail }
+        self.type = 'invoked.payment_failed'
+      end
+      subject { post 'stripe/events/', JSON.pretty_generate(@content) }
+
+      it 'the invoice.payment_succeeded callback is not invoked' do
+        subject # won't raise RuntimeError
+      end
+    end
+
+    describe 'if it raises an exception' do
+      before  { run_after_invoice_payment_succeeded_with! { fail } }
+      subject { post 'stripe/events', JSON.pretty_generate(@content) }
+
       it 'causes the whole webhook to fail' do
-        proc {post 'stripe/events', JSON.pretty_generate(@content)}.must_raise RuntimeError
+        ->{ subject }.must_raise RuntimeError
       end
     end
   end
