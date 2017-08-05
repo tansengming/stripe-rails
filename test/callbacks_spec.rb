@@ -35,12 +35,6 @@ describe Stripe::Callbacks do
     end
   end
 
-  describe 'the ping interface' do
-    subject { get '/stripe/ping' }
-
-    it { subject.must_be :ok? }
-  end
-
   describe 'defined with a bang' do
     let(:callback) { :after_invoice_payment_succeeded! }
     before  { run_callback_with(callback) {|target, e| @event = e; @target = target} }
