@@ -3,17 +3,20 @@ require 'spec_helper'
 
 describe Stripe::Callbacks do
   include Rack::Test::Methods
+  include CallbackHelpers
 
   let(:app) { Rails.application }
-
-  before do
-    header 'Accept', 'application/json'
-    header 'Content-Type', 'application/json'
-    @observer = Class.new.tap do |cls|
+  let(:observer) do
+    Class.new.tap do |cls|
       cls.class_eval do
         include Stripe::Callbacks
       end
     end
+  end
+
+  before do
+    header 'Accept', 'application/json'
+    header 'Content-Type', 'application/json'
 
     event                   = JSON.parse(File.read File.expand_path('../event.json', __FILE__))
     invoice                 = JSON.parse(File.read File.expand_path('../invoice.json', __FILE__))
@@ -21,20 +24,6 @@ describe Stripe::Callbacks do
 
     @content = event
     self.type = @content['type']
-  end
-
-  def type=(type)
-    @content['type'] = type
-    @stubbed_event = Stripe::Event.construct_from(@content)
-    Stripe::Event.stubs(:retrieve).returns(@stubbed_event)
-  end
-
-  def run_callback_with(callback)
-    @observer.class_eval do
-      send(callback) do |evt, target|
-        yield evt, target
-      end
-    end
   end
 
   after { ::Stripe::Callbacks.clear_callbacks! }
@@ -46,7 +35,7 @@ describe Stripe::Callbacks do
     end
   end
 
-  describe 'ping interface ping interface just to make sure that everything is working just fine' do
+  describe 'the ping interface' do
     subject { get '/stripe/ping' }
 
     it { subject.must_be :ok? }
@@ -135,7 +124,7 @@ describe Stripe::Callbacks do
 
     describe 'specified as an single symbol' do
       before do
-        @observer.class_eval do
+        observer.class_eval do
           after_invoice_updated! :only => :closed do |invoice, evt|
             events << evt
           end
@@ -160,7 +149,7 @@ describe Stripe::Callbacks do
 
     describe 'specified as an array' do
       before do
-        @observer.class_eval do
+        observer.class_eval do
           after_invoice_updated! :only => [:currency, :subtotal] do |invoice, evt|
             events << evt
           end
@@ -185,7 +174,7 @@ describe Stripe::Callbacks do
 
     describe 'specified as a lambda' do
       before do
-        @observer.class_eval do
+        observer.class_eval do
           after_invoice_updated :only => proc {|target, evt| evt.data.previous_attributes.to_hash.has_key? :closed} do |i,e|
             events << e
           end
