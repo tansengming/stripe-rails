@@ -29,6 +29,14 @@ describe Stripe::Callbacks do
     Stripe::Event.stubs(:retrieve).returns(@stubbed_event)
   end
 
+  def run_callback_with(callback)
+    @observer.class_eval do
+      send(callback) do |evt, target|
+        yield evt, target
+      end
+    end
+  end
+
   after { ::Stripe::Callbacks.clear_callbacks! }
 
   describe 'when there are eager loaded callbacks in the configuration (config/environment/test.rb)' do
@@ -45,16 +53,10 @@ describe Stripe::Callbacks do
   end
 
   describe 'defined with a bang' do
-    def run_callback_with
-      @observer.class_eval do
-        after_invoice_payment_succeeded! do |evt, target|
-          yield evt, target
-        end
-      end
-    end
+    let(:callback) { :after_invoice_payment_succeeded! }
 
     describe 'when it is invoked for the invoice.payment_succeeded event' do
-      before  { run_callback_with {|target, e| @event = e; @target = target} }
+      before  { run_callback_with(callback) {|target, e| @event = e; @target = target} }
       subject { post 'stripe/events', JSON.pretty_generate(@content) }
 
       it 'is invoked for the invoice.payment_succeeded event' do
@@ -67,7 +69,7 @@ describe Stripe::Callbacks do
 
     describe 'when the invoked.payment_failed webhook is called' do
       before do
-        run_callback_with { fail }
+        run_callback_with(callback) { fail }
         self.type = 'invoked.payment_failed'
       end
       subject { post 'stripe/events/', JSON.pretty_generate(@content) }
@@ -78,7 +80,7 @@ describe Stripe::Callbacks do
     end
 
     describe 'if it raises an exception' do
-      before  { run_callback_with { fail } }
+      before  { run_callback_with(callback) { fail } }
       subject { post 'stripe/events', JSON.pretty_generate(@content) }
 
       it 'causes the whole webhook to fail' do
@@ -88,13 +90,8 @@ describe Stripe::Callbacks do
   end
 
   describe 'defined without a bang and raising an exception' do
-    before do
-      @observer.class_eval do
-        after_invoice_payment_succeeded do |evt|
-          fail 'boom!'
-        end
-      end
-    end
+    let(:callback) { :after_invoice_payment_succeeded }
+    before { run_callback_with(callback) { fail } }
 
     it 'does not cause the webhook to fail' do
       post 'stripe/events', JSON.pretty_generate(@content)
