@@ -13,6 +13,7 @@ gem 'responders', '~> 2.0' # to support Rails 4.2
 group :test do
   gem 'simplecov', require: false
   gem 'poltergeist'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'rails'
   gem 'puma'
 end
