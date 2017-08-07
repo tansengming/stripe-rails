@@ -14,6 +14,5 @@ group :test do
   gem 'simplecov', require: false
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
-  gem 'rails'
   gem 'puma'
 end
