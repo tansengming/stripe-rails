@@ -1,6 +1,3 @@
-require "application_system_test_case"
-require 'irb'
-
 class DummyStripesControllerTest < ApplicationSystemTestCase
   setup do
     Dummy::Application.configure do
