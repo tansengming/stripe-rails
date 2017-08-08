@@ -1,3 +1,7 @@
+## 1.0.1 (2017-08-08)
+
+* Fixes a bug with Stripe JS V3, i.e. `Stripe.setPublishableKey` is no longer a function. Thanks to @kartikluke for reporting this.
+
 ## 1.0.0 (2017-07-24 - Breaky McBreakface)
 
 * [BREAKING] Update to latest stripe events (thanks @hopsoft). Note that if you are using the `after_customer_card_created`, `after_customer_card_updated` or `after_customer_card_deleted` callbacks, you MUST update them to `after_customer_source_created`, `after_customer_source_updated` or `after_customer_source_deleted` respectively. You also need to start using [Stripe API Version > 2015-02-18](https://stripe.com/docs/upgrades#2015-02-18) or else the webhook might not work as expected.
