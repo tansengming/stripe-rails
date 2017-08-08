@@ -6,5 +6,6 @@ class NullSystemTestCase
   end
 
   def self.test(_)
+    warn 'WARNING: Skipping system test because this version of Rails does not support it!'
   end
 end
