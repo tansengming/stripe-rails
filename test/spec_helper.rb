@@ -20,3 +20,5 @@ end
 
 Stripe::Engine.testing = true
 require 'mocha/setup'
+
+require 'irb'
