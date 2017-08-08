@@ -5,5 +5,6 @@ require 'phantomjs/poltergeist'
 SystemTestCaseKlass = defined?(ActionDispatch::SystemTestCase) ? ActionDispatch::SystemTestCase : NullSystemTestCase
 
 class ApplicationSystemTestCase < SystemTestCaseKlass
+  # Note: errors only show up with BOTH js_errors: true, inspector: true
   driven_by :poltergeist, options: { js_errors: true, inspector: true, phantomjs: Phantomjs.path }
 end
