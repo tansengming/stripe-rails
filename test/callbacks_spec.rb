@@ -174,7 +174,7 @@ describe Stripe::Callbacks do
     end
   end
 
-  describe 'with CSRF ' do
+  describe 'with forgery protection enabled' do
     before do
       ActionController::Base.allow_forgery_protection = true
       ActionController::Base.protect_from_forgery with: :exception
