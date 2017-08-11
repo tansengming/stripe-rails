@@ -174,6 +174,16 @@ describe Stripe::Callbacks do
     end
   end
 
+  describe 'with forgery protection enabled' do
+    before do
+      ActionController::Base.allow_forgery_protection = true
+      ActionController::Base.protect_from_forgery with: :exception
+    end
+    after { ActionController::Base.allow_forgery_protection = false }
+
+    it { subject } # must_not raise error
+  end
+
   describe 'when there are eager loaded callbacks in the configuration (config/environment/test.rb)' do
     it 'should be eager loaded' do
       Dummy.const_defined?(:ModelWithCallbacks).must_equal true
