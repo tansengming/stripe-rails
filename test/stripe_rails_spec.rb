@@ -38,4 +38,16 @@ describe "Configuring the stripe engine" do
       Stripe.api_version.must_equal       '2015-10-16'
     end
   end
+
+  describe 'eager loaded callbacks' do
+    subject { app.config.stripe.eager_load = 'dummy/model_with_callbacks', 'dummy/module_with_callbacks' }
+
+    it 'should be eager loaded' do
+      subject
+      app.initialize!
+
+      Dummy.const_defined?(:ModelWithCallbacks).must_equal  true
+      Dummy.const_defined?(:ModuleWithCallbacks).must_equal true
+    end
+  end
 end
