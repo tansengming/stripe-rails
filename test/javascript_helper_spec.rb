@@ -21,6 +21,7 @@ describe Stripe::JavascriptHelper do
 
     describe 'when the debug flag is enabled' do
       before { Rails.application.config.stripe.debug_js = true }
+      after  { Rails.application.config.stripe.debug_js = false }
       it 'should render the debug js' do
         view.stripe_javascript_tag(:v1).must_include 'https://js.stripe.com/v1/stripe-debug.js'
       end
