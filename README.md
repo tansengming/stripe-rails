@@ -362,7 +362,12 @@ See the [complete listing of all stripe events][5], and the [webhook tutorial][6
 
 <a href="http://frontside.io">![Frontside](http://frontside.io/images/logo.svg)</a>
 
-`Stripe::Rails` was originally developed with love and fondess by your friends at [Frontside][7]. They are available for your custom software development needs, including integration with stripe.com.
+`Stripe::Rails` was originally developed with love and fondness by your friends at [Frontside][7]. They are available for your custom software development needs, including integration with stripe.com.
+
+<a href="https://www.evercondo.com">![Evercondo](https://dl.dropboxusercontent.com/s/m3ma9356uelep53/evercondo.png)</a>
+
+`Stripe::Rails` has also been supported by the fine folks at [Evercondo][11], the next generation condo management software.
+
 
 [1]: https://stripe.com/docs/stripe.js
 [2]: https://manage.stripe.com/#account/apikeys
@@ -374,6 +379,7 @@ See the [complete listing of all stripe events][5], and the [webhook tutorial][6
 [8]: https://stripe.com/docs/api?lang=ruby#customers
 [9]: https://stripe.com/docs/api?lang=ruby#invoices
 [10]: https://stripe.com/docs/api?lang=ruby#charges
+[11]: https://www.evercondo.com
 
 
 ## Code of Conduct
