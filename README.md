@@ -2,6 +2,7 @@
 [![Gem Version](https://badge.fury.io/rb/stripe-rails.png)](http://badge.fury.io/rb/stripe-rails)
 [![Build Status](https://travis-ci.org/Everapps/stripe-rails.png?branch=master)](https://travis-ci.org/Everapps/stripe-rails)
 [![Code Climate](https://codeclimate.com/github/Everapps/stripe-rails/badges/gpa.svg)](https://codeclimate.com/github/Everapps/stripe-rails)
+[![Test Coverage](https://codeclimate.com/github/Everapps/stripe-rails/badges/coverage.svg)](https://codeclimate.com/github/Everapps/stripe-rails/coverage)
 [![Dependency Status](https://gemnasium.com/thefrontside/stripe-rails.png)](https://gemnasium.com/thefrontside/stripe-rails)
 
 
