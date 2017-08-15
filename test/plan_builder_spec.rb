@@ -31,6 +31,16 @@ describe 'building plans' do
       Stripe::Plans['primo'].must_equal Stripe::Plans::PRIMO
     end
 
+    it 'accepts a billing interval of a day' do
+      Stripe.plan :daily do |plan|
+        plan.name = 'Acme as a service daily'
+        plan.amount = 100
+        plan.interval = 'day'
+      end
+
+      Stripe::Plans::DAILY.wont_be_nil
+    end
+
     it 'accepts a billing interval of a week' do
       Stripe.plan :weekly do |plan|
         plan.name = 'Acme as a service weekly'
