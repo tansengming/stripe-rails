@@ -7,8 +7,10 @@ describe "Configuring the stripe engine" do
   # NOTE: skipped `stripe.plans_and_coupons` to prevent warnings about constants
   STRIPE_INITIALIZER_NAMES = %w{ stripe.configure.defaults stripe.configure stripe.callbacks.eager_load stripe.javascript_helper }
 
-  let(:app) { Rails.application }
-  let(:stripe_initializers) { STRIPE_INITIALIZER_NAMES.map{|name| app.initializers.find{|ini| ini.name == name } } }
+  let(:app)           { Rails.application }
+  let(:initializers)  { STRIPE_INITIALIZER_NAMES.map{|name| app.initializers.find{|ini| ini.name == name } } }
+
+  def rerun_initializers!; initializers.each{|init| init.run(app) }; end
 
   describe 'Stripe configurations' do
     it "will have valid default values" do
@@ -27,7 +29,7 @@ describe "Configuring the stripe engine" do
       app.config.stripe.secret_key        = 'SECRET_XYZ'
       app.config.stripe.verify_ssl_certs  = false
       app.config.stripe.api_version       = '2015-10-16'
-      stripe_initializers.each{|init| init.run(app) }
+      rerun_initializers!
     end
 
     it "reads values that is set in the environment" do
@@ -43,7 +45,7 @@ describe "Configuring the stripe engine" do
   describe 'eager loaded callbacks' do
     subject do
       app.config.stripe.eager_load = 'dummy/model_with_callbacks', 'dummy/module_with_callbacks'
-      stripe_initializers.each{|init| init.run(app) }
+      rerun_initializers!
     end
 
     it 'should be eager loaded' do
