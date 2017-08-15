@@ -27,7 +27,7 @@ module Stripe
     end
 
     initializer 'stripe.configure' do |app|
-      [:api_base, :verify_ssl_certs, :api_version].each do |key|
+      [:api_base, :verify_ssl_certs, :api_version, :open_timeout, :read_timeout].each do |key|
         value = app.config.stripe.send(key)
         Stripe.send("#{key}=", value) unless value.nil?
       end
