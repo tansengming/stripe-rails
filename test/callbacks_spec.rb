@@ -1,4 +1,3 @@
-require 'minitest/autorun'
 require 'spec_helper'
 
 describe Stripe::Callbacks do

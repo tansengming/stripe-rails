@@ -1,4 +1,3 @@
-require 'minitest/autorun'
 require 'spec_helper'
 
 describe "Configuring the stripe engine" do
