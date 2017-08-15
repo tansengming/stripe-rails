@@ -1,3 +1,9 @@
+## 1.0.2 (2017-08-15)
+
+* Remove authenticity token check (thanks @lewispb)
+* Adding timeout options to config (thanks @rgerard)
+* Add 'day' as possible plan interval (thanks @vdragsic and @artemave)
+
 ## 1.0.1 (2017-08-08)
 
 * Fixes a bug with Stripe JS V3, i.e. `Stripe.setPublishableKey` is no longer a function. Thanks to @kartikluke for reporting this.
