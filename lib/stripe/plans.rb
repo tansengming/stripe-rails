@@ -8,8 +8,8 @@ module Stripe
 
       validates_presence_of :id, :amount, :currency, :name
 
-      validates_inclusion_of :interval, :in => %w(week month year),
-        :message => "'%{value}' is not one of 'week', 'month' or 'year'"
+      validates_inclusion_of :interval, :in => %w(day week month year),
+        :message => "'%{value}' is not one of 'day', 'week', 'month' or 'year'"
 
       validates :statement_descriptor, :length => { :maximum => 22 }
 
