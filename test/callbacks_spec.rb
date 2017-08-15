@@ -183,11 +183,4 @@ describe Stripe::Callbacks do
 
     it { subject } # must_not raise error
   end
-
-  describe 'when there are eager loaded callbacks in the configuration (config/environment/test.rb)' do
-    it 'should be eager loaded' do
-      Dummy.const_defined?(:ModelWithCallbacks).must_equal true
-      Dummy.const_defined?(:ModuleWithCallbacks).must_equal true
-    end
-  end
 end

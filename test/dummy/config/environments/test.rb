@@ -1,10 +1,4 @@
 Dummy::Application.configure do
-
-  config.stripe.api_base = 'http://localhost:5000'
-  config.stripe.verify_ssl_certs = false
-  config.stripe.eager_load = 'dummy/model_with_callbacks', 'dummy/module_with_callbacks'
-  config.stripe.api_version = '2015-10-16'
-
   # Settings specified here will take precedence over those in config/application.rb
 
   # The test environment is used exclusively to run your application's
