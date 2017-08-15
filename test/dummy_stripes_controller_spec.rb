@@ -1,6 +1,4 @@
-require "application_system_test_case"
-
-class StripesTest < ApplicationSystemTestCase
+class DummyStripesControllerSpec < ApplicationSystemTestCase
   setup do
     Dummy::Application.configure do
       config.stripe.publishable_key = 'pk_test_XXXYYYZZZ'
