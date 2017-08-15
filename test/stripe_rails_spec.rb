@@ -4,16 +4,17 @@ require 'spec_helper'
 describe "Configuring the stripe engine" do
   i_suck_and_my_tests_are_order_dependent! # the default test must be run first!
 
-  let(:app) { Dummy::Application.new }
-  before { app.config.eager_load = false }
+  # NOTE: skipped `stripe.plans_and_coupons` to prevent warnings about constants
+  STRIPE_INITIALIZER_NAMES = %w{ stripe.configure.defaults stripe.configure stripe.callbacks.eager_load stripe.javascript_helper }
+
+  let(:app) { Rails.application }
+  let(:stripe_initializers) { STRIPE_INITIALIZER_NAMES.map{|name| app.initializers.find{|ini| ini.name == name } } }
 
   describe 'Stripe configurations' do
     it "will have valid default values" do
-      app.initialize!
-
       Stripe.api_base.must_equal          'https://api.stripe.com'
       Stripe.api_key.must_equal           'XYZ'
-      Stripe.api_version.must_equal       nil
+      Stripe.api_version.must_be_nil
       Stripe.verify_ssl_certs.must_equal  true
 
       app.config.stripe.endpoint.must_equal   '/stripe'
@@ -26,11 +27,11 @@ describe "Configuring the stripe engine" do
       app.config.stripe.secret_key        = 'SECRET_XYZ'
       app.config.stripe.verify_ssl_certs  = false
       app.config.stripe.api_version       = '2015-10-16'
+      stripe_initializers.each{|init| init.run(app) }
     end
 
     it "reads values that is set in the environment" do
       subject
-      app.initialize!
 
       Stripe.api_base.must_equal          'http://localhost:5000'
       Stripe.api_key.must_equal           'SECRET_XYZ'
@@ -40,11 +41,13 @@ describe "Configuring the stripe engine" do
   end
 
   describe 'eager loaded callbacks' do
-    subject { app.config.stripe.eager_load = 'dummy/model_with_callbacks', 'dummy/module_with_callbacks' }
+    subject do
+      app.config.stripe.eager_load = 'dummy/model_with_callbacks', 'dummy/module_with_callbacks'
+      stripe_initializers.each{|init| init.run(app) }
+    end
 
     it 'should be eager loaded' do
       subject
-      app.initialize!
 
       Dummy.const_defined?(:ModelWithCallbacks).must_equal  true
       Dummy.const_defined?(:ModuleWithCallbacks).must_equal true
