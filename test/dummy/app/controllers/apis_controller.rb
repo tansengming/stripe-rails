@@ -1,5 +1,7 @@
-class ApisController < ActionController::API
+ApiControllerKlass = defined?(ActionController::API) ? ActionController::API : ApplicationController
+
+class ApisController < ApiControllerKlass
   def index
-    render
+    render json: :ok
   end
 end
