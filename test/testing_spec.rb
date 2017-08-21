@@ -1,20 +1,14 @@
-require 'minitest/autorun'
 require 'spec_helper'
 
 describe "Testing" do
-  code = nil
+  let(:observer)  { Class.new }
 
   before do
     StripeMock.start
-
-    @observer = Class.new.tap do |cls|
-      cls.class_eval do
-        include Stripe::Callbacks
-      end
-    end
+    observer.include Stripe::Callbacks
 
     code = proc {|target, e| @event = e; @target = target}
-    @observer.class_eval do
+    observer.class_eval do
       after_invoice_payment_succeeded! do |evt, target|
         code.call(evt, target)
       end
@@ -30,28 +24,45 @@ describe "Testing" do
     (defined? Stripe::Testing.send_event).must_equal 'method'
   end
 
-  it "forward the event to the registered callbacks" do
-    Stripe::Testing.send_event "invoice.payment_succeeded"
-    @event.wont_be_nil
-    @event.type.must_equal "invoice.payment_succeeded"
-  end
+  describe '.send_event' do
+    subject { Stripe::Testing.send_event event_name }
 
-  it "doesn't forward the event to the other callbacks" do
-    Stripe::Testing.send_event "customer.created"
-    @event.must_be_nil
-  end
+    describe 'when forwarding the event to the registered callbacks' do
+      let(:event_name) { "invoice.payment_succeeded" }
 
-  it "overwrites event properties" do
-    Stripe::Testing.send_event "invoice.payment_succeeded", {
-      :subtotal => 500,
-      :total => 1000,
-      :currency => "eur"
-    }
+      it 'should work' do
+        subject
+        @event.wont_be_nil
+        @event.type.must_equal "invoice.payment_succeeded"
+      end
+    end
 
-    @event.wont_be_nil
-    @event.type.must_equal "invoice.payment_succeeded"
-    @target.subtotal.must_equal 500
-    @target.total.must_equal 1000
-    @target.currency.must_equal "eur"
+    describe "doesn't forward the event to the other callbacks" do
+      let(:event_name) { 'customer.created' }
+
+      it 'should work' do
+        subject
+        @event.must_be_nil
+      end
+    end
+
+    describe 'when overwriting event properties' do
+      subject do 
+        Stripe::Testing.send_event "invoice.payment_succeeded", {
+          :subtotal => 500,
+          :total => 1000,
+          :currency => "eur"
+        }
+      end
+
+      it 'should work' do
+        subject
+        @event.wont_be_nil
+        @event.type.must_equal "invoice.payment_succeeded"
+        @target.subtotal.must_equal 500
+        @target.total.must_equal 1000
+        @target.currency.must_equal "eur"
+      end
+    end
   end
 end
