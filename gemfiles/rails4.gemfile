@@ -9,6 +9,7 @@ gem 'mocha'
 gem 'pry'
 gem 'responders', '~> 2.0' # to support Rails 4.2
 gem 'stripe'
+gem 'stripe-ruby-mock', '~> 2.4'
 
 group :test do
   gem 'simplecov', require: false
