@@ -1,27 +1,18 @@
 require 'spec_helper'
 
 describe "Testing" do
+  include CallbackHelpers
   let(:observer)  { Class.new }
 
   before do
     StripeMock.start
     observer.include Stripe::Callbacks
-
-    code = proc {|target, e| @event = e; @target = target}
-    observer.class_eval do
-      after_invoice_payment_succeeded! do |evt, target|
-        code.call(evt, target)
-      end
-    end
+    run_callback_with(:after_invoice_payment_succeeded!) {|target, e| @event = e; @target = target}
   end
   
   after do
     ::Stripe::Callbacks.clear_callbacks!
     StripeMock.stop
-  end
-
-  it "exposes a send_event method" do
-    (defined? Stripe::Testing.send_event).must_equal 'method'
   end
 
   describe '.send_event' do
