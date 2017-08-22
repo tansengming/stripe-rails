@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe "Testing" do
-  include CallbackHelpers
   let(:observer)  { Class.new }
   let(:event)     { observer.instance_variable_get :@event }
   let(:target)    { observer.instance_variable_get :@target }
