@@ -4,10 +4,6 @@ rvm:
   - 2.3.4
   - 2.2.7
   - 2.1.9
-notifications:
-  email:
-    recipients:
-      - cowboyd@thefrontside.net
 env:
   global:
     - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
