@@ -5,8 +5,8 @@ describe Stripe::Callbacks do
   include CallbackHelpers
 
   let(:app)       { Rails.application }
-  let(:event)     { JSON.parse(File.read File.expand_path('../event.json', __FILE__)) }
-  let(:invoice)   { JSON.parse(File.read File.expand_path('../invoice.json', __FILE__)) }
+  let(:event)     { JSON.parse(File.read File.expand_path('event.json', __dir__)) }
+  let(:invoice)   { JSON.parse(File.read File.expand_path('invoice.json', __dir__)) }
   let(:content)   { event }
   let(:observer)  { Class.new }
 
