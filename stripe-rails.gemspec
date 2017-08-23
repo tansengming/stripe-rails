@@ -1,5 +1,4 @@
-# -*- encoding: utf-8 -*-
-require File.expand_path('../lib/stripe/rails/version', __FILE__)
+require File.expand_path('lib/stripe/rails/version', __dir__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Charles Lowell", "Nola Stowe", "SengMing Tan"]

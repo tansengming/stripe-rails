@@ -1,4 +1,4 @@
-require File.expand_path("../null_system_test_case",  __FILE__)
+require File.expand_path("null_system_test_case", __dir__)
 require "capybara/poltergeist"
 require 'phantomjs/poltergeist'
 
