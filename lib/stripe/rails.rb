@@ -1,3 +1,4 @@
+require 'responders'
 require "stripe/rails/version"
 require 'stripe/engine'
 require 'stripe/configuration_builder'
