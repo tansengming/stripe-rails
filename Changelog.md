@@ -1,3 +1,9 @@
+## 1.1.0 (2017-08-29)
+
+* Adds a testing module for testing callbacks (thanks @Pyo25)
+* Fixes loading with ActionController::API (thanks @gaffneyc)
+* Fixes `NoMethodError: NoMethodError (undefined method `object' for #ActionController::Parameters` (thanks to a whole bunch of people for reporting this)
+
 ## 1.0.2 (2017-08-15)
 
 * Remove authenticity token check (thanks @lewispb)
