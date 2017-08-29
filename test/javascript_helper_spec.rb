@@ -32,4 +32,10 @@ describe Stripe::JavascriptHelper do
       end
     end
   end
+
+  describe "render :partial => 'stripe/js'" do
+    subject { view.render :partial => 'stripe/js' }
+
+    it { subject } # must_not raise error
+  end
 end

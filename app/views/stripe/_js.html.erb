@@ -1,3 +1,4 @@
+<%- stripe_js_version = defined?(stripe_js_version) ? stripe_js_version : 'v3' %>
 <%- case (stripe_js_version || 'v3') %>
 <%- when 'v1', 'v2' %>
   <%- if ::Rails.application.config.stripe.debug_js %>
