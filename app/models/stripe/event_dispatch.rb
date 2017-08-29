@@ -11,7 +11,7 @@ module Stripe
     def retrieve_stripe_event(params)
       id = params['id']
       if id == 'evt_00000000000000' #this is a webhook test
-        yield Stripe::Event.construct_from(params)
+        yield Stripe::Event.construct_from(params.to_unsafe_h)
       else
         yield Stripe::Event.retrieve(id)
       end

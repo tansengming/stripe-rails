@@ -53,6 +53,12 @@ describe Stripe::Callbacks do
         ->{ subject }.must_raise RuntimeError
       end
     end
+
+    describe 'when run from a Stripe webhook test' do
+      before { event['id'] = 'evt_00000000000000' }
+
+      it { subject } # must_not raise error
+    end
   end
 
   describe 'defined without a bang and raising an exception' do
