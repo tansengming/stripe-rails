@@ -60,4 +60,13 @@ describe "Configuring the stripe engine" do
       Dummy.const_defined?(:ModuleWithCallbacks).must_equal true
     end
   end
+
+  describe 'setting stripe.api_key' do
+    subject { app.config.stripe.api_key = 'XYZ' }
+    let(:warning_msg) { "[DEPRECATION] to align with stripe nomenclature, stripe.api_key has been renamed to config.stripe.secret_key\n" }
+
+    it 'should output a warning' do
+      -> { subject }.must_output '', warning_msg
+    end
+  end
 end
