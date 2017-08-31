@@ -17,5 +17,4 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rails', '>= 3'
   gem.add_dependency 'stripe'
   gem.add_dependency 'responders'
-  gem.add_dependency 'stripe-ruby-mock', '~> 2.4'
 end
