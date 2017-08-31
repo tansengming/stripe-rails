@@ -363,7 +363,7 @@ See the [complete listing of all stripe events][5], and the [webhook tutorial][6
 If you want to test your callbacks, you can use the `Stripe::Testing` module to send mocked Stripe events.
 
 ```ruby
-require 'stripe/testing'
+require 'stripe/rails/testing'
 test "my callback handles new subscription" do
   Stripe::Testing.send_event "customer.subscription.created"
   # Assertions
@@ -373,7 +373,7 @@ end
 You can also overwrite some event properties: ([More info](https://github.com/rebelidealist/stripe-ruby-mock#customizing-webhooks))
 
 ```ruby
-require 'stripe/testing'
+require 'stripe/rails/testing'
 test "my callback handles new subscription" do
   Stripe::Testing.send_event "customer.subscription.created", {
     :email => "john@doe.com",
