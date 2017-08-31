@@ -1,4 +1,9 @@
-require 'stripe_mock'
+begin
+  require 'stripe_mock'
+rescue LoadError
+  warn %q{Please add "gem 'stripe-ruby-mock', group: 'test'"" to the Gemfile to use Stripe::Testing"}
+  exit
+end
 require 'stripe/callbacks'
 
 module Stripe
