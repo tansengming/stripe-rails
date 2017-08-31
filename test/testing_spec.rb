@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'stripe/testing'
 
 describe "Testing" do
   let(:observer)  { Class.new }
