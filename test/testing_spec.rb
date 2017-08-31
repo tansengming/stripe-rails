@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'stripe/rails/testing'
 
 describe "Testing" do
   let(:observer)  { Class.new }
@@ -20,7 +21,7 @@ describe "Testing" do
   end
 
   describe '.send_event' do
-    subject { Stripe::Testing.send_event event_name }
+    subject { Stripe::Rails::Testing.send_event event_name }
 
     describe 'when forwarding the event to the callback' do
       let(:event_name) { "invoice.payment_succeeded" }
@@ -42,7 +43,7 @@ describe "Testing" do
     end
 
     describe 'when overwriting event properties' do
-      subject { Stripe::Testing.send_event event_name, params }
+      subject { Stripe::Rails::Testing.send_event event_name, params }
       let(:event_name) { "invoice.payment_succeeded" }
       let(:params)     { { subtotal: 500, total: 1000, currency: "eur" } }
 

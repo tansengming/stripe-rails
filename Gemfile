@@ -8,10 +8,12 @@ gem "rake"
 gem 'tzinfo'
 gem 'mocha'
 gem 'pry'
-gem 'responders', '~> 2.0' # to support Rails 4.2
 
 group :test do
   gem 'simplecov', require: false
+  # NOTE: tracking master temporarily until they
+  # release https://github.com/rebelidealist/stripe-ruby-mock/pull/433
+  gem 'stripe-ruby-mock', github: 'rebelidealist/stripe-ruby-mock'
   gem 'poltergeist' # required for system tests
   gem 'phantomjs'   # ditto
   gem 'puma'        # ditto
