@@ -1,3 +1,7 @@
+## 1.1.1 (2017-08-31)
+
+* Make stripe-ruby-mock an optional dependency (thanks @gaffneyc)
+
 ## 1.1.0 (2017-08-29)
 
 * Adds a testing module for testing callbacks (thanks @Pyo25)
