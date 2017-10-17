@@ -7,7 +7,7 @@
 # Stripe::Coupons::Gold25 #=> 'gold25'
 
 # Stripe.coupon :gold25 do |coupon|
-#   # specify if this coupon is usable 'once', 'forever', or 'repeating'
+#   # specify if this coupon is useable 'once', 'forever', or 'repeating'
 #   coupon.duration = 'repeating'
 #
 #   # absolute amount, in cents, to discount
