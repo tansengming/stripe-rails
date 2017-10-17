@@ -32,4 +32,20 @@ describe Stripe::JavascriptHelper do
       end
     end
   end
+
+  describe "render :partial => 'stripe/js'" do
+    subject { view.render :partial => 'stripe/js' }
+
+    it 'should render correctly' do
+      subject.must_include 'https://js.stripe.com/v3/'
+    end
+  end
+
+  describe "render :partial => 'stripe/js', local: {stripe_js_version: 'v2'}" do
+    subject { view.render :partial => 'stripe/js', locals: {stripe_js_version: 'v2'} }
+
+    it 'should render correctly' do
+      subject.must_include 'https://js.stripe.com/v2/'
+    end
+  end
 end
