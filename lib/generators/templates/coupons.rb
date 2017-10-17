@@ -7,8 +7,7 @@
 # Stripe::Coupons::Gold25 #=> 'gold25'
 
 # Stripe.coupon :gold25 do |coupon|
-#
-#   # specify if this coupon is useable 'once', 'forever', or 'repeating
+#   # specify if this coupon is usable 'once', 'forever', or 'repeating'
 #   coupon.duration = 'repeating'
 #
 #   # absolute amount, in cents, to discount
@@ -24,7 +23,7 @@
 #   coupon.percent_off = 25
 #
 #   UTC timestamp specifying the last time at which the coupon can be redeemed
-#   coupon.reedem_by = (Time.now + 15.days).utc
+#   coupon.redeem_by = (Time.now + 15.days).utc
 #
 #   # How many times can this coupon be redeemed?
 #   coupon.max_redemptions = 10
