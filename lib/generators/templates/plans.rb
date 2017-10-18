@@ -4,7 +4,6 @@
 # Stripe::Plans::PRIMO #=> 'primo'
 
 # Stripe.plan :primo do |plan|
-#
 #   # plan name as it will appear on credit card statements
 #   plan.name = 'Acme as a service PRIMO'
 #
