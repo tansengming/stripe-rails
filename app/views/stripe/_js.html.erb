@@ -1,4 +1,5 @@
-<%- case (stripe_js_version || 'v3') %>
+<%- stripe_js_version = Stripe::JavascriptHelper::DEFAULT_STRIPE_JS_VERSION if (!defined?(stripe_js_version) || stripe_js_version.nil?) %>
+<%- case stripe_js_version %>
 <%- when 'v1', 'v2' %>
   <%- if ::Rails.application.config.stripe.debug_js %>
     <script type="text/javascript" src="https://js.stripe.com/<%=stripe_js_version%>/stripe-debug.js"></script>
