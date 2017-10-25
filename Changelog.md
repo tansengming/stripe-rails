@@ -1,3 +1,7 @@
+## 1.1.2 (2017-10-25)
+
+* Fixes js partial crash if stripe_js_version is not defined
+
 ## 1.1.1 (2017-08-31)
 
 * Make stripe-ruby-mock an optional dependency (thanks @gaffneyc)
