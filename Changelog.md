@@ -1,3 +1,7 @@
+## 1.2.0 (2018-01-02)
+
+* Added additional callbacks (thanks @lloydpick & @dja)
+
 ## 1.1.2 (2017-10-25)
 
 * Fixes js partial crash if stripe_js_version is not defined
