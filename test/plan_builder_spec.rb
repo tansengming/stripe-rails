@@ -141,6 +141,7 @@ describe 'building plans' do
 
         describe 'when using the API version that supports products' do
           before { Stripe.api_version = '2018-02-05' }
+          after  { Stripe.api_version = nil }
 
           it 'creates the plan online' do
             Stripe::Plan.expects(:create).with(
