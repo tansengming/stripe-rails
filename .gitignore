@@ -19,3 +19,4 @@ test/dummy/**/*.log
 tmp
 .rvmrc
 .DS_Store
+.ruby-version
