@@ -21,16 +21,21 @@ module Stripe
       end
 
       def create_options
-        change_time = Time.parse '2018-02-05'
-
-        if Stripe.api_version && Time.parse(Stripe.api_version) >= change_time
-          post_change_create_options
+        if api_version_after_plans_to_product_change
+          default_create_options
         else
-          pre_change_create_options
+          pre_product_create_options
         end
       end
 
-      def post_change_create_options
+      def api_version_after_plans_to_product_change
+        plans_with_product_api_version = Date.parse('2018-02-05')
+
+        Stripe.api_version &&
+          Date.parse(Stripe.api_version) >= plans_with_product_api_version
+      end
+
+      def default_create_options
         {
           :currency => @currency,
           product: {
@@ -45,7 +50,7 @@ module Stripe
         }
       end
 
-      def pre_change_create_options
+      def pre_product_create_options
         {
           :currency => @currency,
           :name => @name,
