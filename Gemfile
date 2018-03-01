@@ -9,6 +9,10 @@ gem 'tzinfo'
 gem 'mocha'
 gem 'pry'
 
+group :development, :test do
+  gem 'm'
+end
+
 group :test do
   gem 'simplecov', require: false
   # NOTE: tracking master temporarily until they
