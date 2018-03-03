@@ -21,18 +21,16 @@ module Stripe
       end
 
       def create_options
-        if api_version_after_plans_to_product_change
+        if api_version_after_plans_to_product_change?
           default_create_options
         else
           pre_product_create_options
         end
       end
 
-      def api_version_after_plans_to_product_change
-        plans_with_product_api_version = Date.parse('2018-02-05')
-
+      def api_version_after_plans_to_product_change?
         Stripe.api_version &&
-          Date.parse(Stripe.api_version) >= plans_with_product_api_version
+          Date.parse(Stripe.api_version) >= Date.parse('2018-02-05')
       end
 
       def default_create_options
