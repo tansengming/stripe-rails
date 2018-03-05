@@ -139,6 +139,28 @@ describe 'building plans' do
           Stripe::Plans::ALTERNATIVE_CURRENCY.put!
         end
 
+        describe 'when using the API version that supports products' do
+          before { Stripe.api_version = '2018-02-05' }
+          after  { Stripe.api_version = nil }
+
+          it 'creates the plan online' do
+            Stripe::Plan.expects(:create).with(
+              :id => :gold,
+              :currency => 'usd',
+              :product => {
+                :name => 'Solid Gold',
+              },
+              :amount => 699,
+              :interval => 'month',
+              :interval_count => 1,
+              :trial_period_days => 0,
+              :metadata => nil,
+              :statement_descriptor => nil
+            )
+            Stripe::Plans::GOLD.put!
+          end
+        end
+
       end
 
       describe 'when it is already present on stripe.com' do

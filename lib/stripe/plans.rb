@@ -21,6 +21,34 @@ module Stripe
       end
 
       def create_options
+        if api_version_after_switch_to_products_in_plans
+          default_create_options
+        else
+          create_options_without_products
+        end
+      end
+
+      def api_version_after_switch_to_products_in_plans
+        Stripe.api_version &&
+          Date.parse(Stripe.api_version) >= Date.parse('2018-02-05')
+      end
+
+      def default_create_options
+        {
+          :currency => @currency,
+          product: {
+            :name => @name,
+          },
+          :amount => @amount,
+          :interval => @interval,
+          :interval_count => @interval_count,
+          :trial_period_days => @trial_period_days,
+          :metadata => @metadata,
+          :statement_descriptor => @statement_descriptor
+        }
+      end
+
+      def create_options_without_products
         {
           :currency => @currency,
           :name => @name,
