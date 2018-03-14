@@ -401,7 +401,7 @@ You are probably using a newer version of the Stripe API. To fix this, please ex
 ```ruby
 # config/initializers/stripe_rails.rb
 
-Stripe.version = '2018-02-05'
+Stripe.api_version = '2018-02-05'
 ```
 
 ## Thanks
