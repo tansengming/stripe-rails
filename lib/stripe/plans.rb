@@ -20,6 +20,8 @@ module Stripe
         @trial_period_days = 0
       end
 
+      private
+
       def create_options
         if api_version_after_switch_to_products_in_plans
           default_create_options
@@ -29,8 +31,14 @@ module Stripe
       end
 
       def api_version_after_switch_to_products_in_plans
-        Stripe.api_version &&
-          Date.parse(Stripe.api_version) >= Date.parse('2018-02-05')
+        Date.parse(current_api_version) >= Date.parse('2018-02-05')
+      end
+
+      def current_api_version
+        Stripe.api_version || begin
+          _, resp = ::Stripe::StripeClient.new.request { Stripe::Plan.all }
+          resp.http_headers['stripe-version']
+        end
       end
 
       def default_create_options
