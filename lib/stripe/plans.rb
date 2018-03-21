@@ -36,7 +36,7 @@ module Stripe
 
       def current_api_version
         Stripe.api_version || begin
-          _, resp = ::Stripe::StripeClient.new.request { Stripe::Plan.all }
+          resp, _ = @stripe_class.request(:get, @stripe_class.resource_url)
           resp.http_headers['stripe-version']
         end
       end
