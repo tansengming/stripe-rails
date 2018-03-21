@@ -1,0 +1,24 @@
+{
+  "object": "list",
+  "count": 1,
+  "data": [
+    {
+      "id": "gold",
+      "object": "plan",
+      "amount": 50000,
+      "created": 1503503433,
+      "currency": "usd",
+      "interval": "month",
+      "interval_count": 1,
+      "livemode": false,
+      "nickname": null,
+      "product": "prod_xxxxxxxxx",
+      "trial_period_days": null,
+      "statement_descriptor": null,
+      "name": "Evercondo Fraser",
+      "statement_description": null
+    }
+  ],
+  "has_more": true,
+  "url": "/v1/plans"
+}

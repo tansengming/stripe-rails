@@ -1,0 +1,16 @@
+{
+  "Server": "nginx",
+  "Date": "Wed, 21 Mar 2018 20:04:56 GMT",
+  "Content-Type": "application/json",
+  "Content-Length": "5807",
+  "Connection": "close",
+  "Access-Control-Allow-Credentials": "true",
+  "Access-Control-Allow-Methods": "GET, POST, HEAD, OPTIONS, DELETE",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Expose-Headers": "Request-Id, Stripe-Manage-Version, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required",
+  "Access-Control-Max-Age": "300",
+  "Cache-Control": "no-cache, no-store",
+  "Request-Id": "req_UCuedZo4sKqUXn",
+  "Stripe-Version": "2018-02-05",
+  "Strict-Transport-Security": "max-age=31556926; includeSubDomains; preload"
+}
