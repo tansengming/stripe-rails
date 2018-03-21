@@ -11,6 +11,12 @@ describe "Configuring the stripe engine" do
 
   def rerun_initializers!; initializers.each{|init| init.run(app) }; end
 
+  after do
+    Stripe.api_version = nil
+    Stripe.api_base    = 'https://api.stripe.com'
+    Stripe.api_key     = 'XYZ'
+  end
+
   describe 'Stripe configurations' do
     it "will have valid default values" do
       Stripe.api_base.must_equal          'https://api.stripe.com'
