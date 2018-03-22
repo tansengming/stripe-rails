@@ -46,13 +46,13 @@ module Stripe
           :currency => @currency,
           product: {
             :name => @name,
+            :statement_descriptor => @statement_descriptor,
           },
           :amount => @amount,
           :interval => @interval,
           :interval_count => @interval_count,
           :trial_period_days => @trial_period_days,
           :metadata => @metadata,
-          :statement_descriptor => @statement_descriptor
         }
       end
 
