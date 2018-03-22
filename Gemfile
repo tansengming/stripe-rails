@@ -21,4 +21,5 @@ group :test do
   gem 'poltergeist' # required for system tests
   gem 'phantomjs'   # ditto
   gem 'puma'        # ditto
+  gem 'webmock'
 end

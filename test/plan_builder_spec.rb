@@ -104,9 +104,16 @@ describe 'building plans' do
     end
 
     describe 'uploading' do
+      include FixtureLoader
+
       describe 'when none exists on stripe.com' do
+        let(:headers) { load_request_fixture('stripe_plans_headers_2017.json') }
         before do
           Stripe::Plan.stubs(:retrieve).raises(Stripe::InvalidRequestError.new("not found", "id"))
+
+          stub_request(:get, "https://api.stripe.com/v1/plans").
+            with(headers: { 'Authorization'=>'Bearer XYZ',}).
+            to_return(status: 200, body: load_request_fixture('stripe_plans.json'), headers: JSON.parse(headers))
         end
 
         it 'creates the plan online' do
@@ -161,6 +168,29 @@ describe 'building plans' do
           end
         end
 
+        describe 'when api_version is not set for api versions that support products' do
+          before  { Stripe.api_version = nil }
+          subject { Stripe::Plans::GOLD.put! }
+          let(:headers) { load_request_fixture('stripe_plans_headers.json') }
+
+          it 'creates the plan online' do
+            Stripe::Plan.expects(:create).with(
+              :id => :gold,
+              :currency => 'usd',
+              :product => {
+                :name => 'Solid Gold',
+              },
+              :amount => 699,
+              :interval => 'month',
+              :interval_count => 1,
+              :trial_period_days => 0,
+              :metadata => nil,
+              :statement_descriptor => nil
+            )
+
+            subject
+          end
+        end
       end
 
       describe 'when it is already present on stripe.com' do

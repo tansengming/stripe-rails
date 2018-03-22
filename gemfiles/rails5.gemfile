@@ -16,4 +16,5 @@ group :test do
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem 'puma'
+  gem 'webmock'
 end

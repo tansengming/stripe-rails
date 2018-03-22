@@ -385,25 +385,6 @@ end
 
 The default fixtures come from [the `stripe-ruby-mock` gem](https://github.com/rebelidealist/stripe-ruby-mock/tree/master/lib/stripe_mock/webhook_fixtures).
 
-## Stripe API Notes
-
-### Stripe API >= 2018-02-05 breaks plan builder
-
-If you get the following error message while running `rake stripe:prepare`
-
-```
-rake aborted!
-Stripe::InvalidRequestError: Received unknown parameter: name
-```
-
-You are probably using a newer version of the Stripe API. To fix this, please explicitly set the API by setting `Stripe.api_version` in an initializer. E.g.
-
-```ruby
-# config/initializers/stripe_rails.rb
-
-Stripe.api_version = '2018-02-05'
-```
-
 ## Thanks
 
 <a href="http://frontside.io">![Frontside](http://frontside.io/images/logo.svg)</a>
