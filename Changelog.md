@@ -1,3 +1,7 @@
+## 1.2.1 (2018-03-22)
+
+* Fixes Stripe API update on 2018-02-05 that breaks the plan builder (thanks to @georgecheng for reporting this!)
+
 ## 1.2.0 (2018-01-02)
 
 * Added additional callbacks (thanks @lloydpick & @dja)
