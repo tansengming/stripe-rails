@@ -156,13 +156,13 @@ describe 'building plans' do
               :currency => 'usd',
               :product => {
                 :name => 'Solid Gold',
+                :statement_descriptor => nil,
               },
               :amount => 699,
               :interval => 'month',
               :interval_count => 1,
               :trial_period_days => 0,
               :metadata => nil,
-              :statement_descriptor => nil
             )
             Stripe::Plans::GOLD.put!
           end
@@ -179,13 +179,13 @@ describe 'building plans' do
               :currency => 'usd',
               :product => {
                 :name => 'Solid Gold',
+                :statement_descriptor => nil,
               },
               :amount => 699,
               :interval => 'month',
               :interval_count => 1,
               :trial_period_days => 0,
               :metadata => nil,
-              :statement_descriptor => nil
             )
 
             subject
