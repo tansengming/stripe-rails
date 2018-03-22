@@ -17,7 +17,7 @@ before_script:
 script:
 - bundle exec rake
 - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ `basename $BUNDLE_GEMFILE` == "Gemfile"
-  ]  && [ ${RUBY_VERSION:5:3} == "2.4" ] ; then echo "Sending Coverage..."; ./cc-test-reporter
+  ]  && [ ${RUBY_VERSION:5:3} == "2.5" ] ; then echo "Sending Coverage..."; ./cc-test-reporter
   after-build --exit-code $TRAVIS_TEST_RESULT; fi
 gemfile:
 - Gemfile
