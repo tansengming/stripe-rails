@@ -36,6 +36,7 @@ module Stripe
     callback 'customer.discount.updated'
     callback 'customer.source.created'
     callback 'customer.source.deleted'
+    callback 'customer.source.expiring'
     callback 'customer.source.updated'
     callback 'customer.subscription.created'
     callback 'customer.subscription.deleted'
