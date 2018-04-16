@@ -1,3 +1,7 @@
+## 1.2.2 (2018-04-16)
+
+* adds callback form `customer.source.expiring`. Thanks @Japestrale!
+
 ## 1.2.1 (2018-03-22)
 
 * Fixes Stripe API update on 2018-02-05 that breaks the plan builder (thanks to @georgecheng for reporting this!)
