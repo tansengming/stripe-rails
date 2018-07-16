@@ -1,5 +1,5 @@
 class NullSystemTestCase
-  def self.driven_by(_, _)
+  def self.driven_by(*_)
   end
 
   def self.setup
