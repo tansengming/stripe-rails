@@ -19,7 +19,7 @@ group :test do
   # release https://github.com/rebelidealist/stripe-ruby-mock/pull/433
   gem 'stripe-ruby-mock', github: 'rebelidealist/stripe-ruby-mock'
   gem 'puma'                # required for system tests
-  gem 'capybara'              # ditto
+  gem 'capybara'            # ditto
   gem "selenium-webdriver"  # ditto
   gem 'chromedriver-helper' # ditto
   gem 'webmock'
