@@ -10,6 +10,8 @@ require "stripe-rails"
 
 module Dummy
   class Application < Rails::Application
+    config.stripe.publishable_key = 'pk_test_XXXYYYZZZ'
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
