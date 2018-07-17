@@ -24,13 +24,10 @@ script:
 gemfile:
 - Gemfile
 - gemfiles/rails4.gemfile
-- gemfiles/rails5.gemfile
 matrix:
   exclude:
   - rvm: 2.1.10
     gemfile: Gemfile
-  - rvm: 2.1.10
-    gemfile: gemfiles/rails5.gemfile
 notifications:
   slack:
     secure: csciM073msTrOOdVYVXdAsrx2sR3Y1BKL0VvlSsYxBJawDa8BFNl6Fw8Uz1V2n4OfnkMvMCME4I3EXsCb4Kl5omnK+7ibeCzzzkCR5VwUs5/vLY7awUfCiihSCqg5ULAp2T1whQJUl5HY9Ot62sujIUX/FUhPzdbCqaKQ7cVkUo=
