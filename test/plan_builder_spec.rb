@@ -164,6 +164,25 @@ describe 'building plans' do
             )
             Stripe::Plans::GOLD.put!
           end
+
+          describe 'when using a product id' do
+            before { Stripe::Plans::GOLD.product_id = 'prod_XXXXXXXXXXXXXX' }
+            after  { Stripe::Plans::GOLD.product_id = nil }
+
+            it 'creates the plan online with the product id' do
+              Stripe::Plan.expects(:create).with(
+                :id => :gold,
+                :currency => 'usd',
+                :product => 'prod_XXXXXXXXXXXXXX',
+                :amount => 699,
+                :interval => 'month',
+                :interval_count => 1,
+                :trial_period_days => 0,
+                :metadata => nil,
+              )
+              Stripe::Plans::GOLD.put!
+            end
+          end
         end
 
         describe 'when api_version is not set for api versions that support products' do

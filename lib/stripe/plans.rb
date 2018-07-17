@@ -10,7 +10,8 @@ module Stripe
                     :trial_period_days,
                     :currency,
                     :metadata,
-                    :statement_descriptor
+                    :statement_descriptor,
+                    :product_id
 
       validates_presence_of :id, :amount, :currency, :name
 
@@ -51,16 +52,17 @@ module Stripe
       def default_create_options
         {
           :currency => @currency,
-          product: {
-            :name => @name,
-            :statement_descriptor => @statement_descriptor,
-          },
+          product: product_options,
           :amount => @amount,
           :interval => @interval,
           :interval_count => @interval_count,
           :trial_period_days => @trial_period_days,
           :metadata => @metadata,
         }
+      end
+
+      def product_options
+        @product_id.presence || { :name => @name, :statement_descriptor => @statement_descriptor }
       end
 
       def create_options_without_products
