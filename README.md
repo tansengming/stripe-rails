@@ -145,6 +145,14 @@ Stripe.plan :gold do |plan|
   plan.amount = 999 # $9.99
   plan.interval = 'month'
 end
+
+Stripe.plan :bronze do |plan|
+  # Use an existing product id to prevent a new plan from
+  # getting created
+  plan.product_id = 'prod_XXXXXXXXXXXXXX'
+  plan.amount = 999 # $9.99
+  plan.interval = 'month'
+end
 ```
 
 This will define constants for these plans in the Stripe::Plans module so that you
