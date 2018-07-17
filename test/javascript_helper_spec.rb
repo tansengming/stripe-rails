@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Stripe::JavascriptHelper do
+  parallelize_me!
+
   before { Rails.application.config.stripe.publishable_key = 'pub_xxxx' }
   let(:controller)  { ActionView::TestCase::TestController.new }
   let(:view)        { controller.view_context }

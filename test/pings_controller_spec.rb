@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Stripe::PingsController do
+  parallelize_me!
   include Rack::Test::Methods
 
   let(:app) { Rails.application }
