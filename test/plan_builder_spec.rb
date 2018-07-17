@@ -14,9 +14,7 @@ describe 'building plans' do
       end
     end
 
-    after do
-      Stripe::Plans.send(:remove_const, :PRIMO)
-    end
+    after { Stripe::Plans.send(:remove_const, :PRIMO) }
 
     it 'is accessible via id' do
       Stripe::Plans::PRIMO.wont_be_nil
