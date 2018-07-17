@@ -17,6 +17,6 @@ group :test do
   # Required for system tests
   gem 'capybara'
   gem 'chromedriver-helper'
-  gem 'puma'                
+  gem 'puma'
   gem 'selenium-webdriver'
 end
