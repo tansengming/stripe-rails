@@ -1,3 +1,7 @@
 <%= stripe_javascript_tag (params[:version] || :v3) %>
 
-<p>This page tests the loading and initialization of Stripe JS</p>
+<script>
+  if (typeof(Stripe) != 'undefined') {
+    document.write("<p>This page tests the loading and initialization of Stripe JS</p>");    
+  }
+</script>

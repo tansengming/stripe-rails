@@ -18,8 +18,9 @@ group :test do
   # NOTE: tracking master temporarily until they
   # release https://github.com/rebelidealist/stripe-ruby-mock/pull/433
   gem 'stripe-ruby-mock', github: 'rebelidealist/stripe-ruby-mock'
-  gem 'poltergeist' # required for system tests
-  gem 'phantomjs'   # ditto
-  gem 'puma'        # ditto
+  gem 'puma'                # required for system tests
+  gem 'capybara'            # ditto
+  gem "selenium-webdriver"  # ditto
+  gem 'chromedriver-helper' # ditto
   gem 'webmock'
 end

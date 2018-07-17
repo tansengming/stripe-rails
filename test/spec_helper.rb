@@ -8,6 +8,8 @@ require 'minitest/autorun'
 require 'webmock/minitest'
 WebMock.disable_net_connect!(allow_localhost: true)
 
+require 'selenium-webdriver'
+
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 ENV['STRIPE_SECRET_KEY'] = 'XYZ'

@@ -13,8 +13,9 @@ gem 'stripe-ruby-mock', '~> 2.4'
 
 group :test do
   gem 'simplecov', require: false
-  gem 'poltergeist'
-  gem 'phantomjs', :require => 'phantomjs/poltergeist'
-  gem 'puma'
   gem 'webmock'
+  gem 'puma'                # required for system tests
+  gem 'capybara'            # ditto
+  gem "selenium-webdriver"  # ditto
+  gem 'chromedriver-helper' # ditto
 end
