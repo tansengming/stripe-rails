@@ -1,21 +1,19 @@
 source :rubygems
 
-gem 'rails', '~> 4'
+gem 'rails', '~> 4.2'
 
-gem "bundler", ">= 1.3.0"
-gem "rake"
-gem 'tzinfo'
-gem 'mocha'
-gem 'pry'
+gem 'rake'
 gem 'responders', '~> 2.0' # to support Rails 4.2
 gem 'stripe'
-gem 'stripe-ruby-mock', '~> 2.4'
 
 group :test do
+  gem 'mocha'
   gem 'simplecov', require: false
+  gem 'stripe-ruby-mock'
   gem 'webmock'
-  gem 'puma'                # required for system tests
-  gem 'capybara'            # ditto
-  gem "selenium-webdriver"  # ditto
-  gem 'chromedriver-helper' # ditto
+  # Required for system tests
+  gem 'capybara'
+  gem 'chromedriver-helper'
+  gem 'puma'                
+  gem 'selenium-webdriver'
 end
