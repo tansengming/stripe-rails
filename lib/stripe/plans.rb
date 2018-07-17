@@ -13,13 +13,15 @@ module Stripe
                     :statement_descriptor,
                     :product_id
 
-      validates_presence_of :id, :amount, :currency, :name
+      validates_presence_of :id, :amount, :currency
 
       validates_inclusion_of  :interval,
                               :in => %w(day week month year),
                               :message => "'%{value}' is not one of 'day', 'week', 'month' or 'year'"
 
       validates :statement_descriptor, :length => { :maximum => 22 }
+
+      validate :name_or_product_id
 
       def initialize(*args)
         super(*args)
@@ -29,6 +31,9 @@ module Stripe
       end
 
       private
+      def name_or_product_id
+        errors.add(:base, 'must have a product_id or a name') unless (@product_id.present? ^ @name.present?)
+      end
 
       def create_options
         if api_version_after_switch_to_products_in_plans

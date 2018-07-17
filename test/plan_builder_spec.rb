@@ -166,8 +166,14 @@ describe 'building plans' do
           end
 
           describe 'when using a product id' do
-            before { Stripe::Plans::GOLD.product_id = 'prod_XXXXXXXXXXXXXX' }
-            after  { Stripe::Plans::GOLD.product_id = nil }
+            before do
+              Stripe::Plans::GOLD.product_id = 'prod_XXXXXXXXXXXXXX'
+              Stripe::Plans::GOLD.name = nil
+            end
+            after do
+              Stripe::Plans::GOLD.product_id = nil
+              Stripe::Plans::GOLD.name = 'Solid Gold'
+            end
 
             it 'creates the plan online with the product id' do
               Stripe::Plan.expects(:create).with(
