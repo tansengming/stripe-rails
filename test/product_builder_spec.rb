@@ -24,4 +24,12 @@ describe 'building products' do
       Stripe::Products['primo'].must_equal Stripe::Products::PRIMO
     end
   end
+
+  describe 'validations' do
+    describe 'with missing mandatory values' do
+      it 'raises an exception after configuring it' do
+        lambda { Stripe.product(:bad){} }.must_raise Stripe::InvalidConfigurationError
+      end
+    end
+  end
 end
