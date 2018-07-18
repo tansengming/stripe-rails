@@ -7,6 +7,14 @@ module Stripe
                     :type
 
       validates_presence_of :name, :type
+
+      private
+      def create_options
+        {
+          name: name,
+          type: type,
+        }
+      end
     end
   end
 end
