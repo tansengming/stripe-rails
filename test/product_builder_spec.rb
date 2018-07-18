@@ -15,9 +15,9 @@ describe 'building products' do
       Stripe::Products::PRIMO.wont_be_nil
     end
 
-    # it 'is accessible via collection' do
-    #   Stripe::Products.all.must_include Stripe::Plans::PRIMO
-    # end
+    it 'is accessible via collection' do
+      Stripe::Products.all.must_include Stripe::Products::PRIMO
+    end
 
     it 'is accessible via hash lookup (symbol/string agnostic)' do
       Stripe::Products[:primo].must_equal  Stripe::Products::PRIMO
