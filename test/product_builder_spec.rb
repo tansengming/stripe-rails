@@ -37,19 +37,19 @@ describe 'building products' do
       end
     end
 
-    # describe 'when it is already present on stripe.com' do
-    #   before do
-    #     Stripe::Plan.stubs(:retrieve).returns(Stripe::Plan.construct_from({
-    #       :id => :gold,
-    #       :name => 'Solid Gold'
-    #     }))
-    #   end
+    describe 'when it is already present on stripe.com' do
+      before do
+        Stripe::Product.stubs(:retrieve).returns(Stripe::Product.construct_from({
+          :id => :primo,
+          :name => 'Acme as a service PRIMO',
+        }))
+      end
 
-    #   it 'is a no-op' do
-    #     Stripe::Plan.expects(:create).never
-    #     Stripe::Plans::GOLD.put!
-    #   end
-    # end
+      it 'is a no-op' do
+        Stripe::Product.expects(:create).never
+        Stripe::Products::PRIMO.put!
+      end
+    end
   end
 
   describe 'validations' do
