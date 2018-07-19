@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe 'building coupons' do
-  parallelize_me!
-
   before do
     Stripe::Coupons.configurations.clear
   end
