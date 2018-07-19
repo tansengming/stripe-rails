@@ -3,8 +3,15 @@ require 'spec_helper'
 describe 'building products' do
   before do
     Stripe.product :primo do |product|
-      product.name = 'Acme as a service PRIMO'
-      product.type = 'service'
+      product.name        = 'Acme as a service PRIMO'
+      product.type        = 'service'
+      product.active      = true
+      product.attributes  = ['size', 'gender']
+      product.description = 'The best service'
+      product.caption     = 'So good it is Primo'
+      product.metadata    = {:number_of_awesome_things => 5}
+      # plan.shippable
+      # url - only for goods
     end
   end
 

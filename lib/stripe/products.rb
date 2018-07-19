@@ -4,7 +4,12 @@ module Stripe
 
     configuration_for :product do
       attr_accessor :name,
-                    :type
+                    :type,
+                    :active,
+                    :attributes,
+                    :description,
+                    :caption,
+                    :metadata
 
       validates_presence_of :name, :type
 
