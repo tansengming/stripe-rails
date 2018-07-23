@@ -63,7 +63,7 @@ environment file directly.
     end
 
     initializer 'stripe.plans_and_coupons' do |app|
-      for configuration in %w(plans coupons)
+      for configuration in %w(products plans coupons)
         path = app.root.join("config/stripe/#{configuration}.rb")
         load path if path.exist?
       end

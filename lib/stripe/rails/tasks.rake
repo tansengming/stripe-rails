@@ -1,6 +1,4 @@
-
 namespace :stripe do
-
   desc 'verify your stripe.com authentication configuration'
   task 'verify' => :environment do
     begin
@@ -9,6 +7,10 @@ namespace :stripe do
     rescue Stripe::AuthenticationError => e
       puts "[FAIL] - authentication failed"
     end
+  end
+
+  task 'products:prepare' => 'environment' do
+    Stripe::Products.put!
   end
 
   task 'plans:prepare' => 'environment' do
@@ -24,6 +26,6 @@ namespace :stripe do
     Stripe::Coupons.reset!
   end
 
-  desc "create all plans and coupons defined in config/stripe/{plans|coupons}.rb"
-  task 'prepare' => ['plans:prepare', 'coupons:prepare']
+  desc "create all plans and coupons defined in config/stripe/{products|plans|coupons}.rb"
+  task 'prepare' => ['products:prepare', 'plans:prepare', 'coupons:prepare']
 end
