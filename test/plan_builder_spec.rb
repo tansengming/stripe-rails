@@ -14,9 +14,7 @@ describe 'building plans' do
       end
     end
 
-    after do
-      Stripe::Plans.send(:remove_const, :PRIMO)
-    end
+    after { Stripe::Plans.send(:remove_const, :PRIMO) }
 
     it 'is accessible via id' do
       Stripe::Plans::PRIMO.wont_be_nil
@@ -103,6 +101,28 @@ describe 'building plans' do
       }.must_raise Stripe::InvalidConfigurationError
     end
 
+    describe 'name and product id validation' do
+      it 'should be valid when using just the product id' do
+        Stripe.plan :prodded do |plan|
+          plan.product_id = 'acme'
+          plan.amount = 999
+          plan.interval = 'month'
+        end
+        Stripe::Plans::PRODDED.wont_be_nil
+      end
+
+      it 'should be invalid when using both name and product id' do
+        lambda {
+          Stripe.plan :broken do |plan|
+            plan.name = 'Acme as a service'
+            plan.product_id = 'acme'
+            plan.amount = 999
+            plan.interval = 'month'
+          end
+        }.must_raise Stripe::InvalidConfigurationError
+      end
+    end
+
     describe 'uploading' do
       include FixtureLoader
 
@@ -165,6 +185,31 @@ describe 'building plans' do
               :metadata => nil,
             )
             Stripe::Plans::GOLD.put!
+          end
+
+          describe 'when using a product id' do
+            before do
+              Stripe::Plans::GOLD.product_id = 'prod_XXXXXXXXXXXXXX'
+              Stripe::Plans::GOLD.name = nil
+            end
+            after do
+              Stripe::Plans::GOLD.product_id = nil
+              Stripe::Plans::GOLD.name = 'Solid Gold'
+            end
+
+            it 'creates the plan online with the product id' do
+              Stripe::Plan.expects(:create).with(
+                :id => :gold,
+                :currency => 'usd',
+                :product => 'prod_XXXXXXXXXXXXXX',
+                :amount => 699,
+                :interval => 'month',
+                :interval_count => 1,
+                :trial_period_days => 0,
+                :metadata => nil,
+              )
+              Stripe::Plans::GOLD.put!
+            end
           end
         end
 
