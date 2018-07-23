@@ -14,6 +14,7 @@ namespace :stripe do
       Stripe::Products.put!
     else
       puts '[SKIPPED] Current API version does not support Products'
+    end
   end
 
   task 'plans:prepare' => 'environment' do
