@@ -44,14 +44,7 @@ module Stripe
       end
 
       def api_version_after_switch_to_products_in_plans
-        Date.parse(current_api_version) >= Date.parse('2018-02-05')
-      end
-
-      def current_api_version
-        Stripe.api_version || begin
-          resp, _ = @stripe_class.request(:get, @stripe_class.resource_url)
-          resp.http_headers['stripe-version']
-        end
+        Date.parse(CurrentApiVersion.call) >= Date.parse('2018-02-05')
       end
 
       def default_create_options
