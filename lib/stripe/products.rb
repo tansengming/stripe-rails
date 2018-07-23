@@ -9,15 +9,21 @@ module Stripe
                     :attributes,
                     :description,
                     :caption,
-                    :metadata
+                    :metadata,
+                    :shippable,
+                    :url
 
       validates_presence_of :name, :type
 
-      validates_inclusion_of  :type,
-                              in: %w(service good),
-                              message: "'%{value}' is not 'service' or 'good'"
+      validates :active, :shippable, inclusion: { in: [true, false] }, allow_nil: true
+      validates :type, inclusion: { in: %w(service good) }
+      validates :caption, :description, :shippable, :url, absence: true, unless: :good?
 
       private
+      def good?
+        type == 'good'
+      end
+
       def create_options
         {
           name: name,

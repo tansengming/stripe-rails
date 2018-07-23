@@ -7,11 +7,7 @@ describe 'building products' do
       product.type        = 'service'
       product.active      = true
       product.attributes  = ['size', 'gender']
-      product.description = 'The best service'
-      product.caption     = 'So good it is Primo'
       product.metadata    = {:number_of_awesome_things => 5}
-      # plan.shippable
-      # url - only for goods
     end
   end
 
@@ -76,11 +72,14 @@ describe 'building products' do
         }.must_raise Stripe::InvalidConfigurationError
       end
     end
+
+    describe 'when using an attribute only for goods' do
       it 'raises an exception during configuration' do
         lambda {
-          Stripe.product :broken do |plan|
-            plan.name = 'Acme as a service BROKEN'
-            plan.type = 'anything'
+          Stripe.product :broken do |product|
+            product.name        = 'Broken Service'
+            product.type        = 'service'
+            product.caption     = 'So good it is Primo'
           end
         }.must_raise Stripe::InvalidConfigurationError
       end
