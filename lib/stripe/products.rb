@@ -28,7 +28,14 @@ module Stripe
         {
           name: name,
           type: type,
-        }
+          active: active,
+          attributes: attributes,
+          description: description,
+          caption: caption,
+          metadata: metadata,
+          shippable: shippable,
+          url: url,
+        }.delete_if{|_, v| v.nil? }
       end
     end
   end

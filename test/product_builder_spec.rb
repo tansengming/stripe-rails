@@ -35,6 +35,9 @@ describe 'building products' do
           :id => :primo,
           :name => 'Acme as a service PRIMO',
           :type => 'service',
+          :active => true,
+          :attributes => ['size', 'gender'],
+          :metadata => {:number_of_awesome_things => 5},
         )
         Stripe::Products::PRIMO.put!
       end
