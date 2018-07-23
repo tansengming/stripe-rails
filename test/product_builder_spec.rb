@@ -69,6 +69,15 @@ describe 'building products' do
     describe 'invalid type' do
       it 'raises an exception during configuration' do
         lambda {
+          Stripe.product :broken do |product|
+            product.name = 'Acme as a service BROKEN'
+            product.type = 'anything'
+          end
+        }.must_raise Stripe::InvalidConfigurationError
+      end
+    end
+      it 'raises an exception during configuration' do
+        lambda {
           Stripe.product :broken do |plan|
             plan.name = 'Acme as a service BROKEN'
             plan.type = 'anything'
