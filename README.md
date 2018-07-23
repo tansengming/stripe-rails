@@ -125,6 +125,7 @@ rails generate stripe:install
 this will generate the configuration files containing your plan and coupon definitions:
 
 ```console
+create  config/stripe/products.rb
 create  config/stripe/plans.rb
 create  config/stripe/coupons.rb
 ```
@@ -170,6 +171,16 @@ Stripe.coupon :super_elite_free_vip do |coupon|
   coupon.duration = 'forever'
   coupon.percent_off = 100
   coupon.max_redemptions = 5
+end
+```
+
+
+As are Products:
+
+```ruby
+Stripe.products :primo do |products|
+  products.name = 'PRIMO as a service'
+  products.type = 'service'
 end
 ```
 
