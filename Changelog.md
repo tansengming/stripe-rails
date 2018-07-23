@@ -1,3 +1,9 @@
+## 1.3.0 (2018-07-23)
+
+* do not create new product when product id is provided (#115) - Thanks to @renchap for reporting this
+* updates travis to latest rubies (#112) - Note that after this change we will only run tests on Ruby 2.5, 2.4 and 2.3
+
+
 ## 1.2.2 (2018-04-16)
 
 * adds callback form `customer.source.expiring`. Thanks @Japestrale!
