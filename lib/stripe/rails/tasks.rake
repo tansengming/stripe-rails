@@ -10,7 +10,10 @@ namespace :stripe do
   end
 
   task 'products:prepare' => 'environment' do
-    Stripe::Products.put!
+    if CurrentApiVersion.after_switch_to_products_in_plans?
+      Stripe::Products.put!
+    else
+      puts '[SKIPPED] Current API version does not support Products'
   end
 
   task 'plans:prepare' => 'environment' do
