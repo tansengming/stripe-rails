@@ -1,3 +1,7 @@
+## 1.4.0 (Unreleased)
+
+* Spanking new products builder for Stripe Billing (#117) - Thanks to @renchap for suggesting this and to @henryaj for reviewing it.
+
 ## 1.3.0 (2018-07-23)
 
 * do not create new product when product id is provided (#115) - Thanks to @renchap for reporting this
