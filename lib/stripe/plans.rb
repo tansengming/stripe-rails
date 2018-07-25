@@ -36,21 +36,10 @@ module Stripe
       end
 
       def create_options
-        if api_version_after_switch_to_products_in_plans
+        if CurrentApiVersion.after_switch_to_products_in_plans?
           default_create_options
         else
           create_options_without_products
-        end
-      end
-
-      def api_version_after_switch_to_products_in_plans
-        Date.parse(current_api_version) >= Date.parse('2018-02-05')
-      end
-
-      def current_api_version
-        Stripe.api_version || begin
-          resp, _ = @stripe_class.request(:get, @stripe_class.resource_url)
-          resp.http_headers['stripe-version']
         end
       end
 
