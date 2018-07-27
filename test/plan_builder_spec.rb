@@ -14,6 +14,7 @@ describe 'building plans' do
         plan.active = true
         plan.nickname = 'primo'
         plan.usage_type = 'licensed'
+        plan.billing_scheme = 'per_unit'
       end
     end
 
@@ -122,6 +123,17 @@ describe 'building plans' do
           plan.amount = 999
           plan.interval = 'month'
           plan.usage_type = 'whatever'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'denies invalid values for billing_scheme' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.billing_scheme = 'whatever'
         end
       }.must_raise Stripe::InvalidConfigurationError
     end

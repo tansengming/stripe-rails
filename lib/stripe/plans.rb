@@ -5,6 +5,7 @@ module Stripe
     configuration_for :plan do
       attr_accessor :active,
                     :amount,
+                    :billing_scheme,
                     :currency,
                     :interval,
                     :interval_count,
@@ -25,6 +26,7 @@ module Stripe
       validates :statement_descriptor, :length => { :maximum => 22 }
       validates :active, inclusion: { in: [true, false] }, allow_nil: true
       validates :usage_type, inclusion: { in: ['metered', 'licensed'] }, allow_nil: true
+      validates :billing_scheme, inclusion: { in: ['per_unit', 'tiered'] }, allow_nil: true
 
       validate :name_or_product_id
 
