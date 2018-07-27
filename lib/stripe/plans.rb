@@ -3,16 +3,16 @@ module Stripe
     include ConfigurationBuilder
 
     configuration_for :plan do
-      attr_accessor :name, 
+      attr_accessor :active,
                     :amount,
+                    :currency,
                     :interval,
                     :interval_count,
-                    :trial_period_days,
-                    :currency,
                     :metadata,
-                    :statement_descriptor,
+                    :name, 
                     :product_id,
-                    :active
+                    :statement_descriptor,
+                    :trial_period_days
 
       validates_presence_of :id, :amount, :currency
 
