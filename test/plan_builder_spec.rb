@@ -13,6 +13,7 @@ describe 'building plans' do
         plan.statement_descriptor = 'Acme Primo'
         plan.active = true
         plan.nickname = 'primo'
+        plan.usage_type = 'licensed'
       end
     end
 
@@ -110,6 +111,17 @@ describe 'building plans' do
           plan.amount = 999
           plan.interval = 'month'
           plan.active = 'whatever'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'denies invalid values for usage_type' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.usage_type = 'whatever'
         end
       }.must_raise Stripe::InvalidConfigurationError
     end

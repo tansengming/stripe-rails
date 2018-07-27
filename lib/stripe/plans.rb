@@ -13,7 +13,8 @@ module Stripe
                     :nickname,
                     :product_id,
                     :statement_descriptor,
-                    :trial_period_days
+                    :trial_period_days,
+                    :usage_type
 
       validates_presence_of :id, :amount, :currency
 
@@ -23,6 +24,7 @@ module Stripe
 
       validates :statement_descriptor, :length => { :maximum => 22 }
       validates :active, inclusion: { in: [true, false] }, allow_nil: true
+      validates :usage_type, inclusion: { in: ['metered', 'licensed'] }, allow_nil: true
 
       validate :name_or_product_id
 
