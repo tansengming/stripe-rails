@@ -4,6 +4,7 @@ module Stripe
 
     configuration_for :plan do
       attr_accessor :active,
+                    :aggregate_usage,
                     :amount,
                     :billing_scheme,
                     :currency,
@@ -27,8 +28,10 @@ module Stripe
       validates :active, inclusion: { in: [true, false] }, allow_nil: true
       validates :usage_type, inclusion: { in: ['metered', 'licensed'] }, allow_nil: true
       validates :billing_scheme, inclusion: { in: ['per_unit', 'tiered'] }, allow_nil: true
+      validates :aggregate_usage, inclusion: { in: %w{ sum last_during_period last_ever max } }, allow_nil: true
 
       validate :name_or_product_id
+      validate :aggregate_usage_must_be_metered, if: ->(p) { p.aggregate_usage.present? }
 
       def initialize(*args)
         super(*args)
@@ -38,6 +41,10 @@ module Stripe
       end
 
       private
+      def aggregate_usage_must_be_metered
+        errors.add(:aggregate_usage, 'usage_type must be metered') unless (usage_type == 'metered')
+      end
+
       def name_or_product_id
         errors.add(:base, 'must have a product_id or a name') unless (@product_id.present? ^ @name.present?)
       end

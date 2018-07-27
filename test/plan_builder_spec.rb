@@ -13,8 +13,9 @@ describe 'building plans' do
         plan.statement_descriptor = 'Acme Primo'
         plan.active = true
         plan.nickname = 'primo'
-        plan.usage_type = 'licensed'
+        plan.usage_type = 'metered'
         plan.billing_scheme = 'per_unit'
+        plan.aggregate_usage = 'sum'
       end
     end
 
@@ -126,6 +127,30 @@ describe 'building plans' do
         end
       }.must_raise Stripe::InvalidConfigurationError
     end
+
+    it 'denies invalid values for aggregate_usage' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.aggregate_usage = 'whatever'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'denies aggregate_usage if usage type is liecensed' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.usage_type = 'licensed'
+          plan.aggregate_usage = 'sum'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
 
     it 'denies invalid values for billing_scheme' do
       lambda {
