@@ -11,7 +11,8 @@ module Stripe
                     :currency,
                     :metadata,
                     :statement_descriptor,
-                    :product_id
+                    :product_id,
+                    :active
 
       validates_presence_of :id, :amount, :currency
 
@@ -20,6 +21,7 @@ module Stripe
                               :message => "'%{value}' is not one of 'day', 'week', 'month' or 'year'"
 
       validates :statement_descriptor, :length => { :maximum => 22 }
+      validates :active, inclusion: { in: [true, false] }, allow_nil: true
 
       validate :name_or_product_id
 
