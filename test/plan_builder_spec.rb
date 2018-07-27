@@ -11,6 +11,7 @@ describe 'building plans' do
         plan.trial_period_days = 30
         plan.metadata = {:number_of_awesome_things => 5}
         plan.statement_descriptor = 'Acme Primo'
+        plan.active = true
       end
     end
 
@@ -97,6 +98,17 @@ describe 'building plans' do
           plan.amount = 999
           plan.interval = 'month'
           plan.statement_descriptor = 'ACME as a Service Monthly'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'denies invalid values for active' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.active = 'whatever'
         end
       }.must_raise Stripe::InvalidConfigurationError
     end
