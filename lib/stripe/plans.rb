@@ -28,8 +28,8 @@ module Stripe
       validates :statement_descriptor, :length => { :maximum => 22 }
 
       validates :active,          inclusion: { in: [true, false] }, allow_nil: true
-      validates :usage_type,      inclusion: { in: ['metered', 'licensed'] }, allow_nil: true
-      validates :billing_scheme,  inclusion: { in: ['per_unit', 'tiered'] }, allow_nil: true
+      validates :usage_type,      inclusion: { in: %w{ metered licensed } }, allow_nil: true
+      validates :billing_scheme,  inclusion: { in: %w{ per_unit tiered } }, allow_nil: true
       validates :aggregate_usage, inclusion: { in: %w{ sum last_during_period last_ever max } }, allow_nil: true
       validates :tiers_mode,      inclusion: { in: %w{ graduated volume } }, allow_nil: true
 
