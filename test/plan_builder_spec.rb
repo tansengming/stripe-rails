@@ -16,6 +16,7 @@ describe 'building plans' do
         plan.usage_type = 'metered'
         plan.billing_scheme = 'per_unit'
         plan.aggregate_usage = 'sum'
+        plan.tiers_mode = 'graduated'
       end
     end
 
@@ -159,6 +160,17 @@ describe 'building plans' do
           plan.amount = 999
           plan.interval = 'month'
           plan.billing_scheme = 'whatever'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'denies invalid values for tiers_mode' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.tiers_mode = 'whatever'
         end
       }.must_raise Stripe::InvalidConfigurationError
     end

@@ -15,6 +15,7 @@ module Stripe
                     :nickname,
                     :product_id,
                     :statement_descriptor,
+                    :tiers_mode,
                     :trial_period_days,
                     :usage_type
 
@@ -25,10 +26,12 @@ module Stripe
                               :message => "'%{value}' is not one of 'day', 'week', 'month' or 'year'"
 
       validates :statement_descriptor, :length => { :maximum => 22 }
-      validates :active, inclusion: { in: [true, false] }, allow_nil: true
-      validates :usage_type, inclusion: { in: ['metered', 'licensed'] }, allow_nil: true
-      validates :billing_scheme, inclusion: { in: ['per_unit', 'tiered'] }, allow_nil: true
+
+      validates :active,          inclusion: { in: [true, false] }, allow_nil: true
+      validates :usage_type,      inclusion: { in: ['metered', 'licensed'] }, allow_nil: true
+      validates :billing_scheme,  inclusion: { in: ['per_unit', 'tiered'] }, allow_nil: true
       validates :aggregate_usage, inclusion: { in: %w{ sum last_during_period last_ever max } }, allow_nil: true
+      validates :tiers_mode,      inclusion: { in: %w{ graduated volume } }, allow_nil: true
 
       validate :name_or_product_id
       validate :aggregate_usage_must_be_metered, if: ->(p) { p.aggregate_usage.present? }
