@@ -10,6 +10,7 @@ module Stripe
                     :interval_count,
                     :metadata,
                     :name, 
+                    :nickname,
                     :product_id,
                     :statement_descriptor,
                     :trial_period_days

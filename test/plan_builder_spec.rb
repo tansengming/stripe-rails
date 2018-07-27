@@ -12,6 +12,7 @@ describe 'building plans' do
         plan.metadata = {:number_of_awesome_things => 5}
         plan.statement_descriptor = 'Acme Primo'
         plan.active = true
+        plan.nickname = 'primo'
       end
     end
 
