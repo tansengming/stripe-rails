@@ -1,4 +1,4 @@
-## 1.4.0 (Unreleased)
+## 1.4.0 (2018-07-30)
 
 * Spanking new products builder for Stripe Billing (#117) - Thanks to @renchap for suggesting this and to @henryaj for reviewing it.
 
