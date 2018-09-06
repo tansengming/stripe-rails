@@ -11,6 +11,12 @@ describe 'building plans' do
         plan.trial_period_days = 30
         plan.metadata = {:number_of_awesome_things => 5}
         plan.statement_descriptor = 'Acme Primo'
+        plan.active = true
+        plan.nickname = 'primo'
+        plan.usage_type = 'metered'
+        plan.billing_scheme = 'per_unit'
+        plan.aggregate_usage = 'sum'
+        plan.tiers_mode = 'graduated'
       end
     end
 
@@ -97,6 +103,74 @@ describe 'building plans' do
           plan.amount = 999
           plan.interval = 'month'
           plan.statement_descriptor = 'ACME as a Service Monthly'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'denies invalid values for active' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.active = 'whatever'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'denies invalid values for usage_type' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.usage_type = 'whatever'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'denies invalid values for aggregate_usage' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.aggregate_usage = 'whatever'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'denies aggregate_usage if usage type is liecensed' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.usage_type = 'licensed'
+          plan.aggregate_usage = 'sum'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
+
+    it 'denies invalid values for billing_scheme' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.billing_scheme = 'whatever'
+        end
+      }.must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'denies invalid values for tiers_mode' do
+      lambda {
+        Stripe.plan :broken do |plan|
+          plan.name = 'Acme as a service'
+          plan.amount = 999
+          plan.interval = 'month'
+          plan.tiers_mode = 'whatever'
         end
       }.must_raise Stripe::InvalidConfigurationError
     end

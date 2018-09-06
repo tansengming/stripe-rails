@@ -3,15 +3,21 @@ module Stripe
     include ConfigurationBuilder
 
     configuration_for :plan do
-      attr_accessor :name, 
+      attr_accessor :active,
+                    :aggregate_usage,
                     :amount,
+                    :billing_scheme,
+                    :currency,
                     :interval,
                     :interval_count,
-                    :trial_period_days,
-                    :currency,
                     :metadata,
+                    :name, 
+                    :nickname,
+                    :product_id,
                     :statement_descriptor,
-                    :product_id
+                    :tiers_mode,
+                    :trial_period_days,
+                    :usage_type
 
       validates_presence_of :id, :amount, :currency
 
@@ -21,7 +27,14 @@ module Stripe
 
       validates :statement_descriptor, :length => { :maximum => 22 }
 
+      validates :active,          inclusion: { in: [true, false] }, allow_nil: true
+      validates :usage_type,      inclusion: { in: %w{ metered licensed } }, allow_nil: true
+      validates :billing_scheme,  inclusion: { in: %w{ per_unit tiered } }, allow_nil: true
+      validates :aggregate_usage, inclusion: { in: %w{ sum last_during_period last_ever max } }, allow_nil: true
+      validates :tiers_mode,      inclusion: { in: %w{ graduated volume } }, allow_nil: true
+
       validate :name_or_product_id
+      validate :aggregate_usage_must_be_metered, if: ->(p) { p.aggregate_usage.present? }
 
       def initialize(*args)
         super(*args)
@@ -31,6 +44,10 @@ module Stripe
       end
 
       private
+      def aggregate_usage_must_be_metered
+        errors.add(:aggregate_usage, 'usage_type must be metered') unless (usage_type == 'metered')
+      end
+
       def name_or_product_id
         errors.add(:base, 'must have a product_id or a name') unless (@product_id.present? ^ @name.present?)
       end
