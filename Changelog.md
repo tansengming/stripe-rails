@@ -1,3 +1,7 @@
+## 1.4.2 (2018-08-06)
+
+* New attributes for Stripe Billing Plans.
+
 ## 1.4.1 (2018-08-03)
 
 * Fixes ActionController::UnknownFormat errors - Thanks to @ndbroadbent !
