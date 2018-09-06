@@ -5,7 +5,7 @@ module Stripe
 
     def create
       @event = dispatch_stripe_event params
-      respond_with @event, :location => nil
+      head :ok
     end
   end
 end
