@@ -16,6 +16,8 @@ module Stripe
 
       validates_presence_of :name, :type
 
+      validates :statement_descriptor, length: { maximum: 22 }
+
       validates :active, :shippable, inclusion: { in: [true, false] }, allow_nil: true
       validates :type, inclusion: { in: %w(service good) }
       validates :caption, :description, :shippable, :url, absence: true, unless: :good?
