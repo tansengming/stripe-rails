@@ -87,5 +87,17 @@ describe 'building products' do
         }.must_raise Stripe::InvalidConfigurationError
       end
     end
+
+    describe 'when using an attribute only for services' do
+      it 'raises an exception during configuration' do
+        lambda {
+          Stripe.product :broken do |product|
+            product.name        = 'Broken Good'
+            product.type        = 'good'
+            product.statement_descriptor = 'SERVICE'
+          end
+        }.must_raise Stripe::InvalidConfigurationError
+      end
+    end
   end
 end
