@@ -8,7 +8,13 @@ require 'minitest/autorun'
 require 'webmock/minitest'
 WebMock.disable_net_connect!(allow_localhost: true)
 
+# Chrome Setup
 require 'selenium-webdriver'
+require 'capybara'
+require 'chromedriver-helper'
+Capybara.register_driver :selenium do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
 
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"

@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 class DummyStripesControllerSpec < ApplicationSystemTestCase
   setup do
     Dummy::Application.configure do
