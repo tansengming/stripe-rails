@@ -218,9 +218,7 @@ describe 'building plans' do
             :amount => 699,
             :interval => 'month',
             :interval_count => 1,
-            :trial_period_days => 0,
-            :metadata => nil,
-            :statement_descriptor => nil
+            :trial_period_days => 0
           )
           Stripe::Plans::GOLD.put!
         end
@@ -233,9 +231,7 @@ describe 'building plans' do
             :amount => 699,
             :interval => 'month',
             :interval_count => 1,
-            :trial_period_days => 0,
-            :metadata => nil,
-            :statement_descriptor => nil
+            :trial_period_days => 0
           )
           Stripe::Plans::ALTERNATIVE_CURRENCY.put!
         end
@@ -255,8 +251,7 @@ describe 'building plans' do
               :amount => 699,
               :interval => 'month',
               :interval_count => 1,
-              :trial_period_days => 0,
-              :metadata => nil,
+              :trial_period_days => 0
             )
             Stripe::Plans::GOLD.put!
           end
@@ -279,8 +274,7 @@ describe 'building plans' do
                 :amount => 699,
                 :interval => 'month',
                 :interval_count => 1,
-                :trial_period_days => 0,
-                :metadata => nil,
+                :trial_period_days => 0
               )
               Stripe::Plans::GOLD.put!
             end
@@ -303,8 +297,7 @@ describe 'building plans' do
               :amount => 699,
               :interval => 'month',
               :interval_count => 1,
-              :trial_period_days => 0,
-              :metadata => nil,
+              :trial_period_days => 0
             )
 
             subject

@@ -22,10 +22,10 @@ module Stripe
       validates_presence_of :id, :amount, :currency
 
       validates_inclusion_of  :interval,
-                              :in => %w(day week month year),
-                              :message => "'%{value}' is not one of 'day', 'week', 'month' or 'year'"
+                              in: %w(day week month year),
+                              message: "'%{value}' is not one of 'day', 'week', 'month' or 'year'"
 
-      validates :statement_descriptor, :length => { :maximum => 22 }
+      validates :statement_descriptor, length: { maximum: 22 }
 
       validates :active,          inclusion: { in: [true, false] }, allow_nil: true
       validates :usage_type,      inclusion: { in: %w{ metered licensed } }, allow_nil: true
@@ -62,31 +62,32 @@ module Stripe
 
       def default_create_options
         {
-          :currency => @currency,
+          currency: currency,
           product: product_options,
-          :amount => @amount,
-          :interval => @interval,
-          :interval_count => @interval_count,
-          :trial_period_days => @trial_period_days,
-          :metadata => @metadata,
-        }
+          amount: amount,
+          interval: interval,
+          interval_count: interval_count,
+          trial_period_days: trial_period_days,
+          metadata: metadata,
+          nickname: nickname
+        }.delete_if{|_, v| v.nil? }
       end
 
       def product_options
-        @product_id.presence || { :name => @name, :statement_descriptor => @statement_descriptor }
+        product_id.presence || { name: name, statement_descriptor: statement_descriptor }
       end
 
       def create_options_without_products
         {
-          :currency => @currency,
-          :name => @name,
-          :amount => @amount,
-          :interval => @interval,
-          :interval_count => @interval_count,
-          :trial_period_days => @trial_period_days,
-          :metadata => @metadata,
-          :statement_descriptor => @statement_descriptor
-        }
+          currency: currency,
+          name: name,
+          amount: amount,
+          interval: interval,
+          interval_count: interval_count,
+          trial_period_days: trial_period_days,
+          metadata: metadata,
+          statement_descriptor: statement_descriptor
+        }.delete_if{|_, v| v.nil? }
       end
     end
   end
