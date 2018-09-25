@@ -101,6 +101,32 @@ config.stripe.publishable_key = 'pk_live_XXXYYYZZZ'
 
 This key will be publicly visible on the internet, so it is ok to put in your source.
 
+### Signed Webhooks
+
+Validation of your webhook's signature uses your webhook endpoint signing secret.
+Before you can verify signatures, you need to retrieve your endpoint’s secret your
+Stripe Dashboard. Select an endpoint for which you want to obtain
+the secret, then select the Click to reveal button.
+
+```ruby
+# config/application.rb
+# ...
+config.stripe.signing_secret = 'whsec_XXXYYYZZZ'
+```
+
+Each secret is unique to the endpoint to which it corresponds. If you use multiple endpoints,
+you must obtain a secret for each one. After this setup, Stripe starts to sign each webhook
+it sends to the endpoint. Because of this, we recommend setting this variable with an environment
+variable:
+
+```sh
+export STRIPE_SIGNING_SECRET=whsec_XXXYYYZZZ
+```
+
+```ruby
+config.stripe.signing_secret = ENV.fetch('STRIPE_SIGNING_SECRET')
+```
+
 ### Manually set your API version (optional)
 
 If you need to test a new API version in development, you can override the version number manually.
