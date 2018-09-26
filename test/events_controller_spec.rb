@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Stripe::EventsController do
-  parallelize_me!
   include Rack::Test::Methods
 
   let(:app) { Rails.application }
@@ -26,7 +25,10 @@ describe Stripe::EventsController do
   describe 'signed webhooks' do
     before do
       header 'Stripe-Signature', 't=1537832721,v1=123,v0=123'
+      app.config.stripe.signing_secret = 'SECRET'
     end
+
+    after { app.config.stripe.signing_secret = nil }
 
     let(:params) {
       {
