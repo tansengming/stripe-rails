@@ -34,6 +34,7 @@ describe "Configuring the stripe engine" do
     subject do
       app.config.stripe.api_base          = 'http://localhost:5000'
       app.config.stripe.secret_key        = 'SECRET_XYZ'
+      app.config.stripe.signing_secret    = 'SIGNING_SECRET_XYZ'
       app.config.stripe.verify_ssl_certs  = false
       app.config.stripe.api_version       = '2015-10-16'
       app.config.stripe.open_timeout      = 33
@@ -50,6 +51,8 @@ describe "Configuring the stripe engine" do
       Stripe.api_version.must_equal       '2015-10-16'
       Stripe.open_timeout.must_equal      33
       Stripe.read_timeout.must_equal      88
+
+      app.config.stripe.signing_secret.must_equal   'SIGNING_SECRET_XYZ'
     end
   end
 
