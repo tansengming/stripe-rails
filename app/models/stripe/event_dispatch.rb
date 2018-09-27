@@ -1,20 +1,29 @@
 require 'stripe/event'
 module Stripe
   module EventDispatch
-    def dispatch_stripe_event(params)
-      retrieve_stripe_event(params) do |evt|
+    def dispatch_stripe_event(request)
+      retrieve_stripe_event(request) do |evt|
         target = evt.data.object
         ::Stripe::Callbacks.run_callbacks(evt, target)
       end
     end
 
-    def retrieve_stripe_event(params)
-      id = params['id']
-      if id == 'evt_00000000000000' #this is a webhook test
-        yield Stripe::Event.construct_from(params.to_unsafe_h)
+    def retrieve_stripe_event(request)
+      id = request['id']
+      body = request.body.read
+      sig_header = request.headers['HTTP_STRIPE_SIGNATURE']
+      endpoint_secret = ::Rails.application.config.stripe.signing_secret
+
+      # this is a webhook test
+      if id == 'evt_00000000000000'
+        event = Stripe::Event.construct_from(JSON.parse(body))
+      elsif Object.const_defined?('Stripe::Webhook') && sig_header && endpoint_secret
+        event = ::Stripe::Webhook.construct_event(body, sig_header, endpoint_secret)
       else
-        yield Stripe::Event.retrieve(id)
+        event = Stripe::Event.retrieve(id)
       end
+
+      yield event
     end
   end
 end

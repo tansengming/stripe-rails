@@ -213,6 +213,61 @@ config.stripe.endpoint = '/payment/stripe-integration'
 
 Your new webhook URL would then be `http://myproductionapp/payment/stripe-integration/events`
 
+### Signed Webhooks
+
+Validation of your webhook's signature uses your webhook endpoint signing secret.
+Before you can verify signatures, you need to retrieve your endpoint’s secret your
+Stripe Dashboard. Select an endpoint for which you want to obtain
+the secret, then select the Click to reveal button.
+
+```ruby
+# config/application.rb
+# ...
+config.stripe.signing_secret = 'whsec_XXXYYYZZZ'
+```
+
+Each secret is unique to the endpoint to which it corresponds. If you use multiple endpoints,
+you must obtain a secret for each one. After this setup, Stripe starts to sign each webhook
+it sends to the endpoint. Because of this, we recommend setting this variable with an environment
+variable:
+
+```sh
+export STRIPE_SIGNING_SECRET=whsec_XXXYYYZZZ
+```
+
+```ruby
+config.stripe.signing_secret = ENV.fetch('STRIPE_SIGNING_SECRET')
+```
+
+#### Testing Signed Webhooks Locally
+
+In order to test signed webhooks, you'll need to trigger test webhooks from your Stripe dashboard,
+and configure your local environment to receive remote network requests. To do so, we recommend using
+[ngrok](https://ngrok.com/) to configure a secure tunnel to `localhost`.
+
+Once configured and running, `ngrok` will give you a unique URL which can be used to set up a webhook
+endpoint. Webhook endpoints are configured in your Dashboard's [Webhook settings](https://dashboard.stripe.com/account/webhooks)
+section. Make sure you are in **Test** mode and click `Add endpoint`, and provide your `ngrok` URL along with the `stripe.endpoint` suffix.
+
+An example webhook URL would then be `https://bf2a5d21.ngrok.io/stripe/events`.
+
+Once your endpoint is configured, you can reveal the **Signing secret**. This will need to be set
+as documented above:
+
+```ruby
+# config/application.rb
+# ...
+config.stripe.signing_secret = 'whsec_XXXYYYZZZ'
+```
+
+And you'll need to restart your rails server with:
+
+```sh
+rails restart
+```
+
+Now you're ready to click **Send test webhook**, and trigger whichever events you'd like to test from Stripe itself.
+
 ### Disabling auto mount
 
 Sometimes, you don't want the stripe engine to be auto-mounted so that
