@@ -1,3 +1,8 @@
+## 1.5.0 (2018-09-27)
+
+* Add Webhook Signature Validation - Thanks to @wkirby
+* Include nickname in the payload for plans - Thanks to @jeanmartin
+
 ## 1.4.2 (2018-08-06)
 
 * New attributes for Stripe Billing Plans.
