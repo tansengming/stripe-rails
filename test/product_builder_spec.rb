@@ -8,6 +8,7 @@ describe 'building products' do
       product.active      = true
       product.attributes  = ['size', 'gender']
       product.metadata    = {:number_of_awesome_things => 5}
+      product.statement_descriptor = 'PRIMO'
     end
   end
 
@@ -32,12 +33,13 @@ describe 'building products' do
 
       it 'creates the plan online' do
         Stripe::Product.expects(:create).with(
-          :id => :primo,
-          :name => 'Acme as a service PRIMO',
-          :type => 'service',
-          :active => true,
-          :attributes => ['size', 'gender'],
-          :metadata => {:number_of_awesome_things => 5},
+          id: :primo,
+          name: 'Acme as a service PRIMO',
+          type: 'service',
+          active: true,
+          attributes: ['size', 'gender'],
+          metadata: {:number_of_awesome_things => 5},
+          statement_descriptor: 'PRIMO'
         )
         Stripe::Products::PRIMO.put!
       end
