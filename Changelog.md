@@ -1,3 +1,8 @@
+## 1.5.1 (2018-10-01)
+
+* Allow statement_descriptor to be set on products - Thanks to @jeanmartin
+
+
 ## 1.5.0 (2018-09-27)
 
 * Add Webhook Signature Validation - Thanks to @wkirby
