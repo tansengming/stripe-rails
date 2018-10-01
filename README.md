@@ -12,6 +12,8 @@ This gem can help your rails application integrate with Stripe in the following 
 * manage plans and coupons from within your app.
 * painlessly receive and validate webhooks from stripe.
 
+[✉ Sign up for the Newsletter](http://tinyletter.com/stripe-rails) to receive occasional updates.
+
 ## Installation
 
 Add this line to your application's Gemfile:
