@@ -1,0 +1,11 @@
+# editorconfig.org
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+
+[*.rb]
+indent_style = space
+indent_size = 2
+charset = utf-8
