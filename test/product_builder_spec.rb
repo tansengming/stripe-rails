@@ -8,6 +8,7 @@ describe 'building products' do
       product.active      = true
       product.attributes  = ['size', 'gender']
       product.metadata    = {:number_of_awesome_things => 5}
+      product.statement_descriptor = 'PRIMO'
     end
   end
 
@@ -32,12 +33,13 @@ describe 'building products' do
 
       it 'creates the plan online' do
         Stripe::Product.expects(:create).with(
-          :id => :primo,
-          :name => 'Acme as a service PRIMO',
-          :type => 'service',
-          :active => true,
-          :attributes => ['size', 'gender'],
-          :metadata => {:number_of_awesome_things => 5},
+          id: :primo,
+          name: 'Acme as a service PRIMO',
+          type: 'service',
+          active: true,
+          attributes: ['size', 'gender'],
+          metadata: {:number_of_awesome_things => 5},
+          statement_descriptor: 'PRIMO'
         )
         Stripe::Products::PRIMO.put!
       end
@@ -83,6 +85,18 @@ describe 'building products' do
             product.name        = 'Broken Service'
             product.type        = 'service'
             product.caption     = 'So good it is Primo'
+          end
+        }.must_raise Stripe::InvalidConfigurationError
+      end
+    end
+
+    describe 'when using an attribute only for services' do
+      it 'raises an exception during configuration' do
+        lambda {
+          Stripe.product :broken do |product|
+            product.name        = 'Broken Good'
+            product.type        = 'good'
+            product.statement_descriptor = 'SERVICE'
           end
         }.must_raise Stripe::InvalidConfigurationError
       end
