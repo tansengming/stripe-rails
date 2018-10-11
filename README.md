@@ -14,6 +14,8 @@ This gem can help your rails application integrate with Stripe in the following 
 
 [✉ Sign up for the Newsletter](http://tinyletter.com/stripe-rails) to receive occasional updates.
 
+---
+
 [Installation](#installation)
 - [Setup your API keys](#setup-your-api-keys)
 - [Manually set your API version (optional)](#manually-set-your-api-version-optional)
