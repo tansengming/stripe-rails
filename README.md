@@ -12,24 +12,30 @@ This gem can help your rails application integrate with Stripe in the following 
 * manage plans and coupons from within your app.
 * painlessly receive and validate webhooks from stripe.
 
-[✉ Sign up for the Newsletter](http://tinyletter.com/stripe-rails) to receive occasional updates.
+[📫 Sign up for the Newsletter](http://tinyletter.com/stripe-rails) to receive occasional updates.
 
-1. [Installation](#installation)
-  1. [Setup your API keys](#setup-your-api-keys)
-  1. [Manually set your API version (optional)](#manually-set-your-api-version-optional)
-  1. [Setup your payment configuration](#setup-your-payment-configuration)
-  1. [Configuring your plans and coupons](#configuring-your-plans-and-coupons)
-1. [Webhooks](#webhooks)
-  1. [Signed Webhooks](#signed-webhooks)
-    1. [Testing Signed Webhooks Locally](#testing-signed-webhooks-locally)
-  1. [Disabling auto mount](#disabling-auto-mount)
-  1. [Responding to webhooks](#responding-to-webhooks)
-  1. [Critical and non-critical hooks](#critical-and-non-critical hooks)
-  1. [Filtering Callbacks](#filtering-callbacks)
-  1. [Catchall Callback](#catchall-callback)
-1. [Unit testing](#unit-testing)
-1. [Thanks](#thanks)
-1. [Code of Conduct](#code-of-conduct)
+---
+
+[Installation](#installation)
+- [Setup your API keys](#setup-your-api-keys)
+- [Manually set your API version (optional)](#manually-set-your-api-version-optional)
+- [Setup your payment configuration](#setup-your-payment-configuration)
+- [Configuring your plans and coupons](#configuring-your-plans-and-coupons)
+
+[Webhooks](#webhooks)
+- [Signed Webhooks](#signed-webhooks)
+  - [Testing Signed Webhooks Locally](#testing-signed-webhooks-locally)
+- [Disabling auto mount](#disabling-auto-mount)
+- [Responding to webhooks](#responding-to-webhooks)
+- [Critical and non-critical hooks](#critical-and-non-critical-hooks)
+- [Filtering Callbacks](#filtering-callbacks)
+- [Catchall Callback](#catchall-callback)
+
+[Unit testing](#unit-testing)
+
+[Thanks](#thanks)
+
+[Code of Conduct](#code-of-conduct)
 
 ## Installation
 
