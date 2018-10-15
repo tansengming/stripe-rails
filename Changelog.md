@@ -1,3 +1,7 @@
+## 1.5.2 (2018-10-15)
+
+* fixes undefined method `expand_path' for Stripe::File:Class - Thanks to @BitesGit for reporting this.
+
 ## 1.5.1 (2018-10-01)
 
 * Allow statement_descriptor to be set on products - Thanks to @jeanmartin
