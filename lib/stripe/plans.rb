@@ -69,6 +69,9 @@ module Stripe
           interval_count: interval_count,
           trial_period_days: trial_period_days,
           metadata: metadata,
+          usage_type: usage_type,
+          aggregate_usage: aggregate_usage,
+          billing_scheme: billing_scheme,
           nickname: nickname
         }.delete_if{|_, v| v.nil? }
       end
@@ -86,6 +89,9 @@ module Stripe
           interval_count: interval_count,
           trial_period_days: trial_period_days,
           metadata: metadata,
+          usage_type: usage_type,
+          aggregate_usage: aggregate_usage,
+          billing_scheme: billing_scheme,
           statement_descriptor: statement_descriptor
         }.delete_if{|_, v| v.nil? }
       end
