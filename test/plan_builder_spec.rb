@@ -223,6 +223,22 @@ describe 'building plans' do
           Stripe::Plans::GOLD.put!
         end
 
+        it 'creates a metered plan' do
+          Stripe::Plan.expects(:create).with(
+            :id => :metered,
+            :currency => 'usd',
+            :name => 'Metered',
+            :amount => 699,
+            :interval => 'month',
+            :interval_count => 1,
+            :trial_period_days => 0,
+            :usage_type => 'metered',
+            :aggregate_usage => 'max',
+            :billing_scheme => 'per_unit'
+          )
+          Stripe::Plans::METERED.put!
+        end
+
         it 'creates a plan with an alternative currency' do
           Stripe::Plan.expects(:create).with(
             :id => :alternative_currency,
