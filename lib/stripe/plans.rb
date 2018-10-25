@@ -80,6 +80,8 @@ module Stripe
         product_id.presence || { name: name, statement_descriptor: statement_descriptor }
       end
 
+      # Note: these options serve an older API, as such they should
+      # probably never be updated.
       def create_options_without_products
         {
           currency: currency,
@@ -89,9 +91,6 @@ module Stripe
           interval_count: interval_count,
           trial_period_days: trial_period_days,
           metadata: metadata,
-          usage_type: usage_type,
-          aggregate_usage: aggregate_usage,
-          billing_scheme: billing_scheme,
           statement_descriptor: statement_descriptor
         }
       end
