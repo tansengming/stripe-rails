@@ -73,7 +73,7 @@ module Stripe
           aggregate_usage: aggregate_usage,
           billing_scheme: billing_scheme,
           nickname: nickname
-        }.delete_if{|_, v| v.nil? }
+        }
       end
 
       def product_options
@@ -93,7 +93,7 @@ module Stripe
           aggregate_usage: aggregate_usage,
           billing_scheme: billing_scheme,
           statement_descriptor: statement_descriptor
-        }.delete_if{|_, v| v.nil? }
+        }
       end
     end
   end
