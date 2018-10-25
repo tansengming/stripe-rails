@@ -54,7 +54,7 @@ module Stripe
 
       def create_options
         if CurrentApiVersion.after_switch_to_products_in_plans?
-          create_options_with_products
+          default_create_options
         else
           create_options_without_products
         end
@@ -63,6 +63,7 @@ module Stripe
       def default_create_options
         {
           currency: currency,
+          product: product_options,
           amount: amount,
           interval: interval,
           interval_count: interval_count,
@@ -79,14 +80,20 @@ module Stripe
         product_id.presence || { name: name, statement_descriptor: statement_descriptor }
       end
 
-      def create_options_with_products
-        default_create_options.merge({ product: product_options })
-                              .delete_if{|_, v| v.nil? }
-      end
-
       def create_options_without_products
-        default_create_options.merge(product_options)
-                              .delete_if{|_, v| v.nil? }
+        {
+          currency: currency,
+          name: name,
+          amount: amount,
+          interval: interval,
+          interval_count: interval_count,
+          trial_period_days: trial_period_days,
+          metadata: metadata,
+          usage_type: usage_type,
+          aggregate_usage: aggregate_usage,
+          billing_scheme: billing_scheme,
+          statement_descriptor: statement_descriptor
+        }.delete_if{|_, v| v.nil? }
       end
     end
   end
