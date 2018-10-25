@@ -7,5 +7,9 @@ module Stripe
 
       render 'stripe/js', stripe_js_version: stripe_js_version
     end
+
+    def stripe_elements_tag
+      render 'stripe/elements'
+    end
   end
 end
