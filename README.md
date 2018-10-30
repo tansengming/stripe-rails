@@ -38,7 +38,7 @@ This gem can help your rails application integrate with Stripe in the following 
 
 [Code of Conduct](#code-of-conduct)
 
-[Support](#premium-support)
+[Priority Support](#priority-support)
 
 ## Installation
 
@@ -518,6 +518,6 @@ Conduct. By participating in this project you agree to abide by its
 terms, which can be found in the `CODE_OF_CONDUCT.md` file in this
 repository.
 
-## Premium Support
+## Priority Support
 
-Paid support is also available from the maintainer of this gem. If you need help setting up, designing your Stripe integration or have custom software development needs please feel free to email [sengming@sanemen.com](mailto:sengming@sanemen.com?subject=Stripe Rails Support:)
+Paid support is also available from the maintainer of this gem. If you need help setting up, designing your Stripe integration or have custom software development needs please feel free to email [sengming@sanemen.com](mailto:sengming@sanemen.com?subject=stripe-rails-support).
