@@ -14,10 +14,7 @@ module Stripe
       sig_header = request.headers['HTTP_STRIPE_SIGNATURE']
       endpoint_secret = ::Rails.application.config.stripe.signing_secret
 
-      # this is a webhook test
-      if id == 'evt_00000000000000'
-        event = Stripe::Event.construct_from(JSON.parse(body))
-      elsif Object.const_defined?('Stripe::Webhook') && sig_header && endpoint_secret
+      if Object.const_defined?('Stripe::Webhook') && sig_header && endpoint_secret
         event = ::Stripe::Webhook.construct_event(body, sig_header, endpoint_secret)
       else
         event = Stripe::Event.retrieve(id)

@@ -17,6 +17,11 @@ describe Stripe::EventsController do
         data: {object: 'customer'},
       }
     }
+
+    before do
+      stub_request(:get, "https://api.stripe.com/v1/events/evt_00000000000000").
+        to_return(status: 200, body: Stripe::Event.construct_from(params).to_json, headers: {})
+    end
     subject { post '/stripe/events', params.to_json }
 
     it { subject.must_be :ok? }
