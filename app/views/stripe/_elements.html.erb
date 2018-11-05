@@ -1,8 +1,4 @@
 <style>
-/**
- * The CSS shown here will not be introduced in the Quickstart guide, but shows
- * how you can use CSS to style your Element's container.
- */
 .StripeElement {
   background-color: white;
   height: 40px;
@@ -45,13 +41,11 @@
 
 <script>
 // Create a Stripe client.
-var stripe = Stripe('pk_test_mHaR14tsdD5uY4wueTBxu3kW');
+var stripe = Stripe('<%= stripe_public_key %>');
 
 // Create an instance of Elements.
 var elements = stripe.elements();
 
-// Custom styling can be passed to options when creating an Element.
-// (Note that this demo uses a wider set of styles than the guide below.)
 var style = {
   base: {
     color: '#32325d',
@@ -68,13 +62,9 @@ var style = {
   }
 };
 
-// Create an instance of the card Element.
 var card = elements.create('card', {style: style});
-
-// Add an instance of the card Element into the `card-element` <div>.
 card.mount('#card-element');
 
-// Handle real-time validation errors from the card Element.
 card.addEventListener('change', function(event) {
   var displayError = document.getElementById('card-errors');
   if (event.error) {
@@ -84,7 +74,6 @@ card.addEventListener('change', function(event) {
   }
 });
 
-// Handle form submission.
 var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(event) {
   event.preventDefault();
@@ -95,6 +84,7 @@ form.addEventListener('submit', function(event) {
       var errorElement = document.getElementById('card-errors');
       errorElement.textContent = result.error.message;
     } else {
+      console.log(result.token)
       // Send the token to your server.
       stripeTokenHandler(result.token);
     }

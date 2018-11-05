@@ -8,8 +8,8 @@ module Stripe
       render 'stripe/js', stripe_js_version: stripe_js_version
     end
 
-    def stripe_elements_tag
-      render 'stripe/elements'
+    def stripe_elements_tag(stripe_public_key = ENV["STRIPE_PUBLIC_KEY"])
+      render partial: 'stripe/elements', locals: { stripe_public_key: stripe_public_key }
     end
   end
 end
