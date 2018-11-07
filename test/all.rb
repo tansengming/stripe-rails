@@ -1,1 +1,0 @@
-Dir['**/*_spec.rb'].each {|f| load f}
