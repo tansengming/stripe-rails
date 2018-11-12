@@ -1,27 +1,6 @@
-<style>
-.StripeElement {
-  background-color: white;
-  height: 40px;
-  padding: 10px 12px;
-  border-radius: 4px;
-  border: 1px solid transparent;
-  box-shadow: 0 1px 3px 0 #e6ebf1;
-  -webkit-transition: box-shadow 150ms ease;
-  transition: box-shadow 150ms ease;
-}
-
-.StripeElement--focus {
-  box-shadow: 0 1px 3px 0 #cfd7df;
-}
-
-.StripeElement--invalid {
-  border-color: #fa755a;
-}
-
-.StripeElement--webkit-autofill {
-  background-color: #fefde5 !important;
-}
-</style>
+<% if options[:default_css] %>
+  <%= render partial: "stripe/elements_css" %>
+<% end %>
 
 <%= form_tag submit_path do %>
   <div class="form-row">
@@ -31,39 +10,6 @@
   </div>
 <% end %>
 
-<script>
-// Create a Stripe client.
-var stripe = Stripe('<%= stripe_public_key %>');
-
-// Create an instance of Elements.
-var elements = stripe.elements();
-
-var card = elements.create('card');
-card.mount('#card-element');
-
-card.addEventListener('change', function(event) {
-  var displayError = document.getElementById('card-errors');
-  if (event.error) {
-    displayError.textContent = event.error.message;
-  } else {
-    displayError.textContent = '';
-  }
-});
-
-var form = document.getElementById('payment-form');
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  stripe.createToken(card).then(function(result) {
-    if (result.error) {
-      // Inform the user if there was an error.
-      var errorElement = document.getElementById('card-errors');
-      errorElement.textContent = result.error.message;
-    } else {
-      console.log(result.token)
-      // Send the token to your server.
-      stripeTokenHandler(result.token);
-    }
-  });
-})
-</script>
+<% if options[:default_js] %>
+  <%= render partial: "stripe/elements_js", locals: { stripe_public_key: stripe_public_key } %>
+<% end %>

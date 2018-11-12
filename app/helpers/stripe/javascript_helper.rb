@@ -11,7 +11,9 @@ module Stripe
     def stripe_elements_tag(stripe_public_key: ENV["STRIPE_PUBLIC_KEY"], submit_path:, options: {})
       default_options = {
         label_text: "Credit or debit card",
-        submit_button_text: "Submit payment"
+        submit_button_text: "Submit payment",
+        default_css: true,
+        default_js: true
       }
 
       render partial: 'stripe/elements', locals: {
