@@ -23,21 +23,13 @@
 }
 </style>
 
-<form action="/charge" method="post" id="payment-form">
+<%= form_tag submit_path do %>
   <div class="form-row">
-    <label for="card-element">
-      Credit or debit card
-    </label>
-    <div id="card-element">
-      <!-- A Stripe Element will be inserted here. -->
-    </div>
-
-    <!-- Used to display form errors. -->
-    <div id="card-errors" role="alert"></div>
+    <%= label_tag :card_element, options[:label_text] %>
+    <div id="card-element"><!-- A Stripe Element will be inserted here. --></div>
+    <%= submit_tag options[:submit_button_text] %>
   </div>
-
-  <button>Submit Payment</button>
-</form>
+<% end %>
 
 <script>
 // Create a Stripe client.
@@ -46,23 +38,7 @@ var stripe = Stripe('<%= stripe_public_key %>');
 // Create an instance of Elements.
 var elements = stripe.elements();
 
-var style = {
-  base: {
-    color: '#32325d',
-    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-    fontSmoothing: 'antialiased',
-    fontSize: '16px',
-    '::placeholder': {
-      color: '#aab7c4'
-    }
-  },
-  invalid: {
-    color: '#fa755a',
-    iconColor: '#fa755a'
-  }
-};
-
-var card = elements.create('card', {style: style});
+var card = elements.create('card');
 card.mount('#card-element');
 
 card.addEventListener('change', function(event) {
