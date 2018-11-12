@@ -256,6 +256,26 @@ describe 'building plans' do
             Stripe::Plans::GOLD.put!
           end
 
+          it 'creates a metered plan' do
+            Stripe::Plan.expects(:create).with(
+              :id => :metered,
+              :currency => 'usd',
+              :product => {
+                :name => 'Metered',
+                :statement_descriptor => nil,
+              },
+              :amount => 699,
+              :interval => 'month',
+              :interval_count => 1,
+              :trial_period_days => 0,
+              :usage_type => 'metered',
+              :aggregate_usage => 'max',
+              :billing_scheme => 'per_unit'
+            )
+            Stripe::Plans::METERED.put!
+          end
+
+
           describe 'when using a product id' do
             before do
               Stripe::Plans::GOLD.product_id = 'prod_XXXXXXXXXXXXXX'

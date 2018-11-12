@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["sengming@sanemen.com"]
   gem.description   = "A gem to integrate stripe into your rails app"
   gem.summary       = "A gem to integrate stripe into your rails app"
-  gem.homepage      = "https://github.com/Everapps/stripe-rails"
+  gem.homepage      = "https://github.com/tansengming/stripe-rails"
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($\)

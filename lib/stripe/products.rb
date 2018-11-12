@@ -44,7 +44,7 @@ module Stripe
           shippable: shippable,
           url: url,
           statement_descriptor: statement_descriptor
-        }.delete_if{|_, v| v.nil? }
+        }
       end
     end
   end

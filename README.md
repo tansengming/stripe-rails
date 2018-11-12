@@ -19,7 +19,8 @@ This gem can help your rails application integrate with Stripe in the following 
 [Installation](#installation)
 - [Setup your API keys](#setup-your-api-keys)
 - [Manually set your API version (optional)](#manually-set-your-api-version-optional)
-- [Setup your payment configuration](#setup-your-payment-configuration)
+
+[Setup your payment configuration](#setup-your-payment-configuration)
 - [Configuring your plans and coupons](#configuring-your-plans-and-coupons)
 
 [Webhooks](#webhooks)
@@ -36,6 +37,8 @@ This gem can help your rails application integrate with Stripe in the following 
 [Thanks](#thanks)
 
 [Code of Conduct](#code-of-conduct)
+
+[Priority Support](#priority-support)
 
 ## Installation
 
@@ -136,7 +139,7 @@ If you need to test a new API version in development, you can override the versi
 config.stripe.api_version = '2015-10-16'
 ```
 
-### Setup your payment configuration
+## Setup your payment configuration
 
 If you're using subscriptions, then you'll need to set up your application's payment plans
 and discounts. `Stripe::Rails` lets you automate the management of these definitions from
@@ -509,7 +512,12 @@ The default fixtures come from [the `stripe-ruby-mock` gem](https://github.com/r
 
 
 ## Code of Conduct
+
 Please note that this project is released with a Contributor Code of
 Conduct. By participating in this project you agree to abide by its
 terms, which can be found in the `CODE_OF_CONDUCT.md` file in this
 repository.
+
+## Priority Support
+
+Paid support is also available from the maintainer of this gem. If you need help setting up, designing your Stripe integration or have custom software development needs please feel free to email [sengming@sanemen.com](mailto:sengming@sanemen.com?subject=stripe-rails-support).

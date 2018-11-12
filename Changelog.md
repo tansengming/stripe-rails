@@ -1,3 +1,7 @@
+## 1.5.3 (2018-10-25)
+
+* Add usage_type, aggregate_usage, and billing_scheme - thanks @garrettqmartin8
+
 ## 1.5.2 (2018-10-15)
 
 * fixes undefined method `expand_path' for Stripe::File:Class - Thanks to @BitesGit for reporting this.

@@ -76,7 +76,7 @@ module Stripe
         if exists?
           puts "[EXISTS] - #{@stripe_class}:#{@id}" unless Stripe::Engine.testing
         else
-          object = @stripe_class.create({:id => @id}.merge create_options)
+          object = @stripe_class.create({:id => @id}.merge compact_create_options)
           puts "[CREATE] - #{@stripe_class}:#{object}" unless Stripe::Engine.testing
         end
       end
@@ -85,8 +85,12 @@ module Stripe
         if object = exists?
           object.delete
         end
-        object = @stripe_class.create({:id => @id}.merge create_options)
+        object = @stripe_class.create({:id => @id}.merge compact_create_options)
         puts "[RESET] - #{@stripe_class}:#{object}" unless Stripe::Engine.testing
+      end
+
+      def compact_create_options
+        create_options.delete_if { |_, v| v.nil? }
       end
 
       def to_s
