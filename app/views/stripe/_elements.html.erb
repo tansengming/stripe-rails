@@ -2,13 +2,13 @@
   <%= render partial: "stripe/elements_css" %>
 <% end %>
 
-<%= form_tag submit_path do %>
-  <div class="form-row">
+<div id="stripe-form">
+  <%= form_tag submit_path do %>
     <%= label_tag :card_element, options[:label_text] %>
     <div id="card-element"><!-- A Stripe Element will be inserted here. --></div>
     <%= submit_tag options[:submit_button_text] %>
-  </div>
-<% end %>
+  <% end %>
+</div>
 
 <% if options[:default_js] %>
   <%= render partial: "stripe/elements_js", locals: { stripe_public_key: stripe_public_key } %>
