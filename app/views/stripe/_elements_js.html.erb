@@ -1,6 +1,6 @@
 <script>
   // Create a Stripe client.
-  var stripe = Stripe('<%= stripe_public_key %>');
+  var stripe = Stripe('<%= Rails.application.config.stripe.publishable_key %>');
 
   // Create an instance of Elements.
   var elements = stripe.elements();
@@ -27,7 +27,6 @@
         var errorElement = document.getElementById('card-errors');
         errorElement.textContent = result.error.message;
       } else {
-        console.log(result.token)
         // Send the token to your server.
         stripeTokenHandler(result.token);
       }

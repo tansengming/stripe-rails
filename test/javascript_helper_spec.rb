@@ -54,7 +54,6 @@ describe Stripe::JavascriptHelper do
       it 'should display the form' do
         view.stripe_elements_tag(
           submit_path: '/charge',
-          stripe_public_key: 'abc123'
         ).must_include 'Credit or debit card'
       end
     end
@@ -64,7 +63,6 @@ describe Stripe::JavascriptHelper do
         it 'wont include the default script tag' do
           view.stripe_elements_tag(
             submit_path: '/charge',
-            stripe_public_key: 'abc123',
             options: {
               default_js: false
             }
@@ -76,7 +74,6 @@ describe Stripe::JavascriptHelper do
         it 'wont include the default style tag' do
           view.stripe_elements_tag(
             submit_path: '/charge',
-            stripe_public_key: 'abc123',
             options: {
               default_css: false
             }
@@ -88,7 +85,6 @@ describe Stripe::JavascriptHelper do
         it 'should display the selected text options' do
           page = view.stripe_elements_tag(
             submit_path: '/charge',
-            stripe_public_key: 'abc123',
             options: {
               label_text: 'Enter your info',
               submit_button_text: 'Confirm payment'
