@@ -1,15 +1,15 @@
-<% if options[:default_css] %>
+<% if default_css %>
   <%= render partial: "stripe/elements_css" %>
 <% end %>
 
 <div id="stripe-form">
   <%= form_tag submit_path do %>
-    <%= label_tag :card_element, options[:label_text] %>
+    <%= label_tag :card_element, label_text %>
     <div id="card-element"><!-- A Stripe Element will be inserted here. --></div>
-    <%= submit_tag options[:submit_button_text] %>
+    <%= submit_tag submit_button_text %>
   <% end %>
 </div>
 
-<% if options[:default_js] %>
+<% if default_js %>
   <%= render partial: "stripe/elements_js" %>
 <% end %>

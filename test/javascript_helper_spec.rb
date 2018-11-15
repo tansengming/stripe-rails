@@ -63,9 +63,7 @@ describe Stripe::JavascriptHelper do
         it 'wont include the default script tag' do
           view.stripe_elements_tag(
             submit_path: '/charge',
-            options: {
-              default_js: false
-            }
+            default_js: false
           ).wont_include '<script>'
         end
       end
@@ -74,9 +72,7 @@ describe Stripe::JavascriptHelper do
         it 'wont include the default style tag' do
           view.stripe_elements_tag(
             submit_path: '/charge',
-            options: {
-              default_css: false
-            }
+            default_css: false
           ).wont_include '<style>'
         end
       end
@@ -85,10 +81,8 @@ describe Stripe::JavascriptHelper do
         it 'should display the selected text options' do
           page = view.stripe_elements_tag(
             submit_path: '/charge',
-            options: {
-              label_text: 'Enter your info',
-              submit_button_text: 'Confirm payment'
-            }
+            label_text: 'Enter your info',
+            submit_button_text: 'Confirm payment'
           )
 
           page.must_include 'Enter your info'
