@@ -8,8 +8,8 @@ module Stripe
       render 'stripe/js', stripe_js_version: stripe_js_version
     end
 
-    def stripe_elements_tag(submit_path:, label_text: "Credit or debit card",
-                            submit_button_text: "Submit payment",
+    def stripe_elements_tag(submit_path:, label_text: t("stripe_rails.elements.label_text"),
+                            submit_button_text: t("stripe_rails.elements.submit_button_text"),
                             default_css: true,
                             default_js: true)
 
