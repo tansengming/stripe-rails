@@ -1,3 +1,8 @@
+## 1.5.4 (2018-11-14)
+
+* Removes test exception from event dispatch
+* Travis is now testing the gem on Ruby 2.5.3, 2.4.5, 2.3.8
+
 ## 1.5.3 (2018-10-25)
 
 * Add usage_type, aggregate_usage, and billing_scheme - thanks @garrettqmartin8
