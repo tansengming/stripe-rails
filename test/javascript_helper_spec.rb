@@ -63,8 +63,8 @@ describe Stripe::JavascriptHelper do
         it 'wont include the default script tag' do
           view.stripe_elements_tag(
             submit_path: '/charge',
-            default_js: false
-          ).wont_include '<script>'
+            js_path: 'another/path'
+          ).wont_include '<script id="stripe_elements_js">'
         end
       end
 
@@ -72,7 +72,7 @@ describe Stripe::JavascriptHelper do
         it 'wont include the default style tag' do
           view.stripe_elements_tag(
             submit_path: '/charge',
-            default_css: false
+            css_path: 'another/path'
           ).wont_include '<style>'
         end
       end

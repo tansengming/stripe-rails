@@ -10,15 +10,15 @@ module Stripe
 
     def stripe_elements_tag(submit_path:, label_text: t("stripe_rails.elements.label_text"),
                             submit_button_text: t("stripe_rails.elements.submit_button_text"),
-                            default_css: true,
-                            default_js: true)
+                            css_path: asset_path("stripe_elements.css"),
+                            js_path: asset_path("stripe_elements.js"))
 
       render partial: 'stripe/elements', locals: {
         submit_path: submit_path,
         label_text: label_text,
         submit_button_text: submit_button_text,
-        default_css: default_css,
-        default_js: default_js
+        css_path: css_path,
+        js_path: js_path
       }
     end
   end
