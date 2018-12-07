@@ -41,6 +41,17 @@ environment file directly.
       MSG
     end
 
+    initializer 'stripe.callbacks.clear_after_unload' do |app|
+      # Skip Rails 4 for now.
+      next unless app.respond_to?(:reloader)
+
+      # Clear callbacks after all autoloaded classes are removed.
+      # This prevents duplicate callbacks being added during development.
+      app.reloader.after_class_unload do
+        ::Stripe::Callbacks.clear_callbacks!
+      end
+    end
+
     initializer 'stripe.callbacks.eager_load' do |app|
       app.config.after_initialize do
         app.config.stripe.eager_load.each do |constant|
