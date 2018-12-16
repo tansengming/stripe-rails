@@ -1,3 +1,7 @@
+## 1.5.5 (2018-12-16)
+
+* Fixed issue with Rails development and Spring: Clear callbacks before files are reloaded during development and test - thanks @ndbroadbent
+
 ## 1.5.4 (2018-11-14)
 
 * Removes test exception from event dispatch
