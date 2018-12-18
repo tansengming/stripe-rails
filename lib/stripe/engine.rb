@@ -81,7 +81,9 @@ environment file directly.
     end
 
     initializer 'stripe.assets.precompile' do |app|
-      app.config.assets.precompile += %w( stripe_elements.js stripe_elements.css )
+      unless ::Rails.env.test?
+        app.config.assets.precompile += %w( stripe_elements.js stripe_elements.css )
+      end
     end
 
     rake_tasks do
