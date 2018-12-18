@@ -230,9 +230,10 @@ Stripe::Rails allows you to easily include [Stripe Elements](https://stripe.com/
 
 > Stripe Elements are rich, pre-built UI components that help you create your own pixel-perfect checkout flows across desktop and mobile.
 
-Simply include the `stripe_elements_tag` and pass it the path to the controller action which will handle the Stripe token once the form is submitted:
+Simply include the `stripe_elements_tag` anywhere below the `stripe_javascript_tag` and pass it the path to the controller action which will handle the Stripe token once the form is submitted:
 
 ```erb
+<%= stripe_javascript_tag %>
 <%= stripe_elements_tag submit_path: billing_path %>
 ```
 
