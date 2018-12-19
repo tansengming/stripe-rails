@@ -23,7 +23,10 @@ This gem can help your rails application integrate with Stripe in the following 
 [Setup your payment configuration](#setup-your-payment-configuration)
 - [Configuring your plans and coupons](#configuring-your-plans-and-coupons)
 
+[Stripe Elements](s#stripe-elements)
+
 [Webhooks](#webhooks)
+
 - [Signed Webhooks](#signed-webhooks)
   - [Testing Signed Webhooks Locally](#testing-signed-webhooks-locally)
 - [Disabling auto mount](#disabling-auto-mount)
