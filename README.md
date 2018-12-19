@@ -224,6 +224,39 @@ use any of these plans in your application.
 
 NOTE: You must destroy plans manually from your stripe dashboard.
 
+## Stripe Elements
+
+Stripe::Rails allows you to easily include [Stripe Elements](https://stripe.com/payments/elements) in your application.
+
+> Stripe Elements are rich, pre-built UI components that help you create your own pixel-perfect checkout flows across desktop and mobile.
+
+Simply include the `stripe_elements_tag` anywhere below the `stripe_javascript_tag` and pass it the path to the controller action which will handle the Stripe token once the form is submitted:
+
+```erb
+<%= stripe_javascript_tag %>
+<%= stripe_elements_tag submit_path: billing_path %>
+```
+
+### Configuration options
+
+Stripe::Rails comes bundled with default CSS and Javascript for Stripe elements, making it easy to drop in to your app. You can also specify your own assets paths:
+
+```erb
+<%= stripe_elements_tag submit_path: billing_path,
+                        css_path: 'your/asset/path',
+                        js_path: 'your/asset/path' %>
+```
+
+If you decide to use your own CSS and Javascript for Stripe Elements, please refer to the [Stripe elements docs](https://stripe.com/docs/stripe-js/elements/quickstart).
+
+You can also configure the form text:
+
+```erb
+<%= stripe_elements_tag submit_path: billing_path,
+                        label_text: "Your label text",
+                        submit_button_text: "Your button text" %>
+```
+
 ## Webhooks
 
 Stripe::Rails automatically sets up your application to receive webhooks from stripe.com whenever

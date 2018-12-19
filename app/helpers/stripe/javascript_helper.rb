@@ -7,5 +7,19 @@ module Stripe
 
       render 'stripe/js', stripe_js_version: stripe_js_version
     end
+
+    def stripe_elements_tag(submit_path:, label_text: t("stripe_rails.elements.label_text"),
+                            submit_button_text: t("stripe_rails.elements.submit_button_text"),
+                            css_path: asset_path("stripe_elements.css"),
+                            js_path: asset_path("stripe_elements.js"))
+
+      render partial: 'stripe/elements', locals: {
+        submit_path: submit_path,
+        label_text: label_text,
+        submit_button_text: submit_button_text,
+        css_path: css_path,
+        js_path: js_path
+      }
+    end
   end
 end

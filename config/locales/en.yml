@@ -1,0 +1,6 @@
+en:
+  stripe_rails:
+    elements:
+      label_text: Credit or debit card
+      submit_button_text: Submit payment
+

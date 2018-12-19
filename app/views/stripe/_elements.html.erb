@@ -1,0 +1,17 @@
+<%= stylesheet_link_tag css_path, media: 'all' %>
+
+<div>
+  <div id="card-errors">
+  </div>
+
+  <%= form_tag submit_path, id: "stripe-form" do %>
+    <%= label_tag :card_element, label_text %>
+    <div id="card-element"><!-- A Stripe Element will be inserted here. --></div>
+    <%= submit_tag submit_button_text %>
+  <% end %>
+</div>
+
+<script>
+  window.stripe_publishable_key = '<%= Rails.application.config.stripe.publishable_key %>'
+</script>
+<%= javascript_include_tag js_path, id: "stripe_elements_js" %>

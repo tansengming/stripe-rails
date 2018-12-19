@@ -48,4 +48,47 @@ describe Stripe::JavascriptHelper do
       subject.must_include 'https://js.stripe.com/v2/'
     end
   end
+
+  describe '#stripe_elements_tag' do
+    describe 'when no options are passed' do
+      it 'should display the form' do
+        view.stripe_elements_tag(
+          submit_path: '/charge',
+        ).must_include 'Credit or debit card'
+      end
+    end
+
+    describe 'with options' do
+      describe 'without default js' do
+        it 'wont include the default script tag' do
+          view.stripe_elements_tag(
+            submit_path: '/charge',
+            js_path: 'another/path'
+          ).wont_include '<script id="stripe_elements_js">'
+        end
+      end
+
+      describe 'without default css' do
+        it 'wont include the default style tag' do
+          view.stripe_elements_tag(
+            submit_path: '/charge',
+            css_path: 'another/path'
+          ).wont_include '<style>'
+        end
+      end
+
+      describe 'text options' do
+        it 'should display the selected text options' do
+          page = view.stripe_elements_tag(
+            submit_path: '/charge',
+            label_text: 'Enter your info',
+            submit_button_text: 'Confirm payment'
+          )
+
+          page.must_include 'Enter your info'
+          page.must_include 'Confirm payment'
+        end
+      end
+    end
+  end
 end
