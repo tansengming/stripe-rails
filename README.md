@@ -243,8 +243,8 @@ Stripe::Rails comes bundled with default CSS and Javascript for Stripe elements,
 
 ```erb
 <%= stripe_elements_tag submit_path: billing_path,
-                        default_css: 'your/asset/path',
-                        default_js: 'your/asset/path' %>
+                        css_path: 'your/asset/path',
+                        js_path: 'your/asset/path' %>
 ```
 
 If you decide to use your own CSS and Javascript for Stripe Elements, please refer to the [Stripe elements docs](https://stripe.com/docs/stripe-js/elements/quickstart).
