@@ -23,7 +23,7 @@ This gem can help your rails application integrate with Stripe in the following 
 [Setup your payment configuration](#setup-your-payment-configuration)
 - [Configuring your plans and coupons](#configuring-your-plans-and-coupons)
 
-[Stripe Elements](s#stripe-elements)
+[Stripe Elements](#stripe-elements)
 
 [Webhooks](#webhooks)
 
