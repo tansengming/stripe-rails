@@ -76,19 +76,6 @@ describe Stripe::JavascriptHelper do
           ).wont_include '<style>'
         end
       end
-
-      describe 'text options' do
-        it 'should display the selected text options' do
-          page = view.stripe_elements_tag(
-            submit_path: '/charge',
-            label_text: 'Enter your info',
-            submit_button_text: 'Confirm payment'
-          )
-
-          page.must_include 'Enter your info'
-          page.must_include 'Confirm payment'
-        end
-      end
     end
   end
 end
