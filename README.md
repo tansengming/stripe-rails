@@ -252,12 +252,15 @@ Stripe::Rails comes bundled with default CSS and Javascript for Stripe elements,
 
 If you decide to use your own CSS and Javascript for Stripe Elements, please refer to the [Stripe elements docs](https://stripe.com/docs/stripe-js/elements/quickstart).
 
-You can also configure the form text:
+To change the form text you can add the following keys to your locale files
 
-```erb
-<%= stripe_elements_tag submit_path: billing_path,
-                        label_text: "Your label text",
-                        submit_button_text: "Your button text" %>
+```yaml
+# config/locales/en.yml
+en:
+  stripe_rails:
+    elements:
+      label_text: Your label text
+      submit_button_text: Your button text
 ```
 
 ## Webhooks
