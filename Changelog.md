@@ -1,3 +1,8 @@
+## 1.6.0 (2010-01-08)
+
+* New Year New Feature: Easily include Stripe Elements into your project thanks to @garrettqmartin8 !
+* Travis is now testing the gem on Ruby 2.6.0
+
 ## 1.5.5 (2018-12-16)
 
 * Fixed issue with Rails development and Spring: Clear callbacks before files are reloaded during development and test - thanks @ndbroadbent
