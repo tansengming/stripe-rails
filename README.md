@@ -41,8 +41,6 @@ This gem can help your rails application integrate with Stripe in the following 
 
 [Code of Conduct](#code-of-conduct)
 
-[Priority Support](#priority-support)
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -556,7 +554,3 @@ Please note that this project is released with a Contributor Code of
 Conduct. By participating in this project you agree to abide by its
 terms, which can be found in the `CODE_OF_CONDUCT.md` file in this
 repository.
-
-## Priority Support
-
-Paid support is also available from the maintainer of this gem. If you need help setting up, designing your Stripe integration or have custom software development needs please feel free to email [sengming@sanemen.com](mailto:sengming@sanemen.com?subject=stripe-rails-support).
