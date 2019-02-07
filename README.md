@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/tansengming/stripe-rails.png?branch=master)](https://travis-ci.org/tansengming/stripe-rails)
 [![Code Climate](https://codeclimate.com/github/tansengming/stripe-rails/badges/gpa.svg)](https://codeclimate.com/github/tansengming/stripe-rails)
 [![Test Coverage](https://codeclimate.com/github/tansengming/stripe-rails/badges/coverage.svg)](https://codeclimate.com/github/tansengming/stripe-rails/coverage)
-
+[![Tidelift](https://tidelift.com/badges/github/tansengming/stripe-rails)](#)
 
 This gem can help your rails application integrate with Stripe in the following ways
 
