@@ -14,6 +14,8 @@ This gem can help your rails application integrate with Stripe in the following 
 
 [📫 Sign up for the Newsletter](http://tinyletter.com/stripe-rails) to receive occasional updates.
 
+[Professionally supported stripe-rails is coming soon](https://tidelift.com/subscription/pkg/rubygems-stripe-rails?utm_source=rubygems-stripe-rails&utm_medium=referral&utm_campaign=readme)
+
 ---
 
 [Installation](#installation)
