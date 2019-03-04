@@ -1,4 +1,8 @@
-## 1.6.0 (2010-01-08)
+## 1.6.1 (2019-03-04)
+
+* Add new invoice webhooks thanks @noahezekwugo !
+
+## 1.6.0 (2019-01-08)
 
 * New Year New Feature: Easily include Stripe Elements into your project thanks to @garrettqmartin8 !
 * Travis is now testing the gem on Ruby 2.6.0
