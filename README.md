@@ -160,6 +160,19 @@ create  config/stripe/plans.rb
 create  config/stripe/coupons.rb
 ```
 
+If you have to support an existing plan with a Stripe plan id that can not
+be used as a Ruby constant, define the plan with the name you want to use as a
+Symbol, then provide the name for the constant to define with `constant_name`:
+
+```ruby
+Stripe.plan "Silver Plan".to_sym do |plan|
+  plan.constant_name = :silver_plan
+end
+
+Stripe::Plans::SILVER_PLAN # => will be defined
+# Will map to plan :id => "Silver Plan" on Stripe
+```
+
 ### Configuring your plans and coupons
 
 Use the plan builder to define as many plans as you want in `config/stripe/plans.rb`
