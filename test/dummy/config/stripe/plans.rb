@@ -5,7 +5,7 @@ Stripe.plan :gold do |plan|
 end
 
 Stripe.plan "Solid Gold".to_sym do |plan|
-   plan.constant_name = :solid_gold
+   plan.constant_name = 'SOLID_GOLD'
    plan.name = 'Solid Gold'
    plan.amount = 699
    plan.interval = 'month'

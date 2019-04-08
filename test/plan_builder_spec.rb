@@ -351,7 +351,7 @@ describe 'building plans' do
     before do
       Stripe.plan "Primo Plan".to_sym do |plan|
         plan.name = 'Acme as a service PRIMO'
-        plan.constant_name = :primo_plan
+        plan.constant_name = 'PRIMO_PLAN'
         plan.amount = 699
         plan.interval = 'month'
         plan.interval_count = 3
@@ -387,7 +387,7 @@ describe 'building plans' do
         lambda {
           Stripe.plan "Primo Plan".to_sym do |plan|
             plan.name = 'Acme as a service PRIMO'
-            plan.constant_name = "Primo Plan".to_sym
+            plan.constant_name = 'PRIMO PLAN'
             plan.amount = 999
             plan.interval = 'month'
           end
