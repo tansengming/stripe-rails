@@ -160,6 +160,25 @@ create  config/stripe/plans.rb
 create  config/stripe/coupons.rb
 ```
 
+If you have to support an existing plan with a Stripe plan id that can not
+be used as a Ruby constant, provide the plan id as a symbol when
+defining the plan, but provide the name for the constant to define with `constant_name`:
+
+```ruby
+Stripe.plan "Silver-Plan".to_sym do |plan|
+  plan.constant_name = 'SILVER_PLAN'
+end
+
+Stripe::Plans::SILVER_PLAN # => will be defined
+# Will map to plan :id => "Silver-Plan" on Stripe
+```
+
+**Note** - If you're planning on running `rake stripe:prepare` to
+  create your subscription plans, Stripe will restrict plan ids to match
+  this regexp (`/\A[a-zA-Z0-9_\-]+\z/`) when created via API but still
+  allows creation of plan ids that don't follow this restriction when
+  manually created on stripe.com.
+
 ### Configuring your plans and coupons
 
 Use the plan builder to define as many plans as you want in `config/stripe/plans.rb`
