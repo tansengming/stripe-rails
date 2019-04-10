@@ -346,4 +346,81 @@ describe 'building plans' do
       proc {Stripe.plan(:bad) {}}.must_raise Stripe::InvalidConfigurationError
     end
   end
+  
+  describe 'with custom constant name' do
+    before do
+      Stripe.plan "Primo Plan".to_sym do |plan|
+        plan.name = 'Acme as a service PRIMO'
+        plan.constant_name = 'PRIMO_PLAN'
+        plan.amount = 699
+        plan.interval = 'month'
+        plan.interval_count = 3
+        plan.trial_period_days = 30
+        plan.metadata = {:number_of_awesome_things => 5}
+        plan.statement_descriptor = 'Acme Primo'
+        plan.active = true
+        plan.nickname = 'primo'
+        plan.usage_type = 'metered'
+        plan.billing_scheme = 'per_unit'
+        plan.aggregate_usage = 'sum'
+        plan.tiers_mode = 'graduated'
+      end
+    end
+
+    after { Stripe::Plans.send(:remove_const, :PRIMO_PLAN) }
+
+    it 'is accessible via upcased constant_name' do
+      Stripe::Plans::PRIMO_PLAN.wont_be_nil
+    end
+
+    it 'is accessible via collection' do
+      Stripe::Plans.all.must_include Stripe::Plans::PRIMO_PLAN
+    end
+
+    it 'is accessible via hash lookup (symbol/string agnostic)' do
+      Stripe::Plans[:primo_plan].must_equal Stripe::Plans::PRIMO_PLAN
+      Stripe::Plans['primo_plan'].must_equal Stripe::Plans::PRIMO_PLAN
+    end
+
+    describe 'constant name validation' do
+      it 'should be invalid when providing a constant name that can not be used for Ruby constant' do
+        lambda {
+          Stripe.plan "Primo Plan".to_sym do |plan|
+            plan.name = 'Acme as a service PRIMO'
+            plan.constant_name = 'PRIMO PLAN'
+            plan.amount = 999
+            plan.interval = 'month'
+          end
+        }.must_raise Stripe::InvalidConfigurationError
+      end
+    end
+
+    describe 'uploading' do
+      include FixtureLoader
+
+      describe 'when none exists on stripe.com' do
+        let(:headers) { load_request_fixture('stripe_plans_headers_2017.json') }
+        before do
+          Stripe::Plan.stubs(:retrieve).raises(Stripe::InvalidRequestError.new("not found", "id"))
+
+          stub_request(:get, "https://api.stripe.com/v1/plans").
+            with(headers: { 'Authorization'=>'Bearer XYZ',}).
+            to_return(status: 200, body: load_request_fixture('stripe_plans.json'), headers: JSON.parse(headers))
+        end
+
+        it 'creates the plan online' do
+          Stripe::Plan.expects(:create).with(
+            :id => "Solid Gold".to_sym,
+            :currency => 'usd',
+            :name => 'Solid Gold',
+            :amount => 699,
+            :interval => 'month',
+            :interval_count => 1,
+            :trial_period_days => 0
+          )
+          Stripe::Plans::SOLID_GOLD.put!
+        end
+      end
+    end
+  end
 end

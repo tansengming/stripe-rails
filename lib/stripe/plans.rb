@@ -7,6 +7,7 @@ module Stripe
                     :aggregate_usage,
                     :amount,
                     :billing_scheme,
+                    :constant_name,
                     :currency,
                     :interval,
                     :interval_count,
@@ -35,6 +36,7 @@ module Stripe
 
       validate :name_or_product_id
       validate :aggregate_usage_must_be_metered, if: ->(p) { p.aggregate_usage.present? }
+      validate :valid_constant_name, unless: ->(p) { p.constant_name.nil? }
 
       def initialize(*args)
         super(*args)
@@ -50,6 +52,14 @@ module Stripe
 
       def name_or_product_id
         errors.add(:base, 'must have a product_id or a name') unless (@product_id.present? ^ @name.present?)
+      end
+
+      module ConstTester; end
+      def valid_constant_name
+        ConstTester.const_set(constant_name.to_s.upcase, constant_name)
+        ConstTester.send(:remove_const, constant_name.to_s.upcase.to_sym)
+      rescue NameError
+        errors.add(:constant_name, 'is not a valid Ruby constant name.')
       end
 
       def create_options
