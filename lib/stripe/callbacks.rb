@@ -25,6 +25,7 @@ module Stripe
     callback 'charge.dispute.funds_withdrawn'
     callback 'charge.dispute.updated'
     callback 'charge.refund.updated'
+    callback 'checkout.session.completed'
     callback 'coupon.created'
     callback 'coupon.deleted'
     callback 'coupon.updated'
