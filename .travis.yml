@@ -2,8 +2,6 @@ language: ruby
 rvm:
 - 2.6.3
 - 2.5.5
-- 2.4.5
-- 2.3.8
 addons:
   chrome: stable
 env:
