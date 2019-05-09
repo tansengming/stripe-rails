@@ -21,12 +21,6 @@ script:
 gemfile:
 - Gemfile
 - gemfiles/rails52.gemfile
-matrix:
-  exclude:
-  - rvm: 2.4.5
-    gemfile: Gemfile
-  - rvm: 2.3.8
-    gemfile: Gemfile
 notifications:
   slack:
     secure: csciM073msTrOOdVYVXdAsrx2sR3Y1BKL0VvlSsYxBJawDa8BFNl6Fw8Uz1V2n4OfnkMvMCME4I3EXsCb4Kl5omnK+7ibeCzzzkCR5VwUs5/vLY7awUfCiihSCqg5ULAp2T1whQJUl5HY9Ot62sujIUX/FUhPzdbCqaKQ7cVkUo=
