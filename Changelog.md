@@ -1,3 +1,8 @@
+## 2.0.0 (2019-XX-XX) - Rails 6
+
+* [Breaking] The gem will only be tested against Rails 6, Rails 5.2, Rails 5.1 and Rails 5.0. It will probably still work on older versions of Rails, I just won't be testing or supporting them.
+* [Breaking] It'll also tested Ruby 2.6 and Ruby 2.5
+
 ## 1.7.0 (2019-05-09)
 
 * [New Feature] add support for Plan to use a constant name different from plan id thanks @alexagranov !
