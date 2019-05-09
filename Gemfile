@@ -14,9 +14,9 @@ group :test do
   gem 'simplecov', require: false
   gem 'stripe-ruby-mock'
   gem 'webmock'
-  # Required for system tests
+  # System tests
   gem 'capybara'
-  gem 'chromedriver-helper'
   gem 'puma'
   gem 'selenium-webdriver'
+  gem 'webdrivers'
 end
