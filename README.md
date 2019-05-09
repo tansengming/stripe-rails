@@ -200,7 +200,10 @@ defining the plan, but provide the name for the constant to define with `constan
 
 ```ruby
 Stripe.plan "Silver-Plan".to_sym do |plan|
-  plan.constant_name = 'SILVER_PLAN'
+  plan.constant_name = 'SILVER_PLAN' # <---
+  plan.name = 'ACME Silver'
+  plan.amount = 699
+  plan.interval = 'month'
 end
 
 Stripe::Plans::SILVER_PLAN # => will be defined
