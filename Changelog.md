@@ -1,3 +1,8 @@
+## 1.7.0 (2019-05-09)
+
+* [New Feature] add support for Plan to use a constant name different from plan id thanks @alexagranov !
+* Add checkout.session.completed webhook thanks @Nitrino !
+
 ## 1.6.1 (2019-03-04)
 
 * Add new invoice webhooks thanks @noahezekwugo !
