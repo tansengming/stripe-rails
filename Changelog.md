@@ -1,3 +1,7 @@
+## 1.7.1 (2019-05-24)
+
+* Don't assume sprockets are loaded thanks @manusajith
+
 ## 1.7.0 (2019-05-09)
 
 * [New Feature] add support for Plan to use a constant name different from plan id thanks @alexagranov !
