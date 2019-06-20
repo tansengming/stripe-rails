@@ -1,4 +1,3 @@
-require 'stripe/event'
 module Stripe
   module EventDispatch
     def dispatch_stripe_event(request)
