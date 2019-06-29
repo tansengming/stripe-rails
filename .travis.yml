@@ -1,7 +1,7 @@
 language: ruby
 rvm:
 - 2.6.0
-- 2.5.3
+- 2.5.5
 - 2.4.5
 - 2.3.8
 addons:
@@ -10,13 +10,6 @@ env:
   global:
   - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct;
     else git log -1 --skip 1 --pretty=format:%ct; fi)
-# Note: remove when getting rid of Rails 4.2 testing
-# https://gist.github.com/tvdeyen/c0ac49c5dbf0e09e305f180d62b067d0
-before_install:
-  - rvm use @global
-  - gem uninstall bundler -x || gem uninstall bundler -a || true
-  - yes | gem install bundler --version=1.17.3
-  - bundler --version
 before_script:
 - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
   > ./cc-test-reporter
