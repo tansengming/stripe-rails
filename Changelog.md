@@ -1,3 +1,7 @@
+## 1.7.2 (2019-06-29)
+
+* fixes `require` error after update from Stripe gem. Thanks @dark-panda !
+
 ## 1.7.1 (2019-05-24)
 
 * Don't assume sprockets are loaded thanks @manusajith
