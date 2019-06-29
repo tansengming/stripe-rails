@@ -14,7 +14,7 @@ env:
 before_install:
   - rvm use @global
   - gem uninstall bundler -x || gem uninstall bundler -a || true
-  - gem install bundler --version=2.0.0
+  - gem install bundler --version=1.17.3
   - bundler --version
 before_script:
 - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
