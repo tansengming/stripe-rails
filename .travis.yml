@@ -10,6 +10,12 @@ env:
   global:
   - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct;
     else git log -1 --skip 1 --pretty=format:%ct; fi)
+# https://gist.github.com/tvdeyen/c0ac49c5dbf0e09e305f180d62b067d0
+before_install:
+  - rvm use @global
+  - gem uninstall bundler -x || gem uninstall bundler -a || true
+  - gem install bundler --version=2.0.0
+  - bundler --version
 before_script:
 - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
   > ./cc-test-reporter
