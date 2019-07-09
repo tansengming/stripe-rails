@@ -130,7 +130,12 @@ And then override it to use your live key in production only
 config.stripe.publishable_key = 'pk_live_XXXYYYZZZ'
 ```
 
-This key will be publicly visible on the internet, so it is ok to put in your source.
+This key will be publicly visible on the internet, so it is ok to put in your source. If
+you prefer to environment variables, you can also set `STRIPE_PUBLISHABLE_KEY`:
+
+```sh
+export STRIPE_PUBLISHABLE_KEY=pk_test_XXXYYYZZZ
+```
 
 ### Manually set your API version (optional)
 

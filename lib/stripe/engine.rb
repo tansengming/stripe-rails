@@ -18,6 +18,7 @@ module Stripe
     initializer 'stripe.configure.defaults', :before => 'stripe.configure' do |app|
       stripe = app.config.stripe
       stripe.secret_key ||= ENV['STRIPE_SECRET_KEY']
+      stripe.publishable_key ||= ENV['STRIPE_PUBLISHABLE_KEY']
       stripe.endpoint ||= '/stripe'
       stripe.auto_mount = true if stripe.auto_mount.nil?
       stripe.eager_load ||= []
