@@ -49,6 +49,8 @@ environment file directly.
       # Clear callbacks after all autoloaded classes are removed.
       # This prevents duplicate callbacks being added during development.
       app.reloader.after_class_unload do
+        return unless app.config.stripe.eager_load.empty?
+
         ::Stripe::Callbacks.clear_callbacks!
       end
     end
