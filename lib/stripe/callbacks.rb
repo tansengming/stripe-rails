@@ -47,6 +47,7 @@ module Stripe
     callback 'invoice.created'
     callback 'invoice.finalized'
     callback 'invoice.marked_uncollectible'
+    callback 'invoice.payment_action_required'
     callback 'invoice.payment_failed'
     callback 'invoice.payment_succeeded'
     callback 'invoice.sent'
