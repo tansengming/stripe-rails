@@ -1,3 +1,7 @@
+## 1.8.0 (2019-07-25)
+
+* Configure publishable key from ENV. Thanks @cyu .
+
 ## 1.7.2 (2019-06-29)
 
 * fixes `require` error after update from Stripe gem. Thanks @dark-panda !
