@@ -42,8 +42,8 @@ environment file directly.
       MSG
     end
 
-    reload_eagers = -> app {
-      app.config.stripe.eager_load.each do |constant|
+    eager_load_classes = -> class_names {
+      class_names.each do |constant|
         begin
           constant.to_s.camelize.constantize
         rescue NameError
@@ -60,13 +60,13 @@ environment file directly.
       # This prevents duplicate callbacks being added during development.
       app.reloader.after_class_unload do
         ::Stripe::Callbacks.clear_callbacks!
-        reload_eagers.call(app)
+        eager_load_classes.call(app.config.stripe.eager_load)
       end
     end
 
     initializer 'stripe.callbacks.eager_load' do |app|
       app.config.after_initialize do
-        reload_eagers.call(app)
+        eager_load_classes.call(app.config.stripe.eager_load)
       end
     end
 
