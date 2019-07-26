@@ -1,3 +1,8 @@
+## 1.8.1 (2019-07-26)
+
+* adds callback for invoice.payment_action_required. Thanks @alexagranov .
+* fixes when clearing callbacks after unload doesn't play nice with eager_load. Thanks @alexagranov for reporting the problem and coming up with an initial fix for it.
+
 ## 1.8.0 (2019-07-25)
 
 * Configure publishable key from ENV. Thanks @cyu .
