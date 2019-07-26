@@ -42,6 +42,16 @@ environment file directly.
       MSG
     end
 
+    eager_load_classes = -> class_names {
+      class_names.each do |constant|
+        begin
+          constant.to_s.camelize.constantize
+        rescue NameError
+          require constant
+        end
+      end
+    }
+
     initializer 'stripe.callbacks.clear_after_unload' do |app|
       # Skip Rails 4 for now.
       next unless app.respond_to?(:reloader)
@@ -50,18 +60,13 @@ environment file directly.
       # This prevents duplicate callbacks being added during development.
       app.reloader.after_class_unload do
         ::Stripe::Callbacks.clear_callbacks!
+        eager_load_classes.call(app.config.stripe.eager_load)
       end
     end
 
     initializer 'stripe.callbacks.eager_load' do |app|
       app.config.after_initialize do
-        app.config.stripe.eager_load.each do |constant|
-          begin
-            constant.to_s.camelize.constantize
-          rescue NameError
-            require constant
-          end
-        end
+        eager_load_classes.call(app.config.stripe.eager_load)
       end
     end
 
