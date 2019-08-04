@@ -12,10 +12,11 @@ module Stripe
                     :interval,
                     :interval_count,
                     :metadata,
-                    :name, 
+                    :name,
                     :nickname,
                     :product_id,
                     :statement_descriptor,
+                    :tiers,
                     :tiers_mode,
                     :trial_period_days,
                     :usage_type
@@ -37,6 +38,7 @@ module Stripe
       validate :name_or_product_id
       validate :aggregate_usage_must_be_metered, if: ->(p) { p.aggregate_usage.present? }
       validate :valid_constant_name, unless: ->(p) { p.constant_name.nil? }
+      validate :validate_tiers, if: ->(p) { p.tiers.present? }
 
       def initialize(*args)
         super(*args)
@@ -52,6 +54,13 @@ module Stripe
 
       def name_or_product_id
         errors.add(:base, 'must have a product_id or a name') unless (@product_id.present? ^ @name.present?)
+      end
+
+      def validate_tiers
+        errors.add(:billing_scheme, 'must be set to `tiered` when specifying `tiers`')
+        tiers.each do |tier|
+          errors.add(:tiers, '`up_to` must be specified') unless tier['up_to'].present?
+        end
       end
 
       module ConstTester; end
