@@ -20,7 +20,6 @@ module Stripe
                     :tiers_mode,
                     :transform_usage,
                     :trial_period_days,
-                    :unit_label,
                     :usage_type
 
       validates_presence_of :id, :currency
@@ -105,7 +104,6 @@ module Stripe
           nickname: nickname,
           tiers: tiers,
           tiers_mode: tiers_mode,
-          unit_label: unit_label,
           transform_usage: transform_usage
         }.compact
       end
