@@ -100,8 +100,10 @@ module Stripe
           usage_type: usage_type,
           aggregate_usage: aggregate_usage,
           billing_scheme: billing_scheme,
-          nickname: nickname
-        }
+          nickname: nickname,
+          tiers: tiers,
+          tiers_mode: tiers_mode
+        }.compact
       end
 
       def product_options
