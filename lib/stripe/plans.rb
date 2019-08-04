@@ -21,7 +21,8 @@ module Stripe
                     :trial_period_days,
                     :usage_type
 
-      validates_presence_of :id, :amount, :currency
+      validates_presence_of :id, :currency
+      validates_presence_of :amount, unless: ->(p) { p.billing_scheme == 'tiered' }
 
       validates_inclusion_of  :interval,
                               in: %w(day week month year),
