@@ -57,9 +57,17 @@ module Stripe
       end
 
       def validate_tiers
-        errors.add(:billing_scheme, 'must be set to `tiered` when specifying `tiers`')
-        tiers.each do |tier|
-          errors.add(:tiers, '`up_to` must be specified') unless tier['up_to'].present?
+        errors.add(:billing_scheme, 'must be set to `tiered` when specifying `tiers`') unless billing_scheme == 'tiered'
+        errors.add(:tiers, 'must be an Array') unless tiers.is_a?(Array)
+        if tiers.respond_to?(:each)
+          tiers.each do |tier|
+            if tier.is_a?(Hash)
+              tier.symbolize_keys!
+              errors.add(:tiers, '`up_to` must be specified') unless tier[:up_to].present?
+            else
+              errors.add(:tiers, 'each element must be a Hash')
+            end
+          end
         end
       end
 
