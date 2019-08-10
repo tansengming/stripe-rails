@@ -11,15 +11,28 @@ module Stripe
       id = request['id']
       body = request.body.read
       sig_header = request.headers['HTTP_STRIPE_SIGNATURE']
-      endpoint_secret = ::Rails.application.config.stripe.signing_secret
+      endpoint_secrets = ::Rails.application.config.stripe.signing_secrets
 
-      if Object.const_defined?('Stripe::Webhook') && sig_header && endpoint_secret
-        event = ::Stripe::Webhook.construct_event(body, sig_header, endpoint_secret)
+      if Object.const_defined?('Stripe::Webhook') && sig_header && endpoint_secrets
+        event = webhook_event(body, sig_header, endpoint_secrets)
       else
         event = Stripe::Event.retrieve(id)
       end
 
       yield event
+    end
+
+    private
+
+    def webhook_event(body, sig_header, endpoint_secrets)
+      endpoint_secrets.each_with_index do |secret, i|
+        begin
+          return ::Stripe::Webhook.construct_event(body, sig_header, secret.to_s)
+        rescue ::Stripe::SignatureVerificationError
+          raise if i == endpoint_secrets.length - 1
+          next
+        end
+      end
     end
   end
 end
