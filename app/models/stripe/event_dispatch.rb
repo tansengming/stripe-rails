@@ -30,7 +30,6 @@ module Stripe
           return ::Stripe::Webhook.construct_event(body, sig_header, secret.to_s)
         rescue ::Stripe::SignatureVerificationError
           raise if i == endpoint_secrets.length - 1
-          next
         end
       end
     end
