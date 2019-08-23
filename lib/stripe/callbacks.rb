@@ -74,7 +74,7 @@ module Stripe
     callback 'payout.created'
     callback 'payout.failed'
     callback 'payout.paid'
-    callback 'payout.updated'   
+    callback 'payout.updated'
     callback 'plan.created'
     callback 'plan.deleted'
     callback 'plan.updated'
