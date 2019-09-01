@@ -1,5 +1,5 @@
 module Stripe
   module Rails
-    VERSION = '1.8.2'.freeze
+    VERSION = '1.9.0'.freeze
   end
 end
