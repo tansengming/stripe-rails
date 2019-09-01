@@ -40,7 +40,7 @@ describe "Configuring the stripe engine" do
       app.config.stripe.open_timeout      = 33
       app.config.stripe.read_timeout      = 88
       rerun_initializers!
-    end
+    end 
 
     it "reads values that is set in the environment" do
       subject
@@ -53,7 +53,19 @@ describe "Configuring the stripe engine" do
       Stripe.read_timeout.must_equal      88
 
       app.config.stripe.signing_secret.must_equal   'SIGNING_SECRET_XYZ'
+      app.config.stripe.signing_secrets.length.must_equal 1
     end
+
+    it "supports multiple signing secrets" do
+      subject
+
+      app.config.stripe.signing_secrets    = ['SIGNING_SECRET_XYZ', 'SIGNING_SECRET_XYZ_CONNECT']
+      rerun_initializers!
+
+      app.config.stripe.signing_secret.must_equal   'SIGNING_SECRET_XYZ'
+      app.config.stripe.signing_secrets.length.must_equal 2
+    end
+
   end
 
   describe 'eager loaded callbacks' do

@@ -58,4 +58,36 @@ describe Stripe::EventsController do
       subject.must_be :ok?
     end
   end
+
+  describe 'multiple signed webhooks' do
+    before do
+      header 'Stripe-Signature', 't=1537832721,v1=123,v0=123'
+      app.config.stripe.signing_secrets = ['SECRET1', 'SECRET2']
+    end
+
+    after { app.config.stripe.signing_secrets = nil }
+
+    let(:params) {
+      {
+        id: 'evt_00000000000001',
+        type: 'customer.updated',
+        data: {
+          object: 'customer',
+          fingerprint: 'xxxyyyzzz'
+        },
+      }
+    }
+
+    subject { post '/stripe/events', params.to_json }
+
+    it 'returns bad_request when invalid' do
+      Stripe::Webhook.expects(:construct_event).twice.raises(Stripe::SignatureVerificationError.new('msg', 'sig_header'))
+      subject.must_be :bad_request?
+    end
+
+    it 'returns ok when valid' do
+      Stripe::Webhook.expects(:construct_event).returns(Stripe::Event.construct_from(params))
+      subject.must_be :ok?
+    end
+  end
 end
