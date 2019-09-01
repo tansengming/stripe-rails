@@ -52,7 +52,7 @@ describe "Configuring the stripe engine" do
       Stripe.open_timeout.must_equal      33
       Stripe.read_timeout.must_equal      88
 
-      app.config.stripe.signing_secret.must_equal   'SIGNING_SECRET_XYZ'
+      app.config.stripe.signing_secret.must_equal 'SIGNING_SECRET_XYZ'
       app.config.stripe.signing_secrets.length.must_equal 1
     end
 
@@ -62,7 +62,7 @@ describe "Configuring the stripe engine" do
       app.config.stripe.signing_secrets    = ['SIGNING_SECRET_XYZ', 'SIGNING_SECRET_XYZ_CONNECT']
       rerun_initializers!
 
-      app.config.stripe.signing_secret.must_equal   'SIGNING_SECRET_XYZ'
+      app.config.stripe.signing_secret.must_equal 'SIGNING_SECRET_XYZ'
       app.config.stripe.signing_secrets.length.must_equal 2
     end
 
