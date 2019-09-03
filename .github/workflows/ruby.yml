@@ -27,6 +27,6 @@ jobs:
         bundle exec rake
     - name: Test
       env:
-        BUNDLE_GEMFILE: ${{ gemfile }}
+        BUNDLE_GEMFILE: ${{ matrix.gemfile }}
       run: |
         bundle exec rake
