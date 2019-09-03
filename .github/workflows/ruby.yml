@@ -17,8 +17,11 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-    - name: Build and test with Rake
+    - name: Build
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
+        bundle exec rake
+    - name: Test
+      run: |
         bundle exec rake
