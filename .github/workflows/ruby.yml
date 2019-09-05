@@ -32,4 +32,5 @@ jobs:
         bundle install --jobs 4 --retry 3
         bundle exec rake
         if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "2.6.x" ] ;
-        then ./cc-test-reporter after-build --exit-code $? ; fi
+          then ./cc-test-reporter after-build --exit-code $? ;
+        fi
