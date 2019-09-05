@@ -25,6 +25,7 @@ jobs:
     - name: Build and Test
       env:
         BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       run: |
         gem install bundler -v 1.17.3
         bundle install --jobs 4 --retry 3
