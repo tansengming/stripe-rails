@@ -26,9 +26,10 @@ jobs:
       env:
         BUNDLE_GEMFILE: ${{ matrix.gemfile }}
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        RUBY_VERSION: ${{ matrix.ruby }}
       run: |
         gem install bundler -v 1.17.3
         bundle install --jobs 4 --retry 3
         bundle exec rake
-        if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ ${RUBY_VERSION:5:3} == "2.6" ] ;
+        if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "2.6.x" ] ;
         then ./cc-test-reporter after-build --exit-code $? ; fi
