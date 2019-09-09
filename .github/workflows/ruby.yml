@@ -1,0 +1,36 @@
+name: Ruby
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby: [2.3.x, 2.4.x, 2.5.x, 2.6.x]
+        gemfile: [Gemfile, gemfiles/rails4.gemfile]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - name: Set up Code Climate
+      run: |
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+        ./cc-test-reporter before-build
+    - name: Build and Test
+      env:
+        BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        RUBY_VERSION: ${{ matrix.ruby }}
+      run: |
+        gem install bundler -v 1.17.3
+        bundle install --jobs 4 --retry 3
+        bundle exec rake
+        if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "2.6.x" ] ;
+          then ./cc-test-reporter after-build --exit-code $? ;
+        fi
