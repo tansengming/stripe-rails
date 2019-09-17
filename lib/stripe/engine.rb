@@ -8,7 +8,16 @@ module Stripe
       attr_accessor :testing
     end
 
-    stripe_config = config.stripe = Struct.new(:api_base, :api_version, :secret_key, :verify_ssl_certs, :signing_secret, :publishable_key, :endpoint, :debug_js, :auto_mount, :eager_load, :open_timeout, :read_timeout).new
+    stripe_config = config.stripe = Struct.new(:api_base, :api_version, :secret_key, :verify_ssl_certs, :signing_secret, :signing_secrets, :publishable_key, :endpoint, :debug_js, :auto_mount, :eager_load, :open_timeout, :read_timeout) do
+      # for backwards compatibility treat signing_secret as an alias for signing_secrets
+      def signing_secret=(value)
+        self.signing_secrets = Array(value)
+      end
+  
+      def signing_secret
+        self.signing_secrets && self.signing_secrets.first
+      end
+    end.new
 
     def stripe_config.api_key=(key)
       warn "[DEPRECATION] to align with stripe nomenclature, stripe.api_key has been renamed to config.stripe.secret_key"

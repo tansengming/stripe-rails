@@ -1,3 +1,11 @@
+## 1.9.0 (2019-09-01)
+
+- Adds support for multiple signing secrets. Thanks again @jacobcsmith !
+
+## 1.8.2 (2019-08-31)
+
+- adds missing callbacks for `payment_intent`, `payment_method` and `setup_intent`. Thanks @jacobcsmith !
+
 ## 1.8.1 (2019-07-26)
 
 * adds callback for invoice.payment_action_required. Thanks @alexagranov .
