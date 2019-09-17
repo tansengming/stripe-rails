@@ -275,6 +275,33 @@ describe 'building plans' do
             Stripe::Plans::METERED.put!
           end
 
+          it 'creates a tiered plan' do
+            Stripe::Plan.expects(:create).with(
+              :id => :tiered,
+              :currency => 'usd',
+              :product => {
+                :name => 'Metered',
+                :statement_descriptor => nil,
+              },
+              :amount => nil,
+              :interval => 'month',
+              :interval_count => 1,
+              :usage_type => 'metered',
+              :aggregate_usage => 'max',
+              :billing_scheme => 'tiered',
+              :tiers => [
+                {
+                  :unit_amount => 1500,
+                  up_to: 10
+                },
+                {
+                  unit_amount: 1000,
+                  up_to: 'inf'
+                }
+              ]
+            )
+            Stripe::Plans::TIERED.put!
+          end
 
           describe 'when using a product id' do
             before do
@@ -346,7 +373,7 @@ describe 'building plans' do
       proc {Stripe.plan(:bad) {}}.must_raise Stripe::InvalidConfigurationError
     end
   end
-  
+
   describe 'with custom constant name' do
     before do
       Stripe.plan "Primo Plan".to_sym do |plan|

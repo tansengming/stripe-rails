@@ -24,6 +24,7 @@ module Stripe
 
       validates_presence_of :id, :currency
       validates_presence_of :amount, unless: ->(p) { p.billing_scheme == 'tiered' }
+      validates_absence_of :transform_usage, if: ->(p) { p.billing_scheme == 'tiered' }
 
       validates_inclusion_of  :interval,
                               in: %w(day week month year),
@@ -51,7 +52,7 @@ module Stripe
         @currency = 'usd'
         @interval_count = 1
         @trial_period_days = 0
-        set_tiers if tiers
+        # set_tiers if tiers
       end
 
       private
@@ -68,7 +69,7 @@ module Stripe
       end
 
       def set_tiers
-        @tiers = tiers.map { |t| Stripe::Plans::BillingTier.new(t) }
+        @tiers = tiers&.map { |t| Stripe::Plans::BillingTier.new(t) }
       end
 
       def tiers_must_be_array
@@ -76,6 +77,7 @@ module Stripe
       end
 
       def validate_tiers
+        set_tiers
         tiers.map(&:valid?)
       end
 
