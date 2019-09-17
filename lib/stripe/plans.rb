@@ -40,6 +40,10 @@ module Stripe
       validate :name_or_product_id
       validate :aggregate_usage_must_be_metered, if: ->(p) { p.aggregate_usage.present? }
       validate :valid_constant_name, unless: ->(p) { p.constant_name.nil? }
+
+      # validations for when using tiered billing
+      validate :tiers_must_be_array, if: ->(p) { p.tiers.present? }
+      validate :billing_scheme_must_be_tiered, if: ->(p) { p.tiers.present? }
       validate :validate_tiers, if: ->(p) { p.tiers.present? }
 
       def initialize(*args)
@@ -47,6 +51,7 @@ module Stripe
         @currency = 'usd'
         @interval_count = 1
         @trial_period_days = 0
+        set_tiers if tiers
       end
 
       private
@@ -58,19 +63,20 @@ module Stripe
         errors.add(:base, 'must have a product_id or a name') unless (@product_id.present? ^ @name.present?)
       end
 
-      def validate_tiers
+      def billing_scheme_must_be_tiered
         errors.add(:billing_scheme, 'must be set to `tiered` when specifying `tiers`') unless billing_scheme == 'tiered'
+      end
+
+      def set_tiers
+        @tiers = tiers.map { |t| Stripe::Plans::BillingTier.new(t) }
+      end
+
+      def tiers_must_be_array
         errors.add(:tiers, 'must be an Array') unless tiers.is_a?(Array)
-        if tiers.respond_to?(:each)
-          tiers.each do |tier|
-            if tier.is_a?(Hash)
-              tier.symbolize_keys!
-              errors.add(:tiers, '`up_to` must be specified') unless tier[:up_to].present?
-            else
-              errors.add(:tiers, 'each element must be a Hash')
-            end
-          end
-        end
+      end
+
+      def validate_tiers
+        tiers.map(&:valid?)
       end
 
       module ConstTester; end
