@@ -52,7 +52,6 @@ module Stripe
         @currency = 'usd'
         @interval_count = 1
         @trial_period_days = 0
-        # set_tiers if tiers
       end
 
       private
@@ -68,17 +67,17 @@ module Stripe
         errors.add(:billing_scheme, 'must be set to `tiered` when specifying `tiers`') unless billing_scheme == 'tiered'
       end
 
-      def set_tiers
-        @tiers = tiers&.map { |t| Stripe::Plans::BillingTier.new(t) }
-      end
-
       def tiers_must_be_array
         errors.add(:tiers, 'must be an Array') unless tiers.is_a?(Array)
       end
 
+      def set_tiers
+        @tiers = tiers&.map { |t| t.is_a?(Stripe::Plans::BillingTier) ? t : Stripe::Plans::BillingTier.new(t) }
+      end
+
       def validate_tiers
         set_tiers
-        tiers.map(&:valid?)
+        tiers.all?(&:valid?)
       end
 
       module ConstTester; end
@@ -110,7 +109,7 @@ module Stripe
           aggregate_usage: aggregate_usage,
           billing_scheme: billing_scheme,
           nickname: nickname,
-          tiers: tiers,
+          tiers: tiers&.map(&:to_h),
           tiers_mode: tiers_mode,
           transform_usage: transform_usage
         }.compact

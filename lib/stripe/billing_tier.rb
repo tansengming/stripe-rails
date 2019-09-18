@@ -21,6 +21,14 @@ module Stripe
         @unit_amount = attrs[:unit_amount]
       end
 
+      def to_h
+        {
+          up_to: up_to,
+          flat_amount: flat_amount,
+          unit_amount: unit_amount
+        }.compact
+      end
+
     end
   end
 end

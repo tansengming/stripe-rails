@@ -29,17 +29,7 @@ end
 
 Stripe.plan :tiered do |plan|
   plan.name = 'Tiered'
-  plan.amount = 699
-  plan.interval = 'month'
-  plan.usage_type = 'metered'
   plan.aggregate_usage = 'max'
-  plan.billing_scheme = 'per_unit'
-end
-
-Stripe.plan :tiered do |plan|
-  plan.name = 'Tiered'
-  plan.aggregate_usage = 'max'
-  plan.amount = nil
   plan.billing_scheme = 'tiered'
   # interval must be either 'day', 'week', 'month' or 'year'
   plan.interval = 'month'

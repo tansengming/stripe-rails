@@ -280,26 +280,31 @@ describe 'building plans' do
               :id => :tiered,
               :currency => 'usd',
               :product => {
-                :name => 'Metered',
+                :name => 'Tiered',
                 :statement_descriptor => nil,
               },
-              :amount => nil,
               :interval => 'month',
               :interval_count => 1,
+              :trial_period_days => 0,
               :usage_type => 'metered',
               :aggregate_usage => 'max',
               :billing_scheme => 'tiered',
               :tiers => [
                 {
                   :unit_amount => 1500,
-                  up_to: 10
+                  :up_to => 10
                 },
                 {
-                  unit_amount: 1000,
-                  up_to: 'inf'
+                  :unit_amount => 1000,
+                  :up_to => 'inf'
                 }
-              ]
+              ],
+              tiers_mode: 'graduated'
             )
+            plan = Stripe::Plans::TIERED
+            puts plan
+            puts plan.valid?
+            puts plan.errors.full_messages
             Stripe::Plans::TIERED.put!
           end
 
