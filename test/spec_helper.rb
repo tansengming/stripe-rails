@@ -6,12 +6,12 @@ end
 require 'minitest/autorun'
 
 require 'webmock/minitest'
-WebMock.disable_net_connect!(allow_localhost: true)
+WebMock.disable_net_connect! allow_localhost: true, allow: ['codeclimate.com', 'chromedriver.storage.googleapis.com']
 
 # Chrome Setup
 require 'selenium-webdriver'
 require 'capybara'
-require 'chromedriver-helper'
+require 'webdrivers'
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
 end

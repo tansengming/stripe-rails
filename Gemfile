@@ -16,7 +16,7 @@ group :test do
   gem 'webmock'
   # Required for system tests
   gem 'capybara'
-  gem 'chromedriver-helper'
+  gem 'webdrivers'
   gem 'puma'
   gem 'selenium-webdriver'
 end
