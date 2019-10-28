@@ -1,3 +1,7 @@
+## 1.9.1 (2019-10-28)
+
+- Fixes issue with `rake stripe:verify` thanks @Millariel !
+
 ## 1.9.0 (2019-09-01)
 
 - Adds support for multiple signing secrets. Thanks again @jacobcsmith !
