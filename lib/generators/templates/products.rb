@@ -11,9 +11,9 @@
 #   product.type = 'service'
 # end
 
-# Once you have your productss defined, you can run
+# Once you have your products defined, you can run
 #
 #   rake stripe:prepare
 #
-# This will export any new plans to stripe.com so that you can
+# This will export any new products to stripe.com so that you can
 # begin using them in your API calls.
