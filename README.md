@@ -1,6 +1,6 @@
 # Stripe::Rails: A Rails Engine for use with [stripe.com](https://stripe.com)
-[![Gem Version](https://badge.fury.io/rb/stripe-rails.png)](http://badge.fury.io/rb/stripe-rails)
-[![Build Status](https://travis-ci.org/tansengming/stripe-rails.png?branch=master)](https://travis-ci.org/tansengming/stripe-rails)
+[![Gem Version](https://badge.fury.io/rb/stripe-rails.svg)](https://badge.fury.io/rb/stripe-rails)
+[![Build Status](https://travis-ci.org/tansengming/stripe-rails.svg?branch=master)](https://travis-ci.org/tansengming/stripe-rails)
 [![Code Climate](https://codeclimate.com/github/tansengming/stripe-rails/badges/gpa.svg)](https://codeclimate.com/github/tansengming/stripe-rails)
 [![Test Coverage](https://codeclimate.com/github/tansengming/stripe-rails/badges/coverage.svg)](https://codeclimate.com/github/tansengming/stripe-rails/coverage)
 [![Tidelift](https://tidelift.com/badges/github/tansengming/stripe-rails)](#)
