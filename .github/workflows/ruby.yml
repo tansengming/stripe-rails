@@ -28,7 +28,8 @@ jobs:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         RUBY_VERSION: ${{ matrix.ruby }}
       run: |
-        gem install bundler
+        gem uninstall bundler
+        gem install bundler -v 1.17.3
         bundle install --jobs 4 --retry 3
         bundle exec rake
         if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "2.6.x" ] ;
