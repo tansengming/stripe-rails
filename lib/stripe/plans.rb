@@ -72,7 +72,7 @@ module Stripe
       end
 
       def set_tiers
-        @tiers = tiers&.map { |t| t.is_a?(Stripe::Plans::BillingTier) ? t : Stripe::Plans::BillingTier.new(t) }
+        @tiers = tiers.map { |t| t.is_a?(Stripe::Plans::BillingTier) ? t : Stripe::Plans::BillingTier.new(t) } if tiers
       end
 
       def validate_tiers
@@ -109,7 +109,7 @@ module Stripe
           aggregate_usage: aggregate_usage,
           billing_scheme: billing_scheme,
           nickname: nickname,
-          tiers: tiers&.map(&:to_h),
+          tiers: tiers ? tiers.map(&:to_h) : nil,
           tiers_mode: tiers_mode,
           transform_usage: transform_usage
         }.compact
