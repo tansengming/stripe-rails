@@ -13,6 +13,6 @@ describe Stripe::PingsController do
   describe 'the ping interface' do
     subject { get '/stripe/ping' }
 
-    it { subject.must_be :ok? }
+    it { _(subject).must_be :ok? }
   end
 end

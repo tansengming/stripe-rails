@@ -28,8 +28,8 @@ describe "Testing" do
 
       it 'the callback must run' do
         subject
-        event.wont_be_nil
-        event.type.must_equal "invoice.payment_succeeded"
+        _(event).wont_be_nil
+        _(event.type).must_equal "invoice.payment_succeeded"
       end
     end
 
@@ -38,7 +38,7 @@ describe "Testing" do
 
       it 'the callback must not run' do
         subject
-        event.must_be_nil
+        _(event).must_be_nil
       end
     end
 
@@ -49,11 +49,11 @@ describe "Testing" do
 
       it 'the callback should run with overwritten properties' do
         subject
-        event.wont_be_nil
-        event.type.must_equal "invoice.payment_succeeded"
-        target.subtotal.must_equal 500
-        target.total.must_equal 1000
-        target.currency.must_equal "eur"
+        _(event).wont_be_nil
+        _(event.type).must_equal "invoice.payment_succeeded"
+        _(target.subtotal).must_equal 500
+        _(target.total).must_equal 1000
+        _(target.currency).must_equal "eur"
       end
     end
   end
