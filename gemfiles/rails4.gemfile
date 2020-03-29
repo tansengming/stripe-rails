@@ -1,6 +1,7 @@
 source :rubygems
 
 gem 'rails', '~> 4.2'
+gem 'sprockets', '< 4'
 
 gem 'rake'
 gem 'responders', '~> 2.0' # to support Rails 4.2
