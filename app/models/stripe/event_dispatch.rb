@@ -5,6 +5,9 @@ module Stripe
         target = evt.data.object
         ::Stripe::Callbacks.run_callbacks(evt, target)
       end
+    rescue NoMethodError => e
+      ::Rails.logger.error "#{e.message} -- Request Params: #{request.params} -- Request Headers: #{request.headers}"
+      raise
     end
 
     def retrieve_stripe_event(request)

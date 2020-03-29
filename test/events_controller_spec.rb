@@ -57,6 +57,12 @@ describe Stripe::EventsController do
       Stripe::Webhook.expects(:construct_event).returns(Stripe::Event.construct_from(params))
       subject.must_be :ok?
     end
+
+    it 'should still raise error if Stripe::Webhook returns invalid data' do
+      Stripe::Webhook.expects(:construct_event).returns([])
+
+      -> { subject }.must_raise NoMethodError
+    end
   end
 
   describe 'multiple signed webhooks' do
