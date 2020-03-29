@@ -6,7 +6,7 @@ module Stripe
         ::Stripe::Callbacks.run_callbacks(evt, target)
       end
     rescue NoMethodError => e
-      ::Rails.logger.error "#{e.message} -- Request Params: #{request.params} -- Request Headers: #{request.headers}"
+      ::Rails.logger.error "#{e.message} -- Request Params: #{request.params}"
       raise
     end
 
