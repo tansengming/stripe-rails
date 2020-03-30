@@ -45,7 +45,7 @@ module Stripe
       # validations for when using tiered billing
       validate :tiers_must_be_array, if: ->(p) { p.tiers.present? }
       validate :billing_scheme_must_be_tiered, if: ->(p) { p.tiers.present? }
-      validate :validate_tiers, if: ->(p) { p.tiers.present? }
+      validate :validate_tiers, if: ->(p) { p.billing_scheme == 'tiered' }
 
       def initialize(*args)
         super(*args)
@@ -71,13 +71,12 @@ module Stripe
         errors.add(:tiers, 'must be an Array') unless tiers.is_a?(Array)
       end
 
-      def set_tiers
-        @tiers = tiers.map { |t| t.is_a?(Stripe::Plans::BillingTier) ? t : Stripe::Plans::BillingTier.new(t) } if tiers
+      def billing_tiers
+        @billing_tiers = tiers.map { |t| Stripe::Plans::BillingTier.new(t) } if tiers
       end
 
       def validate_tiers
-        set_tiers
-        tiers.all?(&:valid?)
+        billing_tiers.all?(&:valid?)
       end
 
       module ConstTester; end
