@@ -16,7 +16,6 @@ group :test do
   gem 'webmock'
   # System tests
   gem 'capybara'
-  gem 'webdrivers'
   gem 'puma'
   gem 'selenium-webdriver'
   gem 'webdrivers'
