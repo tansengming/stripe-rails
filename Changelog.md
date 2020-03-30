@@ -1,7 +1,36 @@
 ## 2.0.0 (2019-XX-XX) - Rails 6
 
-* [Breaking] The gem will only be tested against Rails 6, Rails 5.2, Rails 5.1 and Rails 5.0. It will probably still work on older versions of Rails, I just won't be testing or supporting them.
+* [Breaking] The gem will only be tested against Rails 6.0, Rails 5.2 and Rails 5.1. It will probably still work on older versions of Rails, I just won't be testing or supporting them.
 * [Breaking] It'll also tested Ruby 2.6 and Ruby 2.5
+
+## 1.9.1 (2019-10-28)
+
+- Fixes issue with `rake stripe:verify` thanks @Millariel !
+
+## 1.9.0 (2019-09-01)
+
+- Adds support for multiple signing secrets. Thanks again @jacobcsmith !
+
+## 1.8.2 (2019-08-31)
+
+- adds missing callbacks for `payment_intent`, `payment_method` and `setup_intent`. Thanks @jacobcsmith !
+
+## 1.8.1 (2019-07-26)
+
+* adds callback for invoice.payment_action_required. Thanks @alexagranov .
+* fixes when clearing callbacks after unload doesn't play nice with eager_load. Thanks @alexagranov for reporting the problem and coming up with an initial fix for it.
+
+## 1.8.0 (2019-07-25)
+
+* Configure publishable key from ENV. Thanks @cyu .
+
+## 1.7.2 (2019-06-29)
+
+* fixes `require` error after update from Stripe gem. Thanks @dark-panda !
+
+## 1.7.1 (2019-05-24)
+
+* Don't assume sprockets are loaded thanks @manusajith
 
 ## 1.7.0 (2019-05-09)
 

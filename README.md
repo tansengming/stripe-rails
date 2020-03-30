@@ -1,6 +1,6 @@
 # Stripe::Rails: A Rails Engine for use with [stripe.com](https://stripe.com)
-[![Gem Version](https://badge.fury.io/rb/stripe-rails.png)](http://badge.fury.io/rb/stripe-rails)
-[![Build Status](https://travis-ci.org/tansengming/stripe-rails.png?branch=master)](https://travis-ci.org/tansengming/stripe-rails)
+[![Gem Version](https://badge.fury.io/rb/stripe-rails.svg)](https://badge.fury.io/rb/stripe-rails)
+[![Build Status](https://travis-ci.org/tansengming/stripe-rails.svg?branch=master)](https://travis-ci.org/tansengming/stripe-rails)
 [![Code Climate](https://codeclimate.com/github/tansengming/stripe-rails/badges/gpa.svg)](https://codeclimate.com/github/tansengming/stripe-rails)
 [![Test Coverage](https://codeclimate.com/github/tansengming/stripe-rails/badges/coverage.svg)](https://codeclimate.com/github/tansengming/stripe-rails/coverage)
 [![Tidelift](https://tidelift.com/badges/github/tansengming/stripe-rails)](#)
@@ -130,7 +130,12 @@ And then override it to use your live key in production only
 config.stripe.publishable_key = 'pk_live_XXXYYYZZZ'
 ```
 
-This key will be publicly visible on the internet, so it is ok to put in your source.
+This key will be publicly visible on the internet, so it is ok to put in your source. If
+you prefer to environment variables, you can also set `STRIPE_PUBLISHABLE_KEY`:
+
+```sh
+export STRIPE_PUBLISHABLE_KEY=pk_test_XXXYYYZZZ
+```
 
 ### Manually set your API version (optional)
 
@@ -305,28 +310,31 @@ Your new webhook URL would then be `http://myproductionapp/payment/stripe-integr
 ### Signed Webhooks
 
 Validation of your webhook's signature uses your webhook endpoint signing secret.
-Before you can verify signatures, you need to retrieve your endpoint’s secret your
+Before you can verify signatures, you need to retrieve your endpoint’s secret from your
 Stripe Dashboard. Select an endpoint for which you want to obtain
 the secret, then select the Click to reveal button.
 
 ```ruby
 # config/application.rb
 # ...
-config.stripe.signing_secret = 'whsec_XXXYYYZZZ'
+config.stripe.signing_secrets = ['whsec_XXXYYYZZZ']
 ```
 
-Each secret is unique to the endpoint to which it corresponds. If you use multiple endpoints,
+Each secret is unique to the endpoint to which it corresponds. If you use multiple endpoint,
 you must obtain a secret for each one. After this setup, Stripe starts to sign each webhook
-it sends to the endpoint. Because of this, we recommend setting this variable with an environment
-variable:
+it sends to the endpoint. Because of this, we recommend setting this variable with environment
+variables:
 
 ```sh
 export STRIPE_SIGNING_SECRET=whsec_XXXYYYZZZ
+export STRIPE_CONNECT_SIGNING_SECRET=whsec_AAABBBCCC
 ```
 
 ```ruby
-config.stripe.signing_secret = ENV.fetch('STRIPE_SIGNING_SECRET')
+config.stripe.signing_secrets = [ENV.fetch('STRIPE_SIGNING_SECRET'), ENV.fetch('STRIPE_CONNECT_SIGNING_SECRET')]
 ```
+
+The first secret that successfully matches for each incoming webhook will be used to verify the incoming events.
 
 #### Testing Signed Webhooks Locally
 
@@ -346,7 +354,7 @@ as documented above:
 ```ruby
 # config/application.rb
 # ...
-config.stripe.signing_secret = 'whsec_XXXYYYZZZ'
+config.stripe.signing_secrets = ['whsec_XXXYYYZZZ']
 ```
 
 And you'll need to restart your rails server with:

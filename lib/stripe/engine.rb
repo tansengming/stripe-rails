@@ -8,7 +8,16 @@ module Stripe
       attr_accessor :testing
     end
 
-    stripe_config = config.stripe = Struct.new(:api_base, :api_version, :secret_key, :verify_ssl_certs, :signing_secret, :publishable_key, :endpoint, :debug_js, :auto_mount, :eager_load, :open_timeout, :read_timeout).new
+    stripe_config = config.stripe = Struct.new(:api_base, :api_version, :secret_key, :verify_ssl_certs, :signing_secret, :signing_secrets, :publishable_key, :endpoint, :debug_js, :auto_mount, :eager_load, :open_timeout, :read_timeout) do
+      # for backwards compatibility treat signing_secret as an alias for signing_secrets
+      def signing_secret=(value)
+        self.signing_secrets = Array(value)
+      end
+  
+      def signing_secret
+        self.signing_secrets && self.signing_secrets.first
+      end
+    end.new
 
     def stripe_config.api_key=(key)
       warn "[DEPRECATION] to align with stripe nomenclature, stripe.api_key has been renamed to config.stripe.secret_key"
@@ -18,6 +27,7 @@ module Stripe
     initializer 'stripe.configure.defaults', :before => 'stripe.configure' do |app|
       stripe = app.config.stripe
       stripe.secret_key ||= ENV['STRIPE_SECRET_KEY']
+      stripe.publishable_key ||= ENV['STRIPE_PUBLISHABLE_KEY']
       stripe.endpoint ||= '/stripe'
       stripe.auto_mount = true if stripe.auto_mount.nil?
       stripe.eager_load ||= []
@@ -41,6 +51,16 @@ environment file directly.
       MSG
     end
 
+    eager_load_classes = -> class_names {
+      class_names.each do |constant|
+        begin
+          constant.to_s.camelize.constantize
+        rescue NameError
+          require constant
+        end
+      end
+    }
+
     initializer 'stripe.callbacks.clear_after_unload' do |app|
       # Skip Rails 4 for now.
       next unless app.respond_to?(:reloader)
@@ -49,18 +69,13 @@ environment file directly.
       # This prevents duplicate callbacks being added during development.
       app.reloader.after_class_unload do
         ::Stripe::Callbacks.clear_callbacks!
+        eager_load_classes.call(app.config.stripe.eager_load)
       end
     end
 
     initializer 'stripe.callbacks.eager_load' do |app|
       app.config.after_initialize do
-        app.config.stripe.eager_load.each do |constant|
-          begin
-            constant.to_s.camelize.constantize
-          rescue NameError
-            require constant
-          end
-        end
+        eager_load_classes.call(app.config.stripe.eager_load)
       end
     end
 
@@ -81,7 +96,7 @@ environment file directly.
     end
 
     initializer 'stripe.assets.precompile' do |app|
-      unless ::Rails.env.test?
+      if app.config.respond_to?(:assets)
         app.config.assets.precompile += %w( stripe_elements.js stripe_elements.css )
       end
     end
