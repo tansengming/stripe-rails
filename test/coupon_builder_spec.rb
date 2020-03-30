@@ -13,7 +13,7 @@ describe 'building coupons' do
       end
     end
     it "allows a single redemption by default" do
-      @coupon.max_redemptions.must_equal 1
+      _(@coupon.max_redemptions).must_equal 1
     end
   end
 
@@ -33,8 +33,8 @@ describe 'building coupons' do
     after {Stripe::Coupons.send(:remove_const, :GOLD25)}
 
     it 'is accessible via hash lookup (symbol/string agnostic)' do
-      Stripe::Coupons[:gold25].must_equal Stripe::Coupons::GOLD25
-      Stripe::Coupons['gold25'].must_equal Stripe::Coupons::GOLD25
+      _(Stripe::Coupons[:gold25]).must_equal Stripe::Coupons::GOLD25
+      _(Stripe::Coupons['gold25']).must_equal Stripe::Coupons::GOLD25
     end
 
     describe 'uploading' do
@@ -116,7 +116,7 @@ describe 'building coupons' do
   end
   describe 'with missing mandatory values' do
     it 'raises an exception after configuring it' do
-      proc {Stripe.coupon(:bad) {}}.must_raise Stripe::InvalidConfigurationError
+      _(proc {Stripe.coupon(:bad) {}}).must_raise Stripe::InvalidConfigurationError
     end
   end
 end

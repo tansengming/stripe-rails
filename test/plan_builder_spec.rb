@@ -23,16 +23,16 @@ describe 'building plans' do
     after { Stripe::Plans.send(:remove_const, :PRIMO) }
 
     it 'is accessible via id' do
-      Stripe::Plans::PRIMO.wont_be_nil
+      _(Stripe::Plans::PRIMO).wont_be_nil
     end
 
     it 'is accessible via collection' do
-      Stripe::Plans.all.must_include Stripe::Plans::PRIMO
+      _(Stripe::Plans.all).must_include Stripe::Plans::PRIMO
     end
 
     it 'is accessible via hash lookup (symbol/string agnostic)' do
-      Stripe::Plans[:primo].must_equal Stripe::Plans::PRIMO
-      Stripe::Plans['primo'].must_equal Stripe::Plans::PRIMO
+      _(Stripe::Plans[:primo]).must_equal Stripe::Plans::PRIMO
+      _(Stripe::Plans['primo']).must_equal Stripe::Plans::PRIMO
     end
 
     it 'accepts a billing interval of a day' do
@@ -42,7 +42,7 @@ describe 'building plans' do
         plan.interval = 'day'
       end
 
-      Stripe::Plans::DAILY.wont_be_nil
+      _(Stripe::Plans::DAILY).wont_be_nil
     end
 
     it 'accepts a billing interval of a week' do
@@ -52,7 +52,7 @@ describe 'building plans' do
         plan.interval = 'week'
       end
 
-      Stripe::Plans::WEEKLY.wont_be_nil
+      _(Stripe::Plans::WEEKLY).wont_be_nil
     end
 
     it 'accepts a billing interval of a month' do
@@ -62,7 +62,7 @@ describe 'building plans' do
         plan.interval = 'month'
       end
 
-      Stripe::Plans::MONTHLY.wont_be_nil
+      _(Stripe::Plans::MONTHLY).wont_be_nil
     end
 
     it 'accepts a billing interval of a year' do
@@ -72,17 +72,17 @@ describe 'building plans' do
         plan.interval = 'year'
       end
 
-      Stripe::Plans::YEARLY.wont_be_nil
+      _(Stripe::Plans::YEARLY).wont_be_nil
     end
 
     it 'denies arbitrary billing intervals' do
-      lambda {
+      _(lambda {
         Stripe.plan :broken do |plan|
           plan.name = 'Acme as a service BROKEN'
           plan.amount = 999
           plan.interval = 'anything'
         end
-      }.must_raise Stripe::InvalidConfigurationError
+      }).must_raise Stripe::InvalidConfigurationError
     end
 
     it 'accepts a statement descriptor' do
@@ -93,55 +93,55 @@ describe 'building plans' do
         plan.statement_descriptor = 'ACME Monthly'
       end
 
-      Stripe::Plans::DESCRIBED.wont_be_nil
+      _(Stripe::Plans::DESCRIBED).wont_be_nil
     end
 
     it 'denies statement descriptors that are too long' do
-      lambda {
+      _(lambda {
         Stripe.plan :described do |plan|
           plan.name = 'Acme as a service'
           plan.amount = 999
           plan.interval = 'month'
           plan.statement_descriptor = 'ACME as a Service Monthly'
         end
-      }.must_raise Stripe::InvalidConfigurationError
+      }).must_raise Stripe::InvalidConfigurationError
     end
 
     it 'denies invalid values for active' do
-      lambda {
+      _(lambda {
         Stripe.plan :broken do |plan|
           plan.name = 'Acme as a service'
           plan.amount = 999
           plan.interval = 'month'
           plan.active = 'whatever'
         end
-      }.must_raise Stripe::InvalidConfigurationError
+      }).must_raise Stripe::InvalidConfigurationError
     end
 
     it 'denies invalid values for usage_type' do
-      lambda {
+      _(lambda {
         Stripe.plan :broken do |plan|
           plan.name = 'Acme as a service'
           plan.amount = 999
           plan.interval = 'month'
           plan.usage_type = 'whatever'
         end
-      }.must_raise Stripe::InvalidConfigurationError
+      }).must_raise Stripe::InvalidConfigurationError
     end
 
     it 'denies invalid values for aggregate_usage' do
-      lambda {
+      _(lambda {
         Stripe.plan :broken do |plan|
           plan.name = 'Acme as a service'
           plan.amount = 999
           plan.interval = 'month'
           plan.aggregate_usage = 'whatever'
         end
-      }.must_raise Stripe::InvalidConfigurationError
+      }).must_raise Stripe::InvalidConfigurationError
     end
 
     it 'denies aggregate_usage if usage type is liecensed' do
-      lambda {
+      _(lambda {
         Stripe.plan :broken do |plan|
           plan.name = 'Acme as a service'
           plan.amount = 999
@@ -149,30 +149,30 @@ describe 'building plans' do
           plan.usage_type = 'licensed'
           plan.aggregate_usage = 'sum'
         end
-      }.must_raise Stripe::InvalidConfigurationError
+      }).must_raise Stripe::InvalidConfigurationError
     end
 
 
     it 'denies invalid values for billing_scheme' do
-      lambda {
+      _(lambda {
         Stripe.plan :broken do |plan|
           plan.name = 'Acme as a service'
           plan.amount = 999
           plan.interval = 'month'
           plan.billing_scheme = 'whatever'
         end
-      }.must_raise Stripe::InvalidConfigurationError
+      }).must_raise Stripe::InvalidConfigurationError
     end
 
     it 'denies invalid values for tiers_mode' do
-      lambda {
+      _(lambda {
         Stripe.plan :broken do |plan|
           plan.name = 'Acme as a service'
           plan.amount = 999
           plan.interval = 'month'
           plan.tiers_mode = 'whatever'
         end
-      }.must_raise Stripe::InvalidConfigurationError
+      }).must_raise Stripe::InvalidConfigurationError
     end
 
     describe 'name and product id validation' do
@@ -182,18 +182,18 @@ describe 'building plans' do
           plan.amount = 999
           plan.interval = 'month'
         end
-        Stripe::Plans::PRODDED.wont_be_nil
+        _(Stripe::Plans::PRODDED).wont_be_nil
       end
 
       it 'should be invalid when using both name and product id' do
-        lambda {
+        _(lambda {
           Stripe.plan :broken do |plan|
             plan.name = 'Acme as a service'
             plan.product_id = 'acme'
             plan.amount = 999
             plan.interval = 'month'
           end
-        }.must_raise Stripe::InvalidConfigurationError
+        }).must_raise Stripe::InvalidConfigurationError
       end
     end
 
@@ -343,7 +343,7 @@ describe 'building plans' do
 
   describe 'with missing mandatory values' do
     it 'raises an exception after configuring it' do
-      proc {Stripe.plan(:bad) {}}.must_raise Stripe::InvalidConfigurationError
+      _(-> { Stripe.plan(:bad) {} }).must_raise Stripe::InvalidConfigurationError
     end
   end
   
@@ -370,28 +370,28 @@ describe 'building plans' do
     after { Stripe::Plans.send(:remove_const, :PRIMO_PLAN) }
 
     it 'is accessible via upcased constant_name' do
-      Stripe::Plans::PRIMO_PLAN.wont_be_nil
+      _(Stripe::Plans::PRIMO_PLAN).wont_be_nil
     end
 
     it 'is accessible via collection' do
-      Stripe::Plans.all.must_include Stripe::Plans::PRIMO_PLAN
+      _(Stripe::Plans.all).must_include Stripe::Plans::PRIMO_PLAN
     end
 
     it 'is accessible via hash lookup (symbol/string agnostic)' do
-      Stripe::Plans[:primo_plan].must_equal Stripe::Plans::PRIMO_PLAN
-      Stripe::Plans['primo_plan'].must_equal Stripe::Plans::PRIMO_PLAN
+      _(Stripe::Plans[:primo_plan]).must_equal Stripe::Plans::PRIMO_PLAN
+      _(Stripe::Plans['primo_plan']).must_equal Stripe::Plans::PRIMO_PLAN
     end
 
     describe 'constant name validation' do
       it 'should be invalid when providing a constant name that can not be used for Ruby constant' do
-        lambda {
+        _(lambda {
           Stripe.plan "Primo Plan".to_sym do |plan|
             plan.name = 'Acme as a service PRIMO'
             plan.constant_name = 'PRIMO PLAN'
             plan.amount = 999
             plan.interval = 'month'
           end
-        }.must_raise Stripe::InvalidConfigurationError
+        }).must_raise Stripe::InvalidConfigurationError
       end
     end
 

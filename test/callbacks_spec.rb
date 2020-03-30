@@ -31,9 +31,9 @@ describe Stripe::Callbacks do
     describe 'when it is invoked for the invoice.payment_succeeded event' do
       it 'is invoked for the invoice.payment_succeeded event' do
         subject
-        @event.wont_be_nil
-        @event.type.must_equal 'invoice.payment_succeeded'
-        @target.total.must_equal 6999
+        _(@event).wont_be_nil
+        _(@event.type).must_equal 'invoice.payment_succeeded'
+        _(@target.total).must_equal 6999
       end
     end
 
@@ -42,7 +42,7 @@ describe Stripe::Callbacks do
 
       it 'the invoice.payment_succeeded callback is not invoked' do
         subject
-        @event.must_be_nil
+        _(@event).must_be_nil
       end
     end
 
@@ -50,7 +50,7 @@ describe Stripe::Callbacks do
       before { run_callback_with(callback) { fail } }
 
       it 'causes the whole webhook to fail' do
-        ->{ subject }.must_raise RuntimeError
+        _(-> { subject }).must_raise RuntimeError
       end
     end
   end
@@ -61,8 +61,8 @@ describe Stripe::Callbacks do
 
     it 'does not cause the webhook to fail' do
       subject
-      last_response.status.must_be :>=, 200
-      last_response.status.must_be :<, 300
+      _(last_response.status).must_be :>=, 200
+      _(last_response.status).must_be :<, 300
     end
   end
 
@@ -75,7 +75,7 @@ describe Stripe::Callbacks do
 
       it 'it will be run' do
         subject
-        events.first.type.must_equal 'invoice.payment_failed'
+        _(events.first.type).must_equal 'invoice.payment_failed'
       end
     end
 
@@ -84,7 +84,7 @@ describe Stripe::Callbacks do
 
       it 'it will be run' do
         subject
-        events.first.type.must_equal 'foo.bar.baz'
+        _(events.first.type).must_equal 'foo.bar.baz'
       end
     end
   end
@@ -109,7 +109,7 @@ describe Stripe::Callbacks do
       describe 'when a prior attribute was not specified' do
         it 'does not fire events' do
           subject
-          events.length.must_equal 0
+          _(events.length).must_equal 0
         end
       end
 
@@ -117,7 +117,7 @@ describe Stripe::Callbacks do
         before { @stubbed_event.data.previous_attributes['closed'] = true }
         it 'fires events' do
           subject
-          events.length.must_equal 1
+          _(events.length).must_equal 1
         end
       end
     end
@@ -134,7 +134,7 @@ describe Stripe::Callbacks do
       describe 'when a prior attribute was not specified' do
         it 'does not fire events' do
           subject
-          events.length.must_equal 0
+          _(events.length).must_equal 0
         end
       end
 
@@ -142,7 +142,7 @@ describe Stripe::Callbacks do
         before { @stubbed_event.data.previous_attributes['subtotal'] = 699 }
         it 'fire events' do
           subject
-          events.length.must_equal 1
+          _(events.length).must_equal 1
         end
       end
     end
@@ -159,7 +159,7 @@ describe Stripe::Callbacks do
       describe 'when the lambda is not true' do
         it 'does not fire events' do
           subject
-          events.length.must_equal 0
+          _(events.length).must_equal 0
         end
       end
 
@@ -167,7 +167,7 @@ describe Stripe::Callbacks do
         before { @stubbed_event.data.previous_attributes['closed'] = 'false' }
         it 'fires events' do
           subject
-          events.length.must_equal 1
+          _(events.length).must_equal 1
         end
       end
     end
