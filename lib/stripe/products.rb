@@ -23,7 +23,6 @@ module Stripe
       validates :type, inclusion: { in: %w(service good) }
       validates :caption, :description, :shippable, :url, absence: true, unless: :good?
       validates :statement_descriptor, absence: true, unless: :service?
-      validates :unit_label, absence: true, unless: :service?
 
       private
       def good?
