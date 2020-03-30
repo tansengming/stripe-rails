@@ -299,13 +299,57 @@ describe 'building plans' do
                   :up_to => 'inf'
                 }
               ],
-              tiers_mode: 'graduated'
+              :tiers_mode => 'graduated'
             )
             plan = Stripe::Plans::TIERED
-            puts plan
-            puts plan.valid?
-            puts plan.errors.full_messages
             Stripe::Plans::TIERED.put!
+          end
+
+          describe 'when passed invalid arguments for tiered pricing' do
+            it 'raises a Stripe::InvalidConfigurationError when billing tiers are invalid' do
+              lambda {
+                Stripe.plan "Bad Tiers".to_sym do |plan|
+                  plan.name = 'Acme as a service BAD TIERS'
+                  plan.constant_name = 'BAD_TIERS'
+                  plan.interval = 'month'
+                  plan.interval_count = 1
+                  plan.trial_period_days = 30
+                  plan.usage_type = 'metered'
+                  plan.tiers_mode = 'graduated'
+                  plan.billing_scheme = 'per_unit'
+                  plan.aggregate_usage = 'sum'
+                  plan.tiers = [
+                    {
+                      unit_amount: 1500,
+                      up_to: 10
+                    },
+                    {
+                      unit_amount: 1000,
+                    }
+                  ]
+                end
+              }.must_raise Stripe::InvalidConfigurationError
+            end
+
+            it 'raises a Stripe::InvalidConfigurationError when billing tiers is not an array' do
+              lambda {
+                Stripe.plan "Bad Tiers".to_sym do |plan|
+                  plan.name = 'Acme as a service BAD TIERS'
+                  plan.constant_name = 'BAD_TIERS'
+                  plan.interval = 'month'
+                  plan.interval_count = 1
+                  plan.trial_period_days = 30
+                  plan.usage_type = 'metered'
+                  plan.tiers_mode = 'graduated'
+                  plan.billing_scheme = 'per_unit'
+                  plan.aggregate_usage = 'sum'
+                  plan.tiers = {
+                    unit_amount: 1500,
+                    up_to: 10
+                  }
+                end
+              }.must_raise Stripe::InvalidConfigurationError
+            end
           end
 
           describe 'when using a product id' do
