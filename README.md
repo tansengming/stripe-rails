@@ -188,6 +188,23 @@ Stripe.plan :bronze do |plan|
   plan.product_id = 'prod_XXXXXXXXXXXXXX'
   plan.amount = 999 # $9.99
   plan.interval = 'month'
+
+  # Use graduated pricing tiers
+  # ref: https://stripe.com/docs/api/plans/object#plan_object-tiers
+  plan.tiers = [
+    {
+      unit_amount: 1500,
+      up_to: 10
+    },
+    {
+      unit_amount: 1000,
+      up_to: 'inf'
+    }
+  ]
+  plan.tiers_mode = 'graduated'
+
+  # set the usage type to 'metered'
+  plan.usage_type = 'metered'
 end
 ```
 
