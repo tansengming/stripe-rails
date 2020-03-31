@@ -1,3 +1,7 @@
+## 1.10.0 (2020-03-31)
+
+- Adds support for using multiple tiers in a plan, thanks @cpsoinos
+
 ## 1.9.1 (2019-10-28)
 
 - Fixes issue with `rake stripe:verify` thanks @Millariel !
