@@ -32,6 +32,6 @@ jobs:
         gem install bundler -v 1.17.3
         bundle install --jobs 4 --retry 3
         bundle exec rake
-        if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "2.6.x" ] ;
+        if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "2.6.x" ] && [ ! -z ${CC_TEST_REPORTER_ID} ] ;
           then ./cc-test-reporter after-build --exit-code $? ;
         fi
