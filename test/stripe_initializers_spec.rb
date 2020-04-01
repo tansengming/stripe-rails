@@ -19,16 +19,16 @@ describe "Configuring the stripe engine" do
 
   describe 'Stripe configurations' do
     it "will have valid default values" do
-      Stripe.api_base.must_equal          'https://api.stripe.com'
-      Stripe.api_key.must_equal           'XYZ'
-      Stripe.api_version.must_be_nil
-      Stripe.verify_ssl_certs.must_equal  true
-      Stripe.open_timeout.must_equal      30
-      Stripe.read_timeout.must_equal      80
+      _(Stripe.api_base).must_equal          'https://api.stripe.com'
+      _(Stripe.api_key).must_equal           'XYZ'
+      _(Stripe.api_version).must_be_nil
+      _(Stripe.verify_ssl_certs).must_equal  true
+      _(Stripe.open_timeout).must_equal      30
+      _(Stripe.read_timeout).must_equal      80
 
-      app.config.stripe.endpoint.must_equal   '/stripe'
-      app.config.stripe.auto_mount.must_equal true
-      app.config.stripe.debug_js.must_equal   false
+      _(app.config.stripe.endpoint).must_equal   '/stripe'
+      _(app.config.stripe.auto_mount).must_equal true
+      _(app.config.stripe.debug_js).must_equal   false
     end
 
     subject do
@@ -45,15 +45,15 @@ describe "Configuring the stripe engine" do
     it "reads values that is set in the environment" do
       subject
 
-      Stripe.api_base.must_equal          'http://localhost:5000'
-      Stripe.api_key.must_equal           'SECRET_XYZ'
-      Stripe.verify_ssl_certs.must_equal  false
-      Stripe.api_version.must_equal       '2015-10-16'
-      Stripe.open_timeout.must_equal      33
-      Stripe.read_timeout.must_equal      88
+      _(Stripe.api_base).must_equal          'http://localhost:5000'
+      _(Stripe.api_key).must_equal           'SECRET_XYZ'
+      _(Stripe.verify_ssl_certs).must_equal  false
+      _(Stripe.api_version).must_equal       '2015-10-16'
+      _(Stripe.open_timeout).must_equal      33
+      _(Stripe.read_timeout).must_equal      88
 
-      app.config.stripe.signing_secret.must_equal 'SIGNING_SECRET_XYZ'
-      app.config.stripe.signing_secrets.length.must_equal 1
+      _(app.config.stripe.signing_secret).must_equal 'SIGNING_SECRET_XYZ'
+      _(app.config.stripe.signing_secrets.length).must_equal 1
     end
 
     it "supports multiple signing secrets" do
@@ -62,8 +62,8 @@ describe "Configuring the stripe engine" do
       app.config.stripe.signing_secrets    = ['SIGNING_SECRET_XYZ', 'SIGNING_SECRET_XYZ_CONNECT']
       rerun_initializers!
 
-      app.config.stripe.signing_secret.must_equal 'SIGNING_SECRET_XYZ'
-      app.config.stripe.signing_secrets.length.must_equal 2
+      _(app.config.stripe.signing_secret).must_equal 'SIGNING_SECRET_XYZ'
+      _(app.config.stripe.signing_secrets.length).must_equal 2
     end
 
   end
@@ -77,8 +77,8 @@ describe "Configuring the stripe engine" do
     it 'should be eager loaded' do
       subject
 
-      Dummy.const_defined?(:ModelWithCallbacks).must_equal  true
-      Dummy.const_defined?(:ModuleWithCallbacks).must_equal true
+      _(Dummy.const_defined?(:ModelWithCallbacks)).must_equal  true
+      _(Dummy.const_defined?(:ModuleWithCallbacks)).must_equal true
     end
   end
 
@@ -87,7 +87,7 @@ describe "Configuring the stripe engine" do
     let(:warning_msg) { "[DEPRECATION] to align with stripe nomenclature, stripe.api_key has been renamed to config.stripe.secret_key\n" }
 
     it 'should output a warning' do
-      -> { subject }.must_output '', warning_msg
+      _(-> { subject }).must_output '', warning_msg
     end
   end
 end

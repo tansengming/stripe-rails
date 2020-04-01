@@ -15,16 +15,16 @@ describe 'building products' do
   after { Stripe::Products.send(:remove_const, :PRIMO) }
 
   it 'is accessible via id' do
-    Stripe::Products::PRIMO.wont_be_nil
+    _(Stripe::Products::PRIMO).wont_be_nil
   end
 
   it 'is accessible via collection' do
-    Stripe::Products.all.must_include Stripe::Products::PRIMO
+    _(Stripe::Products.all).must_include Stripe::Products::PRIMO
   end
 
   it 'is accessible via hash lookup (symbol/string agnostic)' do
-    Stripe::Products[:primo].must_equal  Stripe::Products::PRIMO
-    Stripe::Products['primo'].must_equal Stripe::Products::PRIMO
+    _(Stripe::Products[:primo]).must_equal  Stripe::Products::PRIMO
+    _(Stripe::Products['primo']).must_equal Stripe::Products::PRIMO
   end
 
   describe '.put!' do
@@ -63,42 +63,42 @@ describe 'building products' do
   describe 'validations' do
     describe 'with missing mandatory values' do
       it 'raises an exception after configuring it' do
-        lambda { Stripe.product(:bad){} }.must_raise Stripe::InvalidConfigurationError
+        _(lambda { Stripe.product(:bad){} }).must_raise Stripe::InvalidConfigurationError
       end
     end
 
     describe 'invalid type' do
       it 'raises an exception during configuration' do
-        lambda {
+        _(lambda {
           Stripe.product :broken do |product|
             product.name = 'Acme as a service BROKEN'
             product.type = 'anything'
           end
-        }.must_raise Stripe::InvalidConfigurationError
+        }).must_raise Stripe::InvalidConfigurationError
       end
     end
 
     describe 'when using an attribute only for goods' do
       it 'raises an exception during configuration' do
-        lambda {
+        _(lambda {
           Stripe.product :broken do |product|
             product.name        = 'Broken Service'
             product.type        = 'service'
             product.caption     = 'So good it is Primo'
           end
-        }.must_raise Stripe::InvalidConfigurationError
+        }).must_raise Stripe::InvalidConfigurationError
       end
     end
 
     describe 'when using an attribute only for services' do
       it 'raises an exception during configuration' do
-        lambda {
+        _(lambda {
           Stripe.product :broken do |product|
             product.name        = 'Broken Good'
             product.type        = 'good'
             product.statement_descriptor = 'SERVICE'
           end
-        }.must_raise Stripe::InvalidConfigurationError
+        }).must_raise Stripe::InvalidConfigurationError
       end
     end
   end
