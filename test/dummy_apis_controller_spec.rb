@@ -12,6 +12,6 @@ describe ApisController do
   describe 'the ping interface' do
     subject { get '/apis/' }
 
-    it { subject.must_be :ok? }
+    it { _(subject).must_be :ok? }
   end
 end

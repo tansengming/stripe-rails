@@ -3,6 +3,10 @@
 * [Breaking] The gem will only be tested against Rails 6.0, Rails 5.2 and Rails 5.1. It will probably still work on older versions of Rails, I just won't be testing or supporting them.
 * [Breaking] It'll also only be tested on Ruby 2.6 and Ruby 2.5
 
+## 1.10.0 (2020-03-31)
+
+- Adds support for using multiple tiers in a plan, thanks @cpsoinos
+
 ## 1.9.1 (2019-10-28)
 
 - Fixes issue with `rake stripe:verify` thanks @Millariel !

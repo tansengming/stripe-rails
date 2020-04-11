@@ -11,6 +11,7 @@ module Stripe
                     :caption,
                     :metadata,
                     :shippable,
+                    :unit_label,
                     :url,
                     :statement_descriptor
 
@@ -42,6 +43,7 @@ module Stripe
           caption: caption,
           metadata: metadata,
           shippable: shippable,
+          unit_label: unit_label,
           url: url,
           statement_descriptor: statement_descriptor
         }

@@ -24,7 +24,7 @@ describe Stripe::EventsController do
     end
     subject { post '/stripe/events', params.to_json }
 
-    it { subject.must_be :ok? }
+    it { _(subject).must_be :ok? }
   end
 
   describe 'signed webhooks' do
@@ -50,12 +50,12 @@ describe Stripe::EventsController do
 
     it 'returns bad_request when invalid' do
       Stripe::Webhook.expects(:construct_event).raises(Stripe::SignatureVerificationError.new('msg', 'sig_header'))
-      subject.must_be :bad_request?
+      _(subject).must_be :bad_request?
     end
 
     it 'returns ok when valid' do
       Stripe::Webhook.expects(:construct_event).returns(Stripe::Event.construct_from(params))
-      subject.must_be :ok?
+      _(subject).must_be :ok?
     end
   end
 
@@ -82,12 +82,12 @@ describe Stripe::EventsController do
 
     it 'returns bad_request when invalid' do
       Stripe::Webhook.expects(:construct_event).twice.raises(Stripe::SignatureVerificationError.new('msg', 'sig_header'))
-      subject.must_be :bad_request?
+      _(subject).must_be :bad_request?
     end
 
     it 'returns ok when valid' do
       Stripe::Webhook.expects(:construct_event).returns(Stripe::Event.construct_from(params))
-      subject.must_be :ok?
+      _(subject).must_be :ok?
     end
   end
 end
