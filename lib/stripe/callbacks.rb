@@ -105,10 +105,6 @@ module Stripe
     callback 'ping'
     callback 'stripe.event'
 
-    # Deprecated
-    callback 'transfer.failed' # https://stripe.com/docs/upgrades#2017-04-06
-    callback 'transfer.paid'   # https://stripe.com/docs/upgrades#2017-04-06
-
     class << self
       def run_callbacks(evt, target)
         _run_callbacks evt.type, evt, target
