@@ -1,3 +1,11 @@
+## Unreleased
+
+-
+
+## 1.10.1 (2020-05-29)
+
+- adds missing callbacks for `payment_intent`. Thanks @klapperkopp .
+
 ## 1.10.0 (2020-03-31)
 
 - Adds support for using multiple tiers in a plan, thanks @cpsoinos
