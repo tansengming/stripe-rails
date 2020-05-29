@@ -15,6 +15,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Stripe::Rails::VERSION
   gem.add_dependency 'rails', '>= 5.1'
-  gem.add_dependency 'stripe', '>= 1.36.2'
+  gem.add_dependency 'stripe', '>= 3.15.0'
   gem.add_dependency 'responders'
 end

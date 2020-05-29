@@ -6,6 +6,7 @@
 
 * [Breaking] Updated to work only with Rails >= 5.1
 * [Breaking] It'll only be tested on Ruby 2.7, 2.6 and 2.5.
+* [Breaking] Supports the Stripe gem => 3.15.0 (from 2 years ago)
 * [Breaking] Removes Stripe::PingsController controller.
 
 ## 1.10.1 (2020-05-29)
