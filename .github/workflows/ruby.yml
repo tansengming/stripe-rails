@@ -14,9 +14,8 @@ jobs:
 
     strategy:
       matrix:
-        ruby: [2.5.x, 2.6.x]
+        ruby: [2.5.x, 2.6.x, 2.7.x]
         gemfile: [Gemfile, gemfiles/rails51.gemfile, gemfiles/rails52.gemfile]
-
     steps:
     - uses: actions/checkout@v1
     - name: Set up Ruby
@@ -36,6 +35,6 @@ jobs:
       run: |
         bundle install --jobs 4 --retry 3
         bundle exec rake
-        if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "2.6.x" ] && [ ! -z ${CC_TEST_REPORTER_ID} ] ;
+        if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "2.7.x" ] && [ ! -z ${CC_TEST_REPORTER_ID} ] ;
           then ./cc-test-reporter after-build --exit-code $? ;
         fi
