@@ -2,10 +2,10 @@
 
 -
 
-## 2.0.0 (2020-XX-XX) - Rails 6
+## 2.0.0.pre (2020-XX-XX)
 
-* [Breaking] The gem will only be tested against Rails 6.0, Rails 5.2 and Rails 5.1. It will probably still work on older versions of Rails, I just won't be testing or supporting them.
-* [Breaking] It'll also only be tested on Ruby 2.7, 2.6 and 2.5.
+* [Breaking] Updated to work only with Rails >= 5.1
+* [Breaking] It'll only be tested on Ruby 2.7, 2.6 and 2.5.
 * [Breaking] Removes Stripe::PingsController controller.
 
 ## 1.10.1 (2020-05-29)
