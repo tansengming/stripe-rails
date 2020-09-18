@@ -1,8 +1,20 @@
 ## Unreleased
 
+## 2.0.0 (2020-09-18)
+
+- Everything from on the 2.0.0.pre release
+- includes changes from the 1.10.2 release
+
 ## 1.10.2 (2020-09-18)
 
 - adds missing callback `invoice.paid`. Thanks @SyborgStudios.
+
+## 2.0.0.pre (2020-05-29)
+
+* [Breaking] Updated to work only with Rails >= 5.1
+* [Breaking] It'll only be tested on Ruby 2.7, 2.6 and 2.5.
+* [Breaking] Supports the Stripe gem => 3.15.0 (from 2 years ago)
+* [Breaking] Removes Stripe::PingsController controller.
 
 ## 1.10.1 (2020-05-29)
 

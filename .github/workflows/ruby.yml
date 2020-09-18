@@ -14,11 +14,8 @@ jobs:
 
     strategy:
       matrix:
-        ruby: [2.4.x, 2.5.x, 2.6.x, 2.7.x]
-        gemfile: [Gemfile, gemfiles/rails51.gemfile, gemfiles/rails52.gemfile, gemfiles/rails4.gemfile]
-        exclude:
-          - ruby: 2.7.x
-            gemfile: gemfiles/rails4.gemfile
+        ruby: [2.5.x, 2.6.x, 2.7.x]
+        gemfile: [Gemfile, gemfiles/rails51.gemfile, gemfiles/rails52.gemfile]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Ruby
@@ -36,8 +33,6 @@ jobs:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         RUBY_VERSION: ${{ matrix.ruby }}
       run: |
-        gem uninstall bundler
-        gem install bundler -v 1.17.3
         bundle install --jobs 4 --retry 3
         bundle exec rake
         if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "2.7.x" ] && [ ! -z ${CC_TEST_REPORTER_ID} ] ;
