@@ -1,6 +1,8 @@
 ## Unreleased
 
--
+## 1.10.2 (2020-09-18)
+
+- adds missing callback `invoice.paid`. Thanks @SyborgStudios.
 
 ## 2.0.0.pre (2020-05-29)
 
