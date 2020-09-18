@@ -1,6 +1,6 @@
 ## Unreleased
 
--
+- adds missing callback `invoice.paid`. Thanks @SyborgStudios.
 
 ## 1.10.1 (2020-05-29)
 
