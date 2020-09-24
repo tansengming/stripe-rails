@@ -10,6 +10,10 @@ describe Stripe::EventsController do
   end
 
   describe 'the events interface' do
+    subject { post '/stripe/events', params.to_json }
+
+    before { stripe_events_stub }
+
     let(:params) {
       {
         id: 'evt_00000000000000',
@@ -17,14 +21,29 @@ describe Stripe::EventsController do
         data: {object: 'customer'},
       }
     }
-
-    before do
+    let(:stripe_events_stub) do
       stub_request(:get, "https://api.stripe.com/v1/events/evt_00000000000000").
         to_return(status: 200, body: Stripe::Event.construct_from(params).to_json, headers: {})
     end
-    subject { post '/stripe/events', params.to_json }
 
     it { _(subject).must_be :ok? }
+
+    it 'should call the stripe_events_stub' do
+      subject
+      assert_requested(stripe_events_stub)
+    end
+
+    describe 'when signing_secret is nil' do
+      before do
+        header 'Stripe-Signature', 't=1537832721,v1=123,v0=123'
+        app.config.stripe.signing_secret = nil
+      end
+
+      it 'should call the stripe_events_stub' do
+        subject
+        assert_requested(stripe_events_stub)
+      end
+    end
   end
 
   describe 'signed webhooks' do
