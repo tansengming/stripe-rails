@@ -8,7 +8,7 @@ module Stripe
       attr_accessor :testing
     end
 
-    stripe_config = config.stripe = Struct.new(:api_base, :api_version, :secret_key, :verify_ssl_certs, :signing_secret, :signing_secrets, :publishable_key, :endpoint, :debug_js, :auto_mount, :eager_load, :open_timeout, :read_timeout) do
+    stripe_config = config.stripe = Struct.new(:api_base, :api_version, :secret_key, :ignore_missing_secret_key, :verify_ssl_certs, :signing_secret, :signing_secrets, :publishable_key, :endpoint, :debug_js, :auto_mount, :eager_load, :open_timeout, :read_timeout) do
       # for backwards compatibility treat signing_secret as an alias for signing_secrets
       def signing_secret=(value)
         self.signing_secrets = value.nil? ? value : Array(value)
@@ -43,7 +43,7 @@ module Stripe
       end
       secret_key = app.config.stripe.secret_key
       Stripe.api_key = secret_key unless secret_key.nil?
-      $stderr.puts <<-MSG unless Stripe.api_key || Stripe.ignore_missing_api_key
+      $stderr.puts <<-MSG unless Stripe.api_key || app.config.stripe.ignore_missing_secret_key
 No stripe.com API key was configured for environment #{::Rails.env}! this application will be
 unable to interact with stripe.com. You can set your API key with either the environment
 variable `STRIPE_SECRET_KEY` (recommended) or by setting `config.stripe.secret_key` in your
