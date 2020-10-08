@@ -30,6 +30,15 @@ namespace :stripe do
     Stripe::Coupons.reset!
   end
 
-  desc "create all plans and coupons defined in config/stripe/{products|plans|coupons}.rb"
-  task 'prepare' => ['products:prepare', 'plans:prepare', 'coupons:prepare']
+  task 'prices:prepare' => 'environment' do
+    Stripe::Prices.put!
+  end
+
+  desc 'delete and redefine all prices defined in config/stripe/prices.rb'
+  task 'prices:reset!' => 'environment' do
+    Stripe::Prices.reset!
+  end
+
+  desc "create all plans and coupons defined in config/stripe/{products|plans|prices|coupons}.rb"
+  task 'prepare' => ['products:prepare', 'plans:prepare', 'prices:prepare', 'coupons:prepare']
 end
