@@ -248,19 +248,119 @@ describe 'building prices' do
           Stripe::Prices::ALTERNATIVE_CURRENCY.put!
         end
 
-        describe 'when using the API version that supports products' do
-          before { Stripe.api_version = '2018-02-05' }
-          after  { Stripe.api_version = nil }
+        it 'creates a metered price' do
+          Stripe::Price.expects(:create).with(
+            :lookup_key => 'metered',
+            :nickname => 'metered',
+            :currency => 'usd',
+            :product_data => {
+              :name => 'Metered',
+              :statement_descriptor => nil,
+            },
+            :unit_amount => 699,
+            :recurring => {
+              :interval => 'month',
+              :interval_count => 1,
+              :usage_type => 'metered',
+              :aggregate_usage => 'max',
+            },
+            :billing_scheme => 'per_unit'
+          )
+          Stripe::Prices::METERED.put!
+        end
 
-          it 'creates the price online' do
+        it 'creates a tiered price' do
+          Stripe::Price.expects(:create).with(
+            :lookup_key => 'tiered',
+            :nickname => 'tiered',
+            :currency => 'usd',
+            :product_data => {
+              :name => 'Tiered',
+              :statement_descriptor => nil,
+            },
+            :recurring => {
+              :interval => 'month',
+              :interval_count => 1,
+              :usage_type => 'metered',
+              :aggregate_usage => 'max'
+            },
+            :billing_scheme => 'tiered',
+            :tiers => [
+              {
+                :unit_amount => 1500,
+                :up_to => 10
+              },
+              {
+                :unit_amount => 1000,
+                :up_to => 'inf'
+              }
+            ],
+            :tiers_mode => 'graduated'
+          )
+          Stripe::Prices::TIERED.put!
+        end
+
+        describe 'when passed invalid arguments for tiered pricing' do
+          it 'raises a Stripe::InvalidConfigurationError when billing tiers are invalid' do
+            lambda {
+              Stripe.price "Bad Tiers".to_sym do |price|
+                price.name = 'Acme as a service BAD TIERS'
+                price.constant_name = 'BAD_TIERS'
+                price.interval = 'month'
+                price.interval_count = 1
+                price.usage_type = 'metered'
+                price.tiers_mode = 'graduated'
+                price.billing_scheme = 'per_unit'
+                price.aggregate_usage = 'sum'
+                price.tiers = [
+                  {
+                    unit_amount: 1500,
+                    up_to: 10
+                  },
+                  {
+                    unit_amount: 1000,
+                  }
+                ]
+              end
+            }.must_raise Stripe::InvalidConfigurationError
+          end
+
+          it 'raises a Stripe::InvalidConfigurationError when billing tiers is not an array' do
+            lambda {
+              Stripe.price "Bad Tiers".to_sym do |price|
+                price.name = 'Acme as a service BAD TIERS'
+                price.constant_name = 'BAD_TIERS'
+                price.interval = 'month'
+                price.interval_count = 1
+                price.usage_type = 'metered'
+                price.tiers_mode = 'graduated'
+                price.billing_scheme = 'per_unit'
+                price.aggregate_usage = 'sum'
+                price.tiers = {
+                  unit_amount: 1500,
+                  up_to: 10
+                }
+              end
+            }.must_raise Stripe::InvalidConfigurationError
+          end
+        end
+
+        describe 'when using a product id' do
+          before do
+            Stripe::Prices::GOLD.product_id = 'prod_XXXXXXXXXXXXXX'
+            Stripe::Prices::GOLD.name = nil
+          end
+          after do
+            Stripe::Prices::GOLD.product_id = nil
+            Stripe::Prices::GOLD.name = 'Solid Gold'
+          end
+
+          it 'creates the price online with the product id' do
             Stripe::Price.expects(:create).with(
               :lookup_key => 'gold',
               :nickname => 'gold',
               :currency => 'usd',
-              :product_data => {
-                :name => 'Solid Gold',
-                :statement_descriptor => nil,
-              },
+              :product => 'prod_XXXXXXXXXXXXXX',
               :unit_amount => 699,
               :recurring => {
                 :interval => 'month',
@@ -268,129 +368,6 @@ describe 'building prices' do
               }
             )
             Stripe::Prices::GOLD.put!
-          end
-
-          it 'creates a metered price' do
-            Stripe::Price.expects(:create).with(
-              :lookup_key => 'metered',
-              :nickname => 'metered',
-              :currency => 'usd',
-              :product_data => {
-                :name => 'Metered',
-                :statement_descriptor => nil,
-              },
-              :unit_amount => 699,
-              :recurring => {
-                :interval => 'month',
-                :interval_count => 1,
-                :usage_type => 'metered',
-                :aggregate_usage => 'max',
-              },
-              :billing_scheme => 'per_unit'
-            )
-            Stripe::Prices::METERED.put!
-          end
-
-          it 'creates a tiered price' do
-            Stripe::Price.expects(:create).with(
-              :lookup_key => 'tiered',
-              :nickname => 'tiered',
-              :currency => 'usd',
-              :product_data => {
-                :name => 'Tiered',
-                :statement_descriptor => nil,
-              },
-              :recurring => {
-                :interval => 'month',
-                :interval_count => 1,
-                :usage_type => 'metered',
-                :aggregate_usage => 'max'
-              },
-              :billing_scheme => 'tiered',
-              :tiers => [
-                {
-                  :unit_amount => 1500,
-                  :up_to => 10
-                },
-                {
-                  :unit_amount => 1000,
-                  :up_to => 'inf'
-                }
-              ],
-              :tiers_mode => 'graduated'
-            )
-            Stripe::Prices::TIERED.put!
-          end
-
-          describe 'when passed invalid arguments for tiered pricing' do
-            it 'raises a Stripe::InvalidConfigurationError when billing tiers are invalid' do
-              lambda {
-                Stripe.price "Bad Tiers".to_sym do |price|
-                  price.name = 'Acme as a service BAD TIERS'
-                  price.constant_name = 'BAD_TIERS'
-                  price.interval = 'month'
-                  price.interval_count = 1
-                  price.usage_type = 'metered'
-                  price.tiers_mode = 'graduated'
-                  price.billing_scheme = 'per_unit'
-                  price.aggregate_usage = 'sum'
-                  price.tiers = [
-                    {
-                      unit_amount: 1500,
-                      up_to: 10
-                    },
-                    {
-                      unit_amount: 1000,
-                    }
-                  ]
-                end
-              }.must_raise Stripe::InvalidConfigurationError
-            end
-
-            it 'raises a Stripe::InvalidConfigurationError when billing tiers is not an array' do
-              lambda {
-                Stripe.price "Bad Tiers".to_sym do |price|
-                  price.name = 'Acme as a service BAD TIERS'
-                  price.constant_name = 'BAD_TIERS'
-                  price.interval = 'month'
-                  price.interval_count = 1
-                  price.usage_type = 'metered'
-                  price.tiers_mode = 'graduated'
-                  price.billing_scheme = 'per_unit'
-                  price.aggregate_usage = 'sum'
-                  price.tiers = {
-                    unit_amount: 1500,
-                    up_to: 10
-                  }
-                end
-              }.must_raise Stripe::InvalidConfigurationError
-            end
-          end
-
-          describe 'when using a product id' do
-            before do
-              Stripe::Prices::GOLD.product_id = 'prod_XXXXXXXXXXXXXX'
-              Stripe::Prices::GOLD.name = nil
-            end
-            after do
-              Stripe::Prices::GOLD.product_id = nil
-              Stripe::Prices::GOLD.name = 'Solid Gold'
-            end
-
-            it 'creates the price online with the product id' do
-              Stripe::Price.expects(:create).with(
-                :lookup_key => 'gold',
-                :nickname => 'gold',
-                :currency => 'usd',
-                :product => 'prod_XXXXXXXXXXXXXX',
-                :unit_amount => 699,
-                :recurring => {
-                  :interval => 'month',
-                  :interval_count => 1
-                }
-              )
-              Stripe::Prices::GOLD.put!
-            end
           end
         end
       end
