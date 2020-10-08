@@ -21,7 +21,7 @@ module Stripe
 
       validates :active, :shippable, inclusion: { in: [true, false] }, allow_nil: true
       validates :type, inclusion: { in: %w(service good) }
-      validates :caption, :description, :shippable, :url, absence: true, unless: :good?
+      validates :caption, :shippable, :url, absence: true, unless: :good?
       validates :statement_descriptor, absence: true, unless: :service?
 
       private

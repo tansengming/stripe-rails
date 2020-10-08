@@ -1,6 +1,7 @@
 ## Unreleased 2.0.1
 
 - Handle passing nil to signing_secret= and add tests. Thanks @martron!
+- Product descriptions can be set for services and goods. Thanks @jamesprior!
 
 ## 2.0.0 (2020-09-18)
 
