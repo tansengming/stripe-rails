@@ -89,7 +89,7 @@ module Stripe
       end
 
       def stripe_id
-        @stripe_id ||= stripe_object&.id
+        @stripe_id ||= stripe_object.try(:id)
       end
 
       private
