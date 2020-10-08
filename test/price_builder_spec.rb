@@ -374,12 +374,17 @@ describe 'building prices' do
 
       describe 'when it is already present on stripe.com' do
         before do
+          Stripe::Prices::GOLD.product_id = nil
           Stripe::Price.stubs(:list).returns(Stripe::Price.construct_from(
             data: [{
               :lookup_key => 'gold',
               :product => 'prod_XXXXXXXXXXXXXX'
           }]))
         end
+        after do
+          Stripe::Prices::GOLD.product_id = nil
+        end
+
 
         it 'is a no-op on put!' do
           Stripe::Price.expects(:create).never
