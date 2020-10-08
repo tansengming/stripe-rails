@@ -1,6 +1,7 @@
 ## Unreleased 2.0.1
 
 - Handle passing nil to signing_secret= and add tests. Thanks @martron!
+- Add Prices as a configuration object. Thanks @jamesprior!
 
 ## 2.0.0 (2020-09-18)
 
