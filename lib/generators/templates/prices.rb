@@ -15,6 +15,7 @@
 # Stripe.price :lite do |price|
 #   # Prices may belong to a product, this will create a product along with the price
 #   price.name = 'Acme as a service LITE'
+
 #   # You can also specify an existing product ID
 #   # price.product_id = Stripe::Products::PRIMO.id
 #
