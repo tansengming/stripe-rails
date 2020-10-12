@@ -5,6 +5,5 @@ Rails.application.routes.draw do
 end
 
 Stripe::Engine.routes.draw do
-  resource  :ping, only: :show
   resources :events, only: :create
 end
