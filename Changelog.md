@@ -1,5 +1,6 @@
-## Unreleased 2.0.1
+## 2.1.0 (2020-10-18)
 
+- Added option to ignore missing API key and don't show any warning. Thanks @ndbroadbent!
 - Handle passing nil to signing_secret= and add tests. Thanks @martron!
 
 ## 2.0.0 (2020-09-18)
