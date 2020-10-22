@@ -9,7 +9,7 @@ describe ApisController do
     header 'Content-Type', 'application/json'
   end
 
-  describe 'the ping interface' do
+  describe 'the apis interface' do
     subject { get '/apis/' }
 
     it { _(subject).must_be :ok? }

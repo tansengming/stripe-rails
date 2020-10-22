@@ -137,6 +137,14 @@ you prefer to environment variables, you can also set `STRIPE_PUBLISHABLE_KEY`:
 export STRIPE_PUBLISHABLE_KEY=pk_test_XXXYYYZZZ
 ```
 
+If no API key is provided, `stripe-rails` will show a warning: "No stripe.com API key was configured ...". You can silence this warning by setting the `ignore_missing_secret_key` option to `true`:
+
+```ruby
+# config/environments/production.rb
+# ...
+config.stripe.ignore_missing_secret_key = true
+```
+
 ### Manually set your API version (optional)
 
 If you need to test a new API version in development, you can override the version number manually.
