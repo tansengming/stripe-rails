@@ -101,5 +101,22 @@ describe 'building products' do
         }).must_raise Stripe::InvalidConfigurationError
       end
     end
+
+    describe 'when type is not set' do
+      it 'accepts service and good attributes' do
+        Stripe.product :primo do |product|
+          product.name        = 'Acme as a service PRIMO'
+          product.active      = true
+          product.attributes  = ['size', 'gender']
+          product.metadata    = {:number_of_awesome_things => 5}
+          product.statement_descriptor = 'PRIMO'
+          product.caption     = 'So good it is Primo'
+          product.description = 'One step beyond supreme'
+          product.shippable   = false
+        end
+
+        _(Stripe::Products::PRIMO).wont_be_nil
+      end
+    end
   end
 end

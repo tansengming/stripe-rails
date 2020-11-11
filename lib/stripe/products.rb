@@ -15,14 +15,14 @@ module Stripe
                     :url,
                     :statement_descriptor
 
-      validates_presence_of :name, :type
+      validates_presence_of :name
 
       validates :statement_descriptor, length: { maximum: 22 }
 
       validates :active, :shippable, inclusion: { in: [true, false] }, allow_nil: true
-      validates :type, inclusion: { in: %w(service good) }
-      validates :caption, :shippable, :url, absence: true, unless: :good?
-      validates :statement_descriptor, absence: true, unless: :service?
+      validates :type, inclusion: { in: %w(service good) }, allow_nil: true
+      validates :caption, :description, :shippable, :url, absence: true, if: :service?
+      validates :statement_descriptor, absence: true, if: :good?
 
       private
       def good?
