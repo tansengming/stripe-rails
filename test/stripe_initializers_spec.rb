@@ -12,9 +12,10 @@ describe "Configuring the stripe engine" do
   def rerun_initializers!; initializers.each{|init| init.run(app) }; end
 
   after do
-    Stripe.api_version = nil
-    Stripe.api_base    = 'https://api.stripe.com'
-    Stripe.api_key     = 'XYZ'
+    Stripe.api_version       = nil
+    Stripe.api_base          = 'https://api.stripe.com'
+    Stripe.api_key           = 'XYZ'
+    ENV['STRIPE_SECRET_KEY'] = 'XYZ'
   end
 
   describe 'Stripe configurations' do
@@ -98,6 +99,38 @@ describe "Configuring the stripe engine" do
 
     it 'should output a warning' do
       _(-> { subject }).must_output '', warning_msg
+    end
+  end
+
+  describe 'missing stripe.secret_key' do
+    subject do
+      ENV['STRIPE_SECRET_KEY'] = nil
+      Stripe.api_key = nil
+      app.config.stripe.secret_key = nil
+      rerun_initializers!
+    end
+    let(:warning_msg) { /No stripe.com API key was configured for environment test!/ }
+
+    it 'should output a warning' do
+      _(-> { subject }).must_output '', warning_msg
+    end
+  end
+
+  describe 'stripe.ignore_missing_secret_key' do
+    subject do
+      ENV['STRIPE_SECRET_KEY'] = nil
+      Stripe.api_key = nil
+      app.config.stripe.secret_key = nil
+      app.config.stripe.ignore_missing_secret_key = true
+      rerun_initializers!
+    end
+
+    after do
+      app.config.stripe.ignore_missing_secret_key = false
+    end
+
+    it 'should not output a warning' do
+      _(-> { subject }).must_output '', ''
     end
   end
 end
