@@ -5,12 +5,9 @@ module Stripe
     configuration_for :price do
       attr_reader   :lookup_key
       attr_accessor :active,
-                    :aggregate_usage,
                     :billing_scheme,
                     :constant_name,
                     :currency,
-                    :interval,
-                    :interval_count,
                     :metadata,
                     :name,
                     :nickname,
@@ -22,28 +19,27 @@ module Stripe
                     :tiers_mode,
                     :transform_quantity,
                     :type,
-                    :unit_amount,
-                    :usage_type
+                    :unit_amount
 
       validates_presence_of :id, :currency
       validates_presence_of :unit_amount, unless: ->(p) { p.billing_scheme == 'tiered' }
       validates_absence_of :transform_quantity, if: ->(p) { p.billing_scheme == 'tiered' }
       validates_presence_of :tiers_mode, :tiers, if: ->(p) { p.billing_scheme == 'tiered' }
 
-      validates_inclusion_of  :interval,
+      validates_inclusion_of  :recurring_interval,
                               in: %w(day week month year),
                               message: "'%{value}' is not one of 'day', 'week', 'month' or 'year'"
 
       validates :statement_descriptor, length: { maximum: 22 }
 
-      validates :active,          inclusion: { in: [true, false] }, allow_nil: true
-      validates :usage_type,      inclusion: { in: %w{ metered licensed } }, allow_nil: true
-      validates :billing_scheme,  inclusion: { in: %w{ per_unit tiered } }, allow_nil: true
-      validates :aggregate_usage, inclusion: { in: %w{ sum last_during_period last_ever max } }, allow_nil: true
-      validates :tiers_mode,      inclusion: { in: %w{ graduated volume } }, allow_nil: true
+      validates :active,                    inclusion: { in: [true, false] }, allow_nil: true
+      validates :billing_scheme,            inclusion: { in: %w{ per_unit tiered } }, allow_nil: true
+      validates :recurring_aggregate_usage, inclusion: { in: %w{ sum last_during_period last_ever max } }, allow_nil: true
+      validates :recurring_usage_type,      inclusion: { in: %w{ metered licensed } }, allow_nil: true
+      validates :tiers_mode,                inclusion: { in: %w{ graduated volume } }, allow_nil: true
 
       validate :name_or_product_id
-      validate :aggregate_usage_must_be_metered, if: ->(p) { p.aggregate_usage.present? }
+      validate :recurring_aggregate_usage_must_be_metered, if: ->(p) { p.recurring_aggregate_usage.present? }
       validate :valid_constant_name, unless: ->(p) { p.constant_name.nil? }
 
       # validations for when using tiered billing
@@ -54,8 +50,8 @@ module Stripe
       def initialize(*args)
         super(*args)
         @currency = 'usd'
-        @interval_count = 1
         @lookup_key = @id.to_s
+        @recurring = (recurring || {}).symbolize_keys
       end
 
       # We're overriding a handful of the Configuration methods so that
@@ -92,9 +88,21 @@ module Stripe
         @stripe_id ||= stripe_object.try(:id)
       end
 
+      def recurring_interval
+        recurring[:interval]
+      end
+
+      def recurring_aggregate_usage
+        recurring[:aggregate_usage]
+      end
+
+      def recurring_usage_type
+        recurring[:usage_type]
+      end
+
       private
-      def aggregate_usage_must_be_metered
-        errors.add(:aggregate_usage, 'usage_type must be metered') unless (usage_type == 'metered')
+      def recurring_aggregate_usage_must_be_metered
+        errors.add(:recurring_aggregate_usage, 'recurring[:usage_type] must be metered') unless (recurring_usage_type == 'metered')
       end
 
       def name_or_product_id
@@ -160,13 +168,9 @@ module Stripe
       end
 
       def recurring_options
-        return unless interval
         {
-          interval: interval,
-          aggregate_usage: aggregate_usage,
-          interval_count: interval_count,
-          usage_type: usage_type,
-        }.compact
+          interval_count: 1
+        }.merge(recurring).compact
       end
     end
   end
