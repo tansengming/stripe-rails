@@ -25,11 +25,16 @@
 #   # currency to use for the price (default 'usd')
 #   price.currency = 'usd'
 #
-#   # interval must be either 'day', 'week', 'month' or 'year'
-#   price.interval = 'month'
-#
-#   # only bill once every three months (default 1)
-#   price.interval_count = 3
+#   price.recurring = {
+#     # interval must be either 'day', 'week', 'month' or 'year'
+#     interval: 'month',
+#     # only bill once every three months (default 1)
+#     interval_count: 3,
+#     # Must be either 'metered' or 'licensed'
+#     usage_type: 'metered',
+#     # Specifies a usage aggregation strategy for metered usage
+#     aggregate_usage: 'sum'
+#   }
 #
 # end
 

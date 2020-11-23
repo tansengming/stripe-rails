@@ -26,9 +26,12 @@ module Stripe
       validates_absence_of :transform_quantity, if: ->(p) { p.billing_scheme == 'tiered' }
       validates_presence_of :tiers_mode, :tiers, if: ->(p) { p.billing_scheme == 'tiered' }
 
+      validates_numericality_of :recurring_interval_count, allow_nil: true
+
       validates_inclusion_of  :recurring_interval,
                               in: %w(day week month year),
-                              message: "'%{value}' is not one of 'day', 'week', 'month' or 'year'"
+                              message: "'%{value}' is not one of 'day', 'week', 'month' or 'year'",
+                              if: ->(p) { p.recurring.present? }
 
       validates :statement_descriptor, length: { maximum: 22 }
 
@@ -40,6 +43,7 @@ module Stripe
 
       validate :name_or_product_id
       validate :recurring_aggregate_usage_must_be_metered, if: ->(p) { p.recurring_aggregate_usage.present? }
+      validate :recurring_interval_count_maximum, if: ->(p) { p.recurring_interval_count.present? }
       validate :valid_constant_name, unless: ->(p) { p.constant_name.nil? }
 
       # validations for when using tiered billing
@@ -100,9 +104,22 @@ module Stripe
         recurring[:usage_type]
       end
 
+      def recurring_interval_count
+        recurring[:interval_count]
+      end
+
       private
       def recurring_aggregate_usage_must_be_metered
         errors.add(:recurring_aggregate_usage, 'recurring[:usage_type] must be metered') unless (recurring_usage_type == 'metered')
+      end
+
+      def recurring_interval_count_maximum
+        time_unit = recurring_interval.to_sym
+
+        return unless recurring_interval_count.respond_to?(time_unit)
+        too_long = recurring_interval_count.send(time_unit) > 1.year
+
+        errors.add(:recurring_interval_count, 'recurring[:interval_count] Maximum is one year (1 year, 12 months, or 52 weeks') if too_long
       end
 
       def name_or_product_id
@@ -148,7 +165,7 @@ module Stripe
           active: active,
           metadata: metadata,
           nickname: nickname.presence || @lookup_key,
-          recurring: recurring_options,
+          recurring: recurring.compact,
           tiers: tiers ? tiers.map(&:to_h) : nil,
           tiers_mode: tiers_mode,
           billing_scheme: billing_scheme,
@@ -165,12 +182,6 @@ module Stripe
             product_data: { name: name, statement_descriptor: statement_descriptor }
           }
         end
-      end
-
-      def recurring_options
-        {
-          interval_count: 1
-        }.merge(recurring).compact
       end
     end
   end

@@ -52,6 +52,19 @@ describe 'building prices' do
       _(Stripe::Prices::DAILY).wont_be_nil
     end
 
+    it 'denies a billing interval of a day and excessive intervals' do
+      _(lambda {
+        Stripe.price :broken do |price|
+          price.name = 'Acme as a service daily'
+          price.unit_amount = 100
+          price.recurring = {
+            interval: 'day',
+            interval_count: 366
+          }
+        end
+      }).must_raise Stripe::InvalidConfigurationError
+    end
+
     it 'accepts a billing interval of a week' do
       Stripe.price :weekly do |price|
         price.name = 'Acme as a service weekly'
@@ -62,6 +75,19 @@ describe 'building prices' do
       end
 
       _(Stripe::Prices::WEEKLY).wont_be_nil
+    end
+
+    it 'denies a billing interval of a week and excessive intervals' do
+      _(lambda {
+        Stripe.price :broken do |price|
+          price.name = 'Acme as a service weekly'
+          price.unit_amount = 100
+          price.recurring = {
+            interval: 'week',
+            interval_count: 53
+          }
+        end
+      }).must_raise Stripe::InvalidConfigurationError
     end
 
     it 'accepts a billing interval of a month' do
@@ -76,6 +102,19 @@ describe 'building prices' do
       _(Stripe::Prices::MONTHLY).wont_be_nil
     end
 
+    it 'denies a billing interval of a month and excessive intervals' do
+      _(lambda {
+        Stripe.price :broken do |price|
+          price.name = 'Acme as a service monthly'
+          price.unit_amount = 400
+          price.recurring = {
+            interval: 'month',
+            interval_count: 13
+          }
+        end
+      }).must_raise Stripe::InvalidConfigurationError
+    end
+
     it 'accepts a billing interval of a year' do
       Stripe.price :yearly do |price|
         price.name = 'Acme as a service yearly'
@@ -88,6 +127,19 @@ describe 'building prices' do
       _(Stripe::Prices::YEARLY).wont_be_nil
     end
 
+    it 'denies a billing interval of a year and excessive intervals' do
+      _(lambda {
+        Stripe.price :broken do |price|
+          price.name = 'Acme as a service yearly'
+          price.unit_amount = 4800
+          price.recurring = {
+            interval: 'year',
+            interval_count: 2
+          }
+        end
+      }).must_raise Stripe::InvalidConfigurationError
+    end
+
     it 'denies arbitrary billing intervals' do
       _(lambda {
         Stripe.price :broken do |price|
@@ -98,6 +150,15 @@ describe 'building prices' do
           }
         end
       }).must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'accepts empty recurring options' do
+      Stripe.price :singular do |price|
+        price.name = 'Acme as a service one time'
+        price.unit_amount = 888
+      end
+
+      _(Stripe::Prices::SINGULAR).wont_be_nil
     end
 
     it 'accepts a statement descriptor' do
@@ -255,8 +316,7 @@ describe 'building prices' do
             },
             :unit_amount => 699,
             :recurring => {
-              :interval => 'month',
-              :interval_count => 1,
+              :interval => 'month'
             }
           )
           Stripe::Prices::GOLD.put!
@@ -273,8 +333,7 @@ describe 'building prices' do
             },
             :unit_amount => 699,
             :recurring => {
-              :interval => 'month',
-              :interval_count => 1
+              :interval => 'month'
             }
           )
           Stripe::Prices::ALTERNATIVE_CURRENCY.put!
@@ -292,7 +351,6 @@ describe 'building prices' do
             :unit_amount => 699,
             :recurring => {
               :interval => 'month',
-              :interval_count => 1,
               :usage_type => 'metered',
               :aggregate_usage => 'max',
             },
@@ -312,7 +370,7 @@ describe 'building prices' do
             },
             :recurring => {
               :interval => 'month',
-              :interval_count => 1,
+              :interval_count => 2,
               :usage_type => 'metered',
               :aggregate_usage => 'max'
             },
@@ -399,8 +457,7 @@ describe 'building prices' do
               :product => 'prod_XXXXXXXXXXXXXX',
               :unit_amount => 699,
               :recurring => {
-                :interval => 'month',
-                :interval_count => 1
+                :interval => 'month'
               }
             )
             Stripe::Prices::GOLD.put!
@@ -436,8 +493,7 @@ describe 'building prices' do
             :product => 'prod_XXXXXXXXXXXXXX',
             :unit_amount => 699,
             :recurring => {
-              :interval => 'month',
-              :interval_count => 1
+              :interval => 'month'
             }
           )
 
@@ -527,8 +583,7 @@ describe 'building prices' do
             },
             :unit_amount => 699,
             :recurring => {
-              :interval => 'month',
-              :interval_count => 1
+              :interval => 'month'
             }
           )
           Stripe::Prices::SOLID_GOLD.put!

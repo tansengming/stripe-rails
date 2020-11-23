@@ -41,7 +41,7 @@ Stripe.price :tiered do |price|
   # interval must be either 'day', 'week', 'month' or 'year'
   price.recurring = {
     interval: 'month',
-    interval_count: 1,
+    interval_count: 2,
     aggregate_usage: 'max',
     usage_type: 'metered'
   }
