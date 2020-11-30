@@ -1,6 +1,7 @@
 module Stripe
   module Prices
     include ConfigurationBuilder
+    VALID_TIME_UNITS = %i(day week month year)
 
     configuration_for :price do
       attr_reader   :lookup_key
@@ -29,8 +30,8 @@ module Stripe
       validates_numericality_of :recurring_interval_count, allow_nil: true
 
       validates_inclusion_of  :recurring_interval,
-                              in: %w(day week month year),
-                              message: "'%{value}' is not one of 'day', 'week', 'month' or 'year'",
+                              in: VALID_TIME_UNITS.collect(&:to_s),
+                              message: "'%{value}' is not one of #{VALID_TIME_UNITS.to_sentence(last_word_connector: ', or ')}",
                               if: ->(p) { p.recurring.present? }
 
       validates :statement_descriptor, length: { maximum: 22 }
@@ -116,7 +117,7 @@ module Stripe
       def recurring_interval_count_maximum
         time_unit = recurring_interval.to_sym
 
-        return unless recurring_interval_count.respond_to?(time_unit)
+        return unless VALID_TIME_UNITS.include?(time_unit) && recurring_interval_count.respond_to?(time_unit)
         too_long = recurring_interval_count.send(time_unit) > 1.year
 
         errors.add(:recurring_interval_count, 'recurring[:interval_count] Maximum is one year (1 year, 12 months, or 52 weeks') if too_long

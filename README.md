@@ -276,7 +276,10 @@ Stripe.price :bronze do |price|
   # getting created
   price.product_id = Stripe::Products::PRIMO.id
   price.unit_amount = 999 # $9.99
-  price.interval = 'month'
+  price.recurring = {
+    interval: 'month',
+    usage_type: 'metered'
+  }
 
   # Use graduated pricing tiers
   # ref: https://stripe.com/docs/api/prices/object#price_object-tiers
@@ -291,9 +294,6 @@ Stripe.price :bronze do |price|
     }
   ]
   price.tiers_mode = 'graduated'
-
-  # set the usage type to 'metered'
-  price.usage_type = 'metered'
 end
 ````
 
