@@ -140,7 +140,7 @@ describe 'building plans' do
       }).must_raise Stripe::InvalidConfigurationError
     end
 
-    it 'denies aggregate_usage if usage type is liecensed' do
+    it 'denies aggregate_usage if usage type is licensed' do
       _(lambda {
         Stripe.plan :broken do |plan|
           plan.name = 'Acme as a service'

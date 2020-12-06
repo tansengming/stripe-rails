@@ -9,7 +9,7 @@ This gem can help your rails application integrate with Stripe in the following 
 
 * manage stripe configurations in a single place.
 * makes stripe.js available from the asset pipeline.
-* manage plans and coupons from within your app.
+* manage product, prices, plans and coupons from within your app.
 * painlessly receive and validate webhooks from stripe.
 
 [📫 Sign up for the Newsletter](http://tinyletter.com/stripe-rails) to receive occasional updates.
@@ -170,6 +170,7 @@ this will generate the configuration files containing your plan and coupon defin
 ```console
 create  config/stripe/products.rb
 create  config/stripe/plans.rb
+create  config/stripe/prices.rb
 create  config/stripe/coupons.rb
 ```
 
@@ -267,17 +268,46 @@ Stripe.product :primo do |product|
 end
 ```
 
-To upload your plans and coupons onto stripe.com, run:
+And Prices:
+
+```ruby
+Stripe.price :bronze do |price|
+  # Use an existing product id to prevent a new product from
+  # getting created
+  price.product_id = Stripe::Products::PRIMO.id
+  price.unit_amount = 999 # $9.99
+  price.recurring = {
+    interval: 'month',
+    usage_type: 'metered'
+  }
+
+  # Use graduated pricing tiers
+  # ref: https://stripe.com/docs/api/prices/object#price_object-tiers
+  price.tiers = [
+    {
+      unit_amount: 1500,
+      up_to: 10
+    },
+    {
+      unit_amount: 1000,
+      up_to: 'inf'
+    }
+  ]
+  price.tiers_mode = 'graduated'
+end
+````
+
+To upload your plans, products, prices and coupons onto stripe.com, run:
 
 ```sh
 rake stripe:prepare
 ```
 
-This will create any plans and coupons that do not currently exist, and treat as a NOOP any
-plans that do, so you can run this command safely as many times as you wish. Now you can
-use any of these plans in your application.
+This will create any plans, products, prices and coupons that do not currently exist, and treat as a NOOP any
+objects that already exist, so you can run this command safely as many times as you wish. Now you can
+use any of these objects in your application.
 
-NOTE: You must destroy plans manually from your stripe dashboard.
+NOTE: You must destroy plans and prices manually from your stripe dashboard.
 
 ## Stripe Elements
 
