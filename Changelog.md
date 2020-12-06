@@ -1,8 +1,11 @@
+## 2.2.0 (2020-12-06)
+
+- Add Prices as a configuration object. Thanks @jamesprior!
+
 ## 2.1.0 (2020-10-18)
 
 - Added option to ignore missing API key and don't show any warning. Thanks @ndbroadbent!
 - Handle passing nil to signing_secret= and add tests. Thanks @martron!
-- Add Prices as a configuration object. Thanks @jamesprior!
 
 ## 2.0.0 (2020-09-18)
 
