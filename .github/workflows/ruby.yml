@@ -34,7 +34,7 @@ jobs:
         RUBY_VERSION: ${{ matrix.ruby }}
       run: |
         if [ $RUBY_VERSION == "2.5.x" ] ;
-          gem install bundler
+          then gem install bundler
         fi
         bundle install --jobs 4 --retry 3
         bundle exec rake
