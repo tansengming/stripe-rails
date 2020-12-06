@@ -33,7 +33,9 @@ jobs:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         RUBY_VERSION: ${{ matrix.ruby }}
       run: |
-        gem install bundler
+        if [ $RUBY_VERSION == "2.5.x" ] ;
+          gem install bundler
+        fi
         bundle install --jobs 4 --retry 3
         bundle exec rake
         if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "2.7.x" ] && [ ! -z ${CC_TEST_REPORTER_ID} ] ;
