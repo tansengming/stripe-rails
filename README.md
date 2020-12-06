@@ -275,7 +275,7 @@ Stripe.price :bronze do |price|
   # Use an existing product id to prevent a new product from
   # getting created
   price.product_id = Stripe::Products::PRIMO.id
-  price.unit_amount = 999 # $9.99
+  price.billing_scheme = 'tiered'
   price.recurring = {
     interval: 'month',
     usage_type: 'metered'
