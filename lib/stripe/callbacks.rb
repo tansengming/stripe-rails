@@ -68,6 +68,7 @@ module Stripe
     callback 'payment_intent.created'
     callback 'payment_intent.payment_failed'
     callback 'payment_intent.processing'
+    callback 'payment_intent.requires_action'
     callback 'payment_intent.succeeded'
     callback 'payment_method.attached'
     callback 'payment_method.card_automatically_updated'
