@@ -5,9 +5,9 @@ gemspec
 
 gem 'rake'
 
-group :development, :test do
-  gem 'm'
-end
+# group :development, :test do
+#   gem 'm'
+# end
 
 group :test do
   gem 'mocha'
