@@ -1,3 +1,7 @@
+## Unreleased
+
+-  Add payment_intent.requires_action callback, thanks @VadimLeader.
+
 ## 2.2.0 (2020-12-06)
 
 - Add Prices as a configuration object. Thanks @jamesprior!
