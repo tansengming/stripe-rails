@@ -1,5 +1,9 @@
 ## Unreleased
 
+- 
+
+## 2.2.1 (2020-12-22)
+
 -  Add payment_intent.requires_action callback, thanks @VadimLeader.
 
 ## 2.2.0 (2020-12-06)
