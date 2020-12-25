@@ -1,6 +1,6 @@
 ## Unreleased
 
-- 
+- Adds testing for Rails 6.0
 
 ## 2.2.1 (2020-12-22)
 

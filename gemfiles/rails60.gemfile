@@ -1,0 +1,19 @@
+source :rubygems
+
+gem 'rails', '~> 6.0.0'
+
+gem 'rake'
+gem 'responders'
+gem 'stripe'
+
+group :test do
+  gem 'mocha'
+  gem 'simplecov', require: false
+  gem 'stripe-ruby-mock'
+  gem 'webmock'
+  # Required for system tests
+  gem 'capybara'
+  gem 'puma'
+  gem 'selenium-webdriver'
+  gem 'webdrivers'
+end
