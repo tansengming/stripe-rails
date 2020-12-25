@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         ruby: [2.5.x, 2.6.x, 2.7.x]
-        gemfile: [Gemfile, gemfiles/rails51.gemfile, gemfiles/rails52.gemfile]
+        gemfile: [Gemfile, gemfiles/rails60.gemfile, gemfiles/rails52.gemfile]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Ruby
