@@ -7,6 +7,7 @@ describe 'building coupons' do
   describe 'default values' do
     before do
       @coupon = Stripe.coupon(:firesale) do |coupon|
+        coupon.name = '100% OFF FIRESALE'
         coupon.duration = 'once'
         coupon.duration_in_months = 100
         coupon.amount_off = 100
