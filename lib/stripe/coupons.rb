@@ -3,7 +3,7 @@ module Stripe
     include ConfigurationBuilder
 
     configuration_for :coupon do
-      attr_accessor :duration, :amount_off, :currency, :duration_in_months, :max_redemptions, :percent_off, :redeem_by
+      attr_accessor :name, :duration, :amount_off, :currency, :duration_in_months, :max_redemptions, :percent_off, :redeem_by
 
       validates_presence_of :id, :duration
       validates_presence_of :duration_in_months, :if => :repeating?
@@ -25,6 +25,7 @@ module Stripe
 
       def create_options
         {
+          :name => name,
           :duration => duration,
           :percent_off => percent_off,
           :amount_off => amount_off,
