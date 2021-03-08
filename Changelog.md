@@ -1,5 +1,9 @@
 ## Unreleased
 
+- 
+
+## 2.3.0 (2021-03-08)
+
 - Adds testing for Rails 6.0
 - Add `name` attribute to coupons. Thanks @ZilvinasKucinskas!
 
