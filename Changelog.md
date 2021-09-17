@@ -2,6 +2,10 @@
 
 - 
 
+## 2.3.1 (2021-09-17)
+
+-  Add price callbacks. Thanks @StevenElberger !
+
 ## 2.3.0 (2021-03-08)
 
 - Adds testing for Rails 6.0
