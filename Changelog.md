@@ -1,6 +1,8 @@
 ## Unreleased
 
-- 
+## 2.3.2 (2021-10-15)
+
+-  Add Subscription Schedule and Tax Rate Callbacks #213 . Thanks @lesliepoolman !
 
 ## 2.3.1 (2021-09-17)
 
