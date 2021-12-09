@@ -26,6 +26,7 @@ module Stripe
     callback 'charge.dispute.updated'
     callback 'charge.refund.updated'
     callback 'checkout.session.completed'
+    callback 'checkout.session.expired'
     callback 'coupon.created'
     callback 'coupon.deleted'
     callback 'coupon.updated'
