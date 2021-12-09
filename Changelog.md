@@ -1,5 +1,7 @@
 ## Unreleased
 
+-  Add checkout.session.expired callback. Thanks @danielwellman !
+
 ## 2.3.2 (2021-10-15)
 
 -  Add Subscription Schedule and Tax Rate Callbacks #213 . Thanks @lesliepoolman !
