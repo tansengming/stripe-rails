@@ -1,5 +1,8 @@
 ## Unreleased
 
+
+## 2.3.3 (2021-12-17)
+
 -  Add checkout.session.expired callback. Thanks @danielwellman !
 
 ## 2.3.2 (2021-10-15)
