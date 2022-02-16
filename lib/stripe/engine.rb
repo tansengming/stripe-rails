@@ -1,4 +1,6 @@
 require 'stripe'
+require_relative '../../app/helpers/stripe/javascript_helper.rb'
+
 
 module Stripe
   class Engine < ::Rails::Engine
