@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 2.3.4 (2022-05-03)
+
 -  Add setup_intent.canceled and setup_intent.requires_action callbacks. Thanks @jamesjason !
 
 ## 2.3.3 (2021-12-17)
