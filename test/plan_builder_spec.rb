@@ -307,7 +307,7 @@ describe 'building plans' do
 
           describe 'when passed invalid arguments for tiered pricing' do
             it 'raises a Stripe::InvalidConfigurationError when billing tiers are invalid' do
-              lambda {
+              _(lambda {
                 Stripe.plan "Bad Tiers".to_sym do |plan|
                   plan.name = 'Acme as a service BAD TIERS'
                   plan.constant_name = 'BAD_TIERS'
@@ -328,11 +328,11 @@ describe 'building plans' do
                     }
                   ]
                 end
-              }.must_raise Stripe::InvalidConfigurationError
+              }).must_raise Stripe::InvalidConfigurationError
             end
 
             it 'raises a Stripe::InvalidConfigurationError when billing tiers is not an array' do
-              lambda {
+              _(lambda {
                 Stripe.plan "Bad Tiers".to_sym do |plan|
                   plan.name = 'Acme as a service BAD TIERS'
                   plan.constant_name = 'BAD_TIERS'
@@ -348,7 +348,7 @@ describe 'building plans' do
                     up_to: 10
                   }
                 end
-              }.must_raise Stripe::InvalidConfigurationError
+              }).must_raise Stripe::InvalidConfigurationError
             end
           end
 

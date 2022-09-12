@@ -60,11 +60,11 @@ describe "Configuring the stripe engine" do
     it "supports nil signing_secret" do
       subject
 
-      app.config.stripe.signing_secret    = nil
+      app.config.stripe.signing_secret = nil
       rerun_initializers!
 
-      _(app.config.stripe.signing_secret).must_equal nil
-      _(app.config.stripe.signing_secrets).must_equal nil
+      assert_nil app.config.stripe.signing_secret
+      assert_nil app.config.stripe.signing_secrets
     end
 
     it "supports multiple signing secrets" do
