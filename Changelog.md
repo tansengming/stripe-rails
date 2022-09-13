@@ -1,5 +1,8 @@
 ## Unreleased
 
+- Fix some deprecation warnings in tests. Thanks @smtlaissezfaire !
+- Fix `NameError when loading JavascriptHelper`. Thanks @smtlaissezfaire !
+
 ## 2.3.4 (2022-05-03)
 
 -  Add setup_intent.canceled and setup_intent.requires_action callbacks. Thanks @jamesjason !
