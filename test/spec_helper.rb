@@ -34,6 +34,6 @@ if ActiveSupport::TestCase.method_defined?(:fixture_path=)
 end
 
 Stripe::Engine.testing = true
-require 'mocha/setup'
+require 'mocha/minitest'
 
 require 'irb'

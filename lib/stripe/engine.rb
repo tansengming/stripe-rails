@@ -79,7 +79,7 @@ environment file directly.
       end
     end
 
-    initializer 'stripe.javascript_helper' do
+    config.to_prepare do
       ActiveSupport.on_load :action_controller do
         # ActionController::API does not have a helper method
         if respond_to?(:helper)

@@ -4,12 +4,18 @@ describe "Configuring the stripe engine" do
   i_suck_and_my_tests_are_order_dependent! # the default test must be run first!
 
   # NOTE: skipped `stripe.plans_and_coupons` to prevent warnings about constants
-  STRIPE_INITIALIZER_NAMES = %w{ stripe.configure.defaults stripe.configure stripe.callbacks.eager_load stripe.javascript_helper }
+  STRIPE_INITIALIZER_NAMES = %w{
+    stripe.configure.defaults
+    stripe.configure
+    stripe.callbacks.eager_load
+  }
 
   let(:app)           { Rails.application }
   let(:initializers)  { STRIPE_INITIALIZER_NAMES.map{|name| app.initializers.find{|ini| ini.name == name } } }
 
-  def rerun_initializers!; initializers.each{|init| init.run(app) }; end
+  def rerun_initializers!
+    initializers.each { |init| init.run(app) }
+  end
 
   after do
     Stripe.api_version       = nil
@@ -60,11 +66,11 @@ describe "Configuring the stripe engine" do
     it "supports nil signing_secret" do
       subject
 
-      app.config.stripe.signing_secret    = nil
+      app.config.stripe.signing_secret = nil
       rerun_initializers!
 
-      _(app.config.stripe.signing_secret).must_equal nil
-      _(app.config.stripe.signing_secrets).must_equal nil
+      assert_nil app.config.stripe.signing_secret
+      assert_nil app.config.stripe.signing_secrets
     end
 
     it "supports multiple signing secrets" do
