@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 2.3.5 (2022-10-01)
+
 - Fix some deprecation warnings in tests. Thanks @smtlaissezfaire !
 - Fix `NameError when loading JavascriptHelper`. Thanks @smtlaissezfaire !
 
