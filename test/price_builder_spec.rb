@@ -267,6 +267,46 @@ describe 'building prices' do
       }).must_raise Stripe::InvalidConfigurationError
     end
 
+    it 'denies invalid tax_behavior' do
+      _(lambda {
+        Stripe.price :broken do |price|
+          price.name = 'Invalid tax'
+          price.unit_amount = 999
+          price.tax_behavior = 'whatever'
+        end
+      }).must_raise Stripe::InvalidConfigurationError
+    end
+
+    it 'accepts a tax_behavior of exclusive' do
+      Stripe.price :exclusive do |price|
+        price.name = 'Exclusive tax'
+        price.unit_amount = 4800
+        price.tax_behavior = 'exclusive'
+      end
+
+      _(Stripe::Prices::EXCLUSIVE).wont_be_nil
+    end
+
+    it 'accepts a tax_behavior of inclusive' do
+      Stripe.price :inclusive do |price|
+        price.name = 'Inclusive tax'
+        price.unit_amount = 4800
+        price.tax_behavior = 'inclusive'
+      end
+
+      _(Stripe::Prices::INCLUSIVE).wont_be_nil
+    end
+
+    it 'accepts a tax_behavior of unspecified' do
+      Stripe.price :unspecified do |price|
+        price.name = 'Unspecified tax'
+        price.unit_amount = 4800
+        price.tax_behavior = 'unspecified'
+      end
+
+      _(Stripe::Prices::UNSPECIFIED).wont_be_nil
+    end
+
     describe 'name and product id validation' do
       it 'should be valid when using just the product id' do
         Stripe.price :prodded do |price|
@@ -320,6 +360,22 @@ describe 'building prices' do
             }
           )
           Stripe::Prices::GOLD.put!
+        end
+
+        it 'creates a price with tax_behavior' do
+          Stripe::Price.expects(:create).with(
+            :lookup_key => 'taxable_gold',
+            :nickname => 'taxable_gold',
+            :currency => 'usd',
+            :product_data => {
+              :name => 'Taxable Gold',
+              :statement_descriptor => nil
+            },
+            :unit_amount => 699,
+            :recurring => {},
+            :tax_behavior => 'exclusive'
+          )
+          Stripe::Prices::TAXABLE_GOLD.put!
         end
 
         it 'creates a price with an alternative currency' do
