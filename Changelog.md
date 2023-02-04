@@ -1,5 +1,7 @@
 ## Unreleased
 
+- Add `tax_behavior` attribute to Price. Thanks @szechyjs !
+
 ## 2.3.5 (2022-10-01)
 
 - Fix some deprecation warnings in tests. Thanks @smtlaissezfaire !

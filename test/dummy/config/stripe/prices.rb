@@ -6,6 +6,12 @@ Stripe.price :gold do |price|
    }
 end
 
+Stripe.price :taxable_gold do |price|
+  price.name = 'Taxable Gold'
+  price.unit_amount = 699
+  price.tax_behavior = 'exclusive'
+end
+
 Stripe.price "Solid Gold".to_sym do |price|
    price.constant_name = 'SOLID_GOLD'
    price.name = 'Solid Gold'

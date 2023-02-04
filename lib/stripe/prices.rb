@@ -16,6 +16,7 @@ module Stripe
                     :product_id,
                     :recurring,
                     :statement_descriptor,
+                    :tax_behavior,
                     :tiers,
                     :tiers_mode,
                     :transform_quantity,
@@ -40,6 +41,7 @@ module Stripe
       validates :billing_scheme,            inclusion: { in: %w{ per_unit tiered } }, allow_nil: true
       validates :recurring_aggregate_usage, inclusion: { in: %w{ sum last_during_period last_ever max } }, allow_nil: true
       validates :recurring_usage_type,      inclusion: { in: %w{ metered licensed } }, allow_nil: true
+      validates :tax_behavior,              inclusion: { in: %w{ inclusive exclusive unspecified } }, allow_nil: true
       validates :tiers_mode,                inclusion: { in: %w{ graduated volume } }, allow_nil: true
 
       validate :name_or_product_id
@@ -171,6 +173,7 @@ module Stripe
           tiers_mode: tiers_mode,
           billing_scheme: billing_scheme,
           lookup_key: @lookup_key,
+          tax_behavior: tax_behavior,
           transform_quantity: transform_quantity,
         }.merge(product_options).compact
       end
