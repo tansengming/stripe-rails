@@ -13,7 +13,7 @@ group :test do
   gem 'webmock'
   # Required for system tests
   gem 'capybara'
-  gem 'puma'
+  gem 'puma', '< 6' # https://github.com/teamcapybara/capybara/issues/2598
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
