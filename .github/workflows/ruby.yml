@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        ruby: [2.5.9, 2.6.10, 2.7.7]
+        ruby: [2.6.10, 2.7.7]
         gemfile: [Gemfile, gemfiles/rails60.gemfile, gemfiles/rails52.gemfile, gemfiles/rails51.gemfile]
     steps:
     - uses: actions/checkout@v1
