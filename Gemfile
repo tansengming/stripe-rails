@@ -15,7 +15,7 @@ group :test do
   gem 'stripe-ruby-mock'
   gem 'webmock'
   # System tests
-  gem 'capybara', '>= 3.38.0' # https://github.com/teamcapybara/capybara/issues/2598
+  gem 'capybara'
   gem 'puma'
   gem 'selenium-webdriver'
   gem 'webdrivers'
