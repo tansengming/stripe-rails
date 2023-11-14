@@ -1,3 +1,7 @@
+# Unreleased
+
+- Allow mixed case plan IDs. Thanks @swebb !
+
 ## 2.4.0 (2023-02-04)
 
 - Add `tax_behavior` attribute to Price. Thanks @szechyjs !
