@@ -35,6 +35,33 @@ describe 'building plans' do
       _(Stripe::Plans['primo']).must_equal Stripe::Plans::PRIMO
     end
 
+    describe "plan ID includes upper case letters" do
+      before do
+        Stripe.plan :mixed_CASE do |plan|
+          plan.name = 'Acme as a service mixed CASE'
+          plan.amount = 699
+          plan.interval = 'month'
+          plan.interval_count = 3
+          plan.trial_period_days = 30
+          plan.metadata = {:number_of_awesome_things => 5}
+          plan.statement_descriptor = 'Acme mixed CASE'
+          plan.active = true
+          plan.nickname = 'mixedcase'
+          plan.usage_type = 'metered'
+          plan.billing_scheme = 'per_unit'
+          plan.aggregate_usage = 'sum'
+          plan.tiers_mode = 'graduated'
+        end
+      end
+
+      after { Stripe::Plans.send(:remove_const, :MIXED_CASE) }
+
+      it 'is case sensitive' do
+        _(Stripe::Plans[:mixed_CASE]).must_equal Stripe::Plans::MIXED_CASE
+        _(Stripe::Plans['mixed_CASE']).must_equal Stripe::Plans::MIXED_CASE
+      end
+    end
+
     it 'accepts a billing interval of a day' do
       Stripe.plan :daily do |plan|
         plan.name = 'Acme as a service daily'

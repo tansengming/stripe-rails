@@ -68,9 +68,9 @@ module Stripe
       end
 
       def globalize!
-        id_to_use = @constant_name || @id
-        @stripe_configuration_class[id_to_use.to_s.downcase] = self
-        @stripe_configuration_class.const_set(id_to_use.to_s.upcase, self)
+        id_to_use = @constant_name ? @constant_name.to_s.downcase : @id.to_s
+        @stripe_configuration_class[id_to_use] = self
+        @stripe_configuration_class.const_set(id_to_use.upcase, self)
       end
 
       def put!
