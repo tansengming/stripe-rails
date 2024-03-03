@@ -5,6 +5,11 @@
   </div>
 
   <%= form_tag submit_path, id: "stripe-form" do %>
+    <% if local_assigns[:block] %>
+      <div id="stripe-rails-form-fields">
+        <%= capture(&local_assigns[:block]) %>
+      </div>
+    <% end %>
     <%= label_tag :card_element, label_text %>
     <div id="card-element"><!-- A Stripe Element will be inserted here. --></div>
     <%= submit_tag submit_button_text %>

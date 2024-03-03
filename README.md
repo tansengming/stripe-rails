@@ -24,6 +24,7 @@ This gem can help your rails application integrate with Stripe in the following 
 - [Configuring your plans and coupons](#configuring-your-plans-and-coupons)
 
 [Stripe Elements](#stripe-elements)
+- [Custom Elements](#custom-elements)
 
 [Webhooks](#webhooks)
 
@@ -318,6 +319,22 @@ Simply include the `stripe_elements_tag` anywhere below the `stripe_javascript_t
 ```erb
 <%= stripe_javascript_tag %>
 <%= stripe_elements_tag submit_path: billing_path %>
+```
+
+Additionally, you can pass a block containing custom form elements to stripe_elements_tag:
+
+## Custom Elements
+
+> Stripe::Rails allows you to easily include your own custom form elements
+> within the Stripe form by including those form elements in a block passed to
+> `stripe_elements_tag`:
+
+```erb
+<%= stripe_javascript_tag %>
+<%= stripe_elements_tag(submit_path: billing_path) do %>
+  <%= label_tag 'email', 'Email' %>
+  <%= text_field :user, :email %>
+<% end %>
 ```
 
 ### Configuration options
