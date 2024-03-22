@@ -77,5 +77,15 @@ describe Stripe::JavascriptHelper do
         end
       end
     end
+
+    describe 'with block' do
+      let(:markup)      { '<input type="text" />'.html_safe }
+
+      it 'should display block contents' do
+        block = lambda { markup }
+        result = view.stripe_elements_tag(submit_path: '/charge', &block)
+        assert_match %r%<input type="text" />%, result
+      end
+    end
   end
 end

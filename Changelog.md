@@ -1,3 +1,7 @@
+## 2.5.0 (2023-03-21)
+
+- Allow `stripe_elements_tag` to accept a block. Thanks @chip !
+
 ## 2.4.0 (2023-02-04)
 
 - Add `tax_behavior` attribute to Price. Thanks @szechyjs !
