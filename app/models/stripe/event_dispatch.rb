@@ -8,7 +8,7 @@ module Stripe
     end
 
     def retrieve_stripe_event(request)
-      id = request['id']
+      id = request.params['id']
       body = request.body.read
       sig_header = request.headers['HTTP_STRIPE_SIGNATURE']
       endpoint_secrets = ::Rails.application.config.stripe.signing_secrets
