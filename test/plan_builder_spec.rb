@@ -203,6 +203,7 @@ describe 'building plans' do
       describe 'when none exists on stripe.com' do
         let(:headers) { load_request_fixture('stripe_plans_headers_2017.json') }
         before do
+          Stripe.api_version = '2018-02-04'
           Stripe::Plan.stubs(:retrieve).raises(Stripe::InvalidRequestError.new("not found", "id"))
 
           stub_request(:get, "https://api.stripe.com/v1/plans").
