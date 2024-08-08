@@ -6,6 +6,10 @@ gem 'rake'
 gem 'responders'
 gem 'stripe'
 
+group :development, :test do
+  gem 'm'
+end
+
 group :test do
   gem 'mocha'
   gem 'simplecov', require: false
