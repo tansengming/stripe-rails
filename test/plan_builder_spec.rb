@@ -203,7 +203,6 @@ describe 'building plans' do
       describe 'when none exists on stripe.com' do
         let(:headers) { load_request_fixture('stripe_plans_headers_2017.json') }
         before do
-          Stripe.api_version = '2018-02-04'
           Stripe::Plan.stubs(:retrieve).raises(Stripe::InvalidRequestError.new("not found", "id"))
 
           stub_request(:get, "https://api.stripe.com/v1/plans").
@@ -214,26 +213,26 @@ describe 'building plans' do
 
         it 'creates the plan online' do
           Stripe::Plan.expects(:create).with(
-            id: :gold,
-            currency: 'usd',
-            name: 'Solid Gold',
-            amount: 699,
-            interval: 'month',
-            interval_count: 1,
-            trial_period_days: 0
+            :id => :gold,
+            :currency => 'usd',
+            :name => 'Solid Gold',
+            :amount => 699,
+            :interval => 'month',
+            :interval_count => 1,
+            :trial_period_days => 0
           )
           Stripe::Plans::GOLD.put!
         end
 
         it 'creates a plan with an alternative currency' do
           Stripe::Plan.expects(:create).with(
-            id: :alternative_currency,
-            currency: 'cad',
-            name: 'Alternative Currency',
-            amount: 699,
-            interval: 'month',
-            interval_count: 1,
-            trial_period_days: 0
+            :id => :alternative_currency,
+            :currency => 'cad',
+            :name => 'Alternative Currency',
+            :amount => 699,
+            :interval => 'month',
+            :interval_count => 1,
+            :trial_period_days => 0
           )
           Stripe::Plans::ALTERNATIVE_CURRENCY.put!
         end
@@ -386,16 +385,16 @@ describe 'building plans' do
 
           it 'creates the plan online' do
             Stripe::Plan.expects(:create).with(
-              id: :gold,
-              currency: 'usd',
-              product: {
-                name: 'Solid Gold',
-                statement_descriptor: nil,
+              :id => :gold,
+              :currency => 'usd',
+              :product => {
+                :name => 'Solid Gold',
+                :statement_descriptor => nil,
               },
-              amount: 699,
-              interval: 'month',
-              interval_count: 1,
-              trial_period_days: 0
+              :amount => 699,
+              :interval => 'month',
+              :interval_count => 1,
+              :trial_period_days => 0
             )
 
             subject
