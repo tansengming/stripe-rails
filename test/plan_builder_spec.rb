@@ -210,6 +210,7 @@ describe 'building plans' do
             with(headers: { 'Authorization'=>'Bearer XYZ',}).
             to_return(status: 200, body: load_request_fixture('stripe_plans.json'), headers: JSON.parse(headers))
         end
+        after { Stripe.api_version = nil }
 
         it 'creates the plan online' do
           Stripe::Plan.expects(:create).with(
