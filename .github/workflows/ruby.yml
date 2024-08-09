@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         ruby: [3.0.7, 3.1.6, 3.2.5, 3.3.4]
-        gemfile: [gemfiles/rails70.gemfile, gemfiles/rails61.gemfile, gemfiles/rails60.gemfile] # default Gemfile excluded until rack fix
+        gemfile: [gemfiles/rails61.gemfile, gemfiles/rails60.gemfile] # default Gemfile, gemfiles/rails70.gemfile excluded until rack fix
     steps:
     - uses: actions/checkout@v4
     - name: Set up Ruby
