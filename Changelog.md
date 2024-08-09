@@ -1,3 +1,17 @@
+## 2.5.1 (2024-07-14)
+- Add the following callbacks (Thanks @4nd2in !):
+  * `checkout.session.async_payment_failed`
+  * `checkout.session.async_payment_succeeded`
+  * `customer.subscription.paused`
+  * `customer.subscription.pending_update_applied`
+  * `customer.subscription.pending_update_expired`
+  * `customer.subscription.resumed`
+  * `invoice.deleted`
+  * `invoice.finalization_failed`
+  * `invoice.overdue`
+  * `invoice.will_be_due`
+- Fix request handling in rack versions >= 3.1 where `Request#[]` is deprecated (#230). Thanks @4nd2in !
+
 ## 2.5.0 (2023-03-21)
 
 - Allow `stripe_elements_tag` to accept a block. Thanks @chip !
