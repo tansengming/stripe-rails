@@ -1,11 +1,14 @@
 source :rubygems
 
-gem 'rails', '~> 5.2.0'
+gem 'rails', '~> 7.0.0'
 
 gem 'rake'
 gem 'responders'
-gem 'sprockets', '< 4'
 gem 'stripe'
+
+group :development, :test do
+  gem 'm'
+end
 
 group :test do
   gem 'mocha'

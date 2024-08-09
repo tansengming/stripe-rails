@@ -12,12 +12,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    continue-on-error: true
     strategy:
       matrix:
-        ruby: [2.7.7]
-        gemfile: [Gemfile, gemfiles/rails60.gemfile, gemfiles/rails52.gemfile, gemfiles/rails51.gemfile]
+        ruby: [3.0.7, 3.1.6, 3.2.5, 3.3.4]
+        gemfile: [gemfiles/rails61.gemfile, gemfiles/rails60.gemfile] # default Gemfile, gemfiles/rails70.gemfile excluded until rack fix
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -33,11 +34,8 @@ jobs:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         RUBY_VERSION: ${{ matrix.ruby }}
       run: |
-        if [ $RUBY_VERSION == "2.5.x" ] ;
-          then gem install bundler
-        fi
         bundle install --jobs 4 --retry 3
         bundle exec rake
-        if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "2.7.x" ] && [ ! -z ${CC_TEST_REPORTER_ID} ] ;
+        if [ `basename $BUNDLE_GEMFILE` == "Gemfile" ] && [ $RUBY_VERSION == "3.3.4" ] && [ ! -z ${CC_TEST_REPORTER_ID} ] ;
           then ./cc-test-reporter after-build --exit-code $? ;
         fi

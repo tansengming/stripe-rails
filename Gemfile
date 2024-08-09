@@ -17,6 +17,5 @@ group :test do
   # System tests
   gem 'capybara'
   gem 'puma'
-  gem 'selenium-webdriver'
-  gem 'webdrivers'
+  gem 'selenium-webdriver', '>= 4'
 end
