@@ -15,7 +15,7 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        ruby: [3.0.7, 3.1.6, 3.2.5, 3.3.4]
+        ruby: [3.0.7, 3.1.6, 3.2.5, 3.3.x]
         gemfile: [gemfiles/rails61.gemfile, gemfiles/rails60.gemfile] # default Gemfile, gemfiles/rails70.gemfile excluded until rack fix
     steps:
     - uses: actions/checkout@v4
