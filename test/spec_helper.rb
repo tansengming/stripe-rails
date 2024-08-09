@@ -11,7 +11,6 @@ WebMock.disable_net_connect! allow_localhost: true, allow: ['codeclimate.com', '
 # Chrome Setup
 require 'selenium-webdriver'
 require 'capybara'
-require 'webdrivers'
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
 end
