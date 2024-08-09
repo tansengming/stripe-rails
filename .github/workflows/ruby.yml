@@ -15,10 +15,10 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        ruby: [3.0.7, 3.1.6]
+        ruby: [3.0.7, 3.1.6, 3.2.5, 3.3.4]
         gemfile: [gemfiles/rails60.gemfile] # default Gemfile excluded until rack fix
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
