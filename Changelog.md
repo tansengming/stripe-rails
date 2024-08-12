@@ -1,4 +1,6 @@
-## 2.5.1 (2024-07-14)
+## Next Release
+
+## 2.6.0 (2024-08-12)
 - Add the following callbacks (Thanks @4nd2in !):
   * `checkout.session.async_payment_failed`
   * `checkout.session.async_payment_succeeded`
@@ -10,7 +12,10 @@
   * `invoice.finalization_failed`
   * `invoice.overdue`
   * `invoice.will_be_due`
-- Fix request handling in rack versions >= 3.1 where `Request#[]` is deprecated (#230). Thanks @4nd2in !
+- Fix request handling in rack versions >= 3.1 where `Request#[]` is deprecated (#230). Thanks @4nd2in and 
+@light-flight !
+- adds testing for Ruby 3 and Rails 7
+- stops testing on Ruby < 3 and Rails 5
 
 ## 2.5.0 (2023-03-21)
 
