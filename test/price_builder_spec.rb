@@ -647,4 +647,30 @@ describe 'building prices' do
       end
     end
   end
+
+  describe 'referencing a product' do
+    before do
+      Stripe.product :free do |product|
+        product.name = "Free"
+        product.type = "service"
+      end
+    end
+
+    it 'works just fine' do
+      Stripe.price :free do |price|
+        price.name = "Free Price"
+        price.product_id = Stripe::Products::FREE.id
+        price.unit_amount = 0
+        price.currency = "usd"
+        price.recurring = {
+          interval: "month",
+          interval_count: 1,
+          usage_type: "licensed",
+          aggregate_usage: nil
+        }
+      end
+
+      expect(Stripe::Prices::FREE.product_id).to eq Stripe::Products::FREE.id
+    end
+  end
 end
