@@ -126,7 +126,7 @@ module Stripe
       end
 
       def name_or_product_id
-        errors.add(:base, 'must have a product_id or a name') unless (@product_id.present? ^ @name.present?)
+        errors.add(:base, 'must have a product_id or a name') unless (@product_id.present? || @name.present?)
       end
 
       def billing_scheme_must_be_tiered
